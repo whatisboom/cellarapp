@@ -9,9 +9,9 @@ export class UsersList extends React.Component<RouteComponentProps> {
     }
   ];
   public render() {
-    const result = this.users.map((user, index) => {
+    const result = this.users.map(user => {
       return (
-        <Link to={user.id} key={index}>
+        <Link to={user.id} key={user.id}>
           {user.username}
         </Link>
       );

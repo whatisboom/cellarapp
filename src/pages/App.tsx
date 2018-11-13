@@ -4,6 +4,7 @@ import { Home } from './Home';
 import { Users } from './Users';
 import { UsersList } from './UsersList';
 import { UserDetails } from './UserDetails';
+import { Signup } from './Signup';
 
 export class App extends React.Component {
   public render() {
@@ -11,10 +12,12 @@ export class App extends React.Component {
       <div>
         <nav>
           <Link to="/">Home</Link>
+          <Link to="signup">Signup</Link>
           <Link to="users">Users</Link>
         </nav>
         <Router>
           <Home path="/" />
+          <Signup path="signup" />
           <Users path="users">
             <UsersList default path="/" />
             <UserDetails path=":userId" />
