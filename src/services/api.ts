@@ -2,6 +2,11 @@ export interface ICellarApiResourceConfig {
   path: string;
 }
 
+export interface IResourcePayload {
+  // should use a generic type here
+  [key: string]: string;
+}
+
 export class CellarApiResource {
   private domain: string = 'https://api.beercellar.io';
   private path: string = '';
@@ -14,7 +19,7 @@ export class CellarApiResource {
   }
   public async list() {}
   public async read(id: string) {}
-  public async create(payload): Promise<any> {
+  public async create(payload: IResourcePayload): Promise<any> {
     const url = this.parsePath(payload);
     const response = await fetch(url, {
       method: 'POST',
@@ -25,7 +30,7 @@ export class CellarApiResource {
     });
     return response.json();
   }
-  public async update(payload) {}
+  public async update(payload: IResourcePayload) {}
   public async remove(id: string) {}
   private setResourceString(path: string): void {
     if (path.charAt(0) !== '/') {
