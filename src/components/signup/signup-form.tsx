@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Form } from 'react-final-form';
+import * as validate from 'validate.js';
 import { Username, Password, Email } from '../forms/inputs';
 import { SubmitButton } from '../forms/buttons';
 import { AuthService } from '../../services/auth';
@@ -29,17 +30,24 @@ export class SignupForm extends React.Component {
     AuthService.saveTokens(response);
   }
 
-  private validate({ username, password, email }: ISignupForm): ISignupForm {
-    const errors: any = {};
-    if (!password) {
-      errors.password = 'Required';
-    }
-    if (!username) {
-      errors.username = 'Required';
-    }
-    if (!email) {
-      errors.email = 'Required';
-    }
-    return errors;
+  private validate(values: ISignupForm): ISignupForm {
+    const constraints = {
+      username: {
+        presence: true,
+        length: {
+          minimum: 3,
+          message: 'must be at least 3 characters'
+        }
+      },
+      password: {
+        presence: true
+      },
+      email: {
+        presence: true,
+        email: true
+      }
+    };
+
+    return validate.validate(values, constraints);
   }
 }
