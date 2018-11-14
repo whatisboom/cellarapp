@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Form } from 'react-final-form';
 import { Username, Password, Email } from '../forms/inputs';
 import { SubmitButton } from '../forms/buttons';
+import { AuthService } from '../../services/auth';
 
 export class SignupForm extends React.Component {
   public render() {
@@ -22,7 +23,8 @@ export class SignupForm extends React.Component {
   }
 
   private async onSubmit(values) {
-    console.log(values);
+    const response = await AuthService.signup(values);
+    AuthService.saveTokens(response);
   }
 
   private validate({ username, password, email }): any {
@@ -36,7 +38,6 @@ export class SignupForm extends React.Component {
     if (!email) {
       errors.email = 'Required';
     }
-    console.log(errors);
     return errors;
   }
 }
