@@ -36,5 +36,10 @@ export const AuthService = {
     // if jwt is expired, get a new one?
     return localStorage.getItem(JWT_KEY);
   },
+  decodeJWT(): any {
+    const jwt: string = this.getJWT();
+    const payload: string = jwt.split('.')[1];
+    return atob(payload);
+  },
   refreshToken(): void {}
 };
