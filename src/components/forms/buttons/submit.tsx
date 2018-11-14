@@ -8,7 +8,7 @@ interface ISubmitButton {
 export class SubmitButton extends BaseButton<ISubmitButton> {
   public text: string = 'submit';
   public type: string = 'submit';
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     // this.disabled = props.isInvalid;
   }

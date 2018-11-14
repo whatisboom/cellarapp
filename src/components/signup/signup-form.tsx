@@ -4,7 +4,7 @@ import { Username, Password, Email } from '../forms/inputs';
 import { SubmitButton } from '../forms/buttons';
 import { AuthService } from '../../services/auth';
 
-import { ISignupPayload } from '../../types/signuppayload';
+import { ISignupForm } from '../../types';
 
 export class SignupForm extends React.Component {
   public render() {
@@ -24,16 +24,12 @@ export class SignupForm extends React.Component {
     );
   }
 
-  private async onSubmit(values: ISignupPayload): Promise<void> {
+  private async onSubmit(values: ISignupForm): Promise<void> {
     const response = await AuthService.signup(values);
     AuthService.saveTokens(response);
   }
 
-  private validate({
-    username,
-    password,
-    email
-  }: ISignupPayload): ISignupPayload {
+  private validate({ username, password, email }: ISignupForm): ISignupForm {
     const errors: any = {};
     if (!password) {
       errors.password = 'Required';

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import ReactDom from 'react-dom';
+import { render } from 'react-dom';
 (async () => {
   const { App } = await import('./pages/App');
-  ReactDom.render(<App />, document.getElementById('beercellar'));
+  render(<App />, document.getElementById('beercellar'));
 })();

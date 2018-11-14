@@ -1,4 +1,4 @@
-export interface ISignupPayload {
+export interface ISignupForm {
   username: string;
   password: string;
   email: string;
