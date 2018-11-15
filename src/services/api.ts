@@ -1,3 +1,4 @@
+import { getJWT } from './jwt';
 export interface ICellarApiResourceConfig {
   path: string;
 }
@@ -9,8 +10,11 @@ export interface IResourcePayload {
 
 export class CellarApiResource {
   private domain: string = 'https://api.beercellar.io';
-  private path: string = '';
   private resource: string = '';
+  private headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${getJWT()}`
+  };
   constructor(config: ICellarApiResourceConfig) {
     if (!config && !config.path) {
       throw new Error('CellarApiResource: path must be defined');
@@ -18,15 +22,20 @@ export class CellarApiResource {
     this.setResourceString(config.path);
   }
   public async list() {}
-  public async read(id: string) {}
-  public async create(payload: IResourcePayload): Promise<any> {
+  public async read(payload?: IResourcePayload, opts?: any) {
+    const url = this.parsePath(payload);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: this.headers
+    });
+    return response.json();
+  }
+  public async create(payload: IResourcePayload, opts?: any): Promise<any> {
     const url = this.parsePath(payload);
     const response = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(payload),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: this.headers
     });
     return response.json();
   }
