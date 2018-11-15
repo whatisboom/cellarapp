@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { IUser, IUserResponse } from 'types';
-import { CellarApiResource } from '../services/api';
-import { Loader } from '../components/loaders/loader';
+import { CellarApiResource } from '../../services/api';
+import { Loader } from '../../components/loaders/loader';
 
 interface IComponentState {
   user?: IUser;

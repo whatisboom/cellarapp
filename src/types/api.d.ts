@@ -41,3 +41,11 @@ export interface IBrewery {
   city: string;
   state: string;
 }
+
+export interface IBreweryResponse {
+  brewery: IBrewery;
+}
+
+export interface IBreweriesResponse {
+  breweries: IBrewery[];
+}

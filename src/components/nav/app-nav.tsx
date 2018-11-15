@@ -13,6 +13,9 @@ export class AppNav extends React.Component {
           <Link to="users" className={styles.link}>
             Users
           </Link>
+          <Link to="breweries" className={styles.link}>
+            Breweries
+          </Link>
           <Link to="beers" className={styles.link}>
             Beers
           </Link>

@@ -1,29 +1,29 @@
 import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
-import { CellarApiResource } from '../services/api';
-import { Loader } from '../components/loaders/loader';
-import { IUserResponse, IUser } from '../types';
-import { List } from '../components/lists/list';
-import { ListItem } from '../components/lists/list-item';
+import { CellarApiResource } from '../../services/api';
+import { IBeersResponse, IBeer } from '../../types';
+import { List } from '../../components/lists/list';
+import { ListItem } from '../../components/lists/list-item';
+import { Loader } from '../../components/loaders/loader';
 
 interface IComponentState {
-  users?: IUser[];
+  beers?: IBeer[];
   loading: boolean;
 }
 
-export class UsersListContainer extends React.Component<RouteComponentProps> {
+export class BeersListContainer extends React.Component<RouteComponentProps> {
   public state: IComponentState = {
     loading: true
   };
 
-  public resource = new CellarApiResource<null, IUserResponse>({
-    path: '/users'
+  public resource = new CellarApiResource<null, IBeersResponse>({
+    path: '/beers'
   });
 
   public render() {
     return (
       <div>
-        <h1>Users</h1>
+        <h1>Beers</h1>
         <div>
           toolbar: <Link to="add">Add</Link>
         </div>
@@ -32,8 +32,8 @@ export class UsersListContainer extends React.Component<RouteComponentProps> {
         ) : (
           <List
             listItemComponent={ListItem}
-            items={this.state.users}
-            format="%username%"
+            items={this.state.beers}
+            format="%name% (%abv%%)"
           />
         )}
       </div>
@@ -41,9 +41,9 @@ export class UsersListContainer extends React.Component<RouteComponentProps> {
   }
   public async componentDidMount() {
     try {
-      const { users } = await this.resource.list();
+      const { beers } = await this.resource.list();
       this.setState({
-        users,
+        beers,
         loading: false
       });
     } catch (e) {}
