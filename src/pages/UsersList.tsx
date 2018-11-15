@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
 import { CellarApiResource } from '../services/api';
 import { IUserResponse, IUsersResponse } from '../types';
-export class UsersList extends React.Component<RouteComponentProps> {
+export class UsersListContainer extends React.Component<RouteComponentProps> {
   public state: IUsersResponse = {
     users: []
   };

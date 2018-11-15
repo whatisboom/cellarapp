@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { Router, Link } from '@reach/router';
 import { Home } from './Home';
+import { Beers } from './Beers';
+import { BeersListContainer } from './BeersList';
+import { BeerDetails } from './BeerDetails';
 import { Users } from './Users';
-import { UsersList } from './UsersList';
+import { UsersListContainer } from './UsersList';
 import { UserDetails } from './UserDetails';
 import { Signup } from './Signup';
 import { Signin } from './Signin';
@@ -23,8 +26,12 @@ export class App extends React.Component {
           <Signup path="signup" />
           <Signin path="signin" />
           <Dashboard path="dashboard" />
+          <Beers path="beers">
+            <BeersListContainer default path="/" />
+            <BeerDetails path=":beerId" />
+          </Beers>
           <Users path="users">
-            <UsersList default path="/" />
+            <UsersListContainer default path="/" />
             <UserDetails path=":userId" />
           </Users>
         </Router>
