@@ -2,7 +2,8 @@ import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
 import { CellarApiResource } from '../services/api';
 import { IBeersResponse, IBeer } from '../types';
-import { BeerList } from '../components/lists/beer-list';
+import { List } from '../components/lists/list';
+import { ListItem } from '../components/lists/list-item';
 import { Loader } from '../components/loaders/loader';
 
 interface IComponentState {
@@ -26,11 +27,14 @@ export class BeersListContainer extends React.Component<RouteComponentProps> {
         <div>
           toolbar: <Link to="add">Add</Link>
         </div>
-        {this.state.loading}
         {this.state.loading ? (
           <Loader />
         ) : (
-          <BeerList beers={this.state.beers} />
+          <List
+            listItemComponent={ListItem}
+            items={this.state.beers}
+            format="%name% (%abv%)"
+          />
         )}
       </div>
     );
