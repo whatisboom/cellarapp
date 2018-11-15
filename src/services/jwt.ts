@@ -5,8 +5,15 @@ export function getJWT(): string {
   return localStorage.getItem(JWT_KEY);
 }
 export function decodeJWT(): any {
-  const jwt: string = this.getJWT();
+  const jwt: string = getJWT();
   const payload: string = jwt.split('.')[1];
-  return atob(payload);
+  return JSON.parse(atob(payload));
 }
 export function refreshToken(): void {}
+
+export function isJWTValid(): boolean {
+  const claims = decodeJWT();
+  const expires = new Date(claims.exp * 1000);
+  const now = new Date();
+  return expires.getTime() > now.getTime();
+}

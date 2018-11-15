@@ -10,6 +10,7 @@ import {
   REFRESH_TOKEN_KEY,
   getJWT,
   decodeJWT,
+  isJWTValid,
   refreshToken
 } from './jwt';
 
@@ -36,6 +37,9 @@ export const AuthService = {
   saveTokens({ token, refreshToken }: ILoginResponse): void {
     localStorage.setItem(JWT_KEY, token);
     localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+  },
+  isAuthenticated() {
+    return isJWTValid();
   },
   getJWT,
   decodeJWT,

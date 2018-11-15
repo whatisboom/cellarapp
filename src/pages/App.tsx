@@ -10,6 +10,7 @@ import { UserDetails } from './UserDetails';
 import { Signup } from './Signup';
 import { Signin } from './Signin';
 import { Dashboard } from './Dashboard';
+import { AuthService } from '../services/auth';
 
 export class App extends React.Component {
   public render() {
@@ -17,9 +18,18 @@ export class App extends React.Component {
       <div>
         <nav>
           <Link to="/">Home</Link>
-          <Link to="signin">Signin</Link>
-          <Link to="signup">Signup</Link>
-          <Link to="users">Users</Link>
+
+          {AuthService.isAuthenticated() ? (
+            <span>
+              <Link to="users">Users</Link>
+              <Link to="beers">Beers</Link>
+            </span>
+          ) : (
+            <span>
+              <Link to="signin">Signin</Link>
+              <Link to="signup">Signup</Link>
+            </span>
+          )}
         </nav>
         <Router>
           <Home path="/" />
