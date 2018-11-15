@@ -1,5 +1,5 @@
 import { CellarApiResource, IResourcePayload } from './api';
-import { ISignupForm } from '../types';
+import { ISigninForm, ISignupForm } from '../types';
 const JWT_KEY: string = 'beercellarjwt';
 const REFRESH_TOKEN_KEY: string = 'beercellarrefresh';
 
@@ -18,13 +18,13 @@ export interface ILoginResponse {
 }
 
 export const AuthService = {
-  async login(payload: IResourcePayload) {
-    return endpoints.signin.create(payload);
+  async signin(payload: ISigninForm): Promise<ILoginResponse> {
+    return endpoints.signin.create(<IResourcePayload>(<unknown>payload));
   },
   async signup(payload: ISignupForm): Promise<ILoginResponse> {
     return endpoints.signup.create(<IResourcePayload>(<unknown>payload)).then(
       async (): Promise<ILoginResponse> => {
-        return await this.login(payload);
+        return await this.signin(payload);
       }
     );
   },

@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Form } from 'react-final-form';
 import * as validate from 'validate.js';
 import { navigate } from '@reach/router';
-import { Username, Password, Email } from '../forms/inputs';
+import { Username, Password } from '../forms/inputs';
 import { SubmitButton } from '../forms/buttons';
 import { AuthService } from '../../services/auth';
 
-import { ISignupForm } from '../../types';
+import { ISigninForm } from '../../types';
 
-export class SignupForm extends React.Component {
+export class SigninForm extends React.Component {
   public render() {
     return (
       <Form
@@ -17,7 +17,6 @@ export class SignupForm extends React.Component {
         render={({ handleSubmit, pristine, invalid }) => (
           <form onSubmit={handleSubmit}>
             <Username />
-            <Email />
             <Password />
             <SubmitButton isPristine={pristine} isInvalid={invalid} />
           </form>
@@ -26,15 +25,15 @@ export class SignupForm extends React.Component {
     );
   }
 
-  private async onSubmit(values: ISignupForm): Promise<void> {
+  private async onSubmit(values: ISigninForm): Promise<void> {
     try {
-      const response = await AuthService.signup(values);
+      const response = await AuthService.signin(values);
       AuthService.saveTokens(response);
       navigate('/dashboard');
     } catch (e) {}
   }
 
-  private validate(values: ISignupForm): ISignupForm {
+  private validate(values: ISigninForm): ISigninForm {
     const constraints = {
       username: {
         presence: true,
@@ -45,10 +44,6 @@ export class SignupForm extends React.Component {
       },
       password: {
         presence: true
-      },
-      email: {
-        presence: true,
-        email: true
       }
     };
 
