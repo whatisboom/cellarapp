@@ -70,7 +70,7 @@ export class CellarApiResource<T, U> {
     }
     let result = this.resource;
     Object.keys(params).forEach(key => {
-      this.resource.replace(`:${key}`, params[key]);
+      result = result.replace(`:${key}`, params[key]);
     });
     return result;
   }
