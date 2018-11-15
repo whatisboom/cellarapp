@@ -2,6 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { IUser, IUserResponse } from 'types';
 import { CellarApiResource } from '../services/api';
+import { Loader } from '../components/loaders/loader';
 
 interface IComponentState {
   user?: IUser;
@@ -29,7 +30,7 @@ export class UserDetails extends React.Component<
   public render() {
     const { loading, user } = this.state;
     if (loading) {
-      return 'loading';
+      return <Loader />;
     }
     return `${user.username} (${user.role})`;
   }

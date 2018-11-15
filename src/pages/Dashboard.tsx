@@ -1,13 +1,17 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { CellarApiResource } from '../services/api';
-import { IUserResponse } from 'types';
+import { IUserResponse, IUser } from 'types';
+import { Loader } from '../components/loaders/loader';
+
+interface IComponentState {
+  user?: IUser;
+  loading: boolean;
+}
 
 export class Dashboard extends React.Component<RouteComponentProps> {
-  public state: any = {
-    user: {
-      username: 'loading'
-    }
+  public state: IComponentState = {
+    loading: true
   };
 
   public me = new CellarApiResource<null, IUserResponse>({
@@ -15,14 +19,19 @@ export class Dashboard extends React.Component<RouteComponentProps> {
   });
 
   public render() {
-    return <h1>{this.state.user.username}</h1>;
+    const { user, loading } = this.state;
+    if (loading) {
+      return <Loader />;
+    }
+    return <h1>{user.username}</h1>;
   }
 
   public async componentDidMount() {
     try {
       const { user } = await this.me.read();
       this.setState({
-        user
+        user,
+        loading: false
       });
     } catch (e) {}
   }
