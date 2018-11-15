@@ -10,31 +10,13 @@ import { UserDetails } from './UserDetails';
 import { Signup } from './Signup';
 import { Signin } from './Signin';
 import { Dashboard } from './Dashboard';
-import { AuthService } from '../services/auth';
+import { AppNav } from '../components/nav/app-nav';
 
 export class App extends React.Component {
   public render() {
     return (
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="users">Users</Link>
-            </li>
-            <li>
-              <Link to="beers">Beers</Link>
-            </li>
-            <li>
-              <Link to="signin">Signin</Link>
-            </li>
-            <li>
-              <Link to="signup">Signup</Link>
-            </li>
-          </ul>
-        </nav>
+        <AppNav />
         <Router>
           <Home path="/" />
           <Signup path="signup" />

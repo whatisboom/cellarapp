@@ -1,0 +1,24 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  background: #333;
+  color: #f4f4f4;
+}
+
+.section {
+  display: flex;
+  justify-content: flex-start;
+  flex: 1;
+}
+.link {
+  text-decoration: none;
+  color: #f4f4f4;
+  padding: 10px 20px;
+}
+.link:visited {
+  color: #f4f4f4;
+}
+
+.justifyEnd {
+  justify-content: flex-end;
+}
