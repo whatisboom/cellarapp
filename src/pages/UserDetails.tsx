@@ -1,15 +1,19 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { IUserResponse } from 'types';
+import { IUser, IUserResponse } from 'types';
 import { CellarApiResource } from '../services/api';
+
+interface IComponentState {
+  user?: IUser;
+  loading: boolean;
+}
 
 export class UserDetails extends React.Component<
   RouteComponentProps<{
     userId: string;
   }>
 > {
-  public state: any = {
-    user: {},
+  public state: IComponentState = {
     loading: true
   };
 
@@ -23,7 +27,11 @@ export class UserDetails extends React.Component<
   });
 
   public render() {
-    return this.state.loading ? 'loading' : this.state.user.username;
+    const { loading, user } = this.state;
+    if (loading) {
+      return 'loading';
+    }
+    return `${user.username} (${user.role})`;
   }
 
   public async componentDidMount() {
