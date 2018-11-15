@@ -21,9 +21,16 @@ export class CellarApiResource {
     }
     this.setResourceString(config.path);
   }
-  public async list() {}
-  public async read(payload?: IResourcePayload, opts?: any) {
-    const url = this.parsePath(payload);
+  public async list(opts?: any): Promise<any> {
+    const url = this.getPath();
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: this.headers
+    });
+    return response.json();
+  }
+  public async read(payload?: IResourcePayload, opts?: any): Promise<any> {
+    const url = this.getPath(payload);
     const response = await fetch(url, {
       method: 'GET',
       headers: this.headers
@@ -31,7 +38,7 @@ export class CellarApiResource {
     return response.json();
   }
   public async create(payload: IResourcePayload, opts?: any): Promise<any> {
-    const url = this.parsePath(payload);
+    const url = this.getPath(payload);
     const response = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -47,8 +54,8 @@ export class CellarApiResource {
     }
     this.resource = this.domain + path;
   }
-  private parsePath(params: { [key: string]: any }): string {
-    if (this.resource.split(':').length === 2) {
+  private getPath(params?: { [key: string]: any }): string {
+    if (!params || this.resource.split(':').length === 2) {
       return this.resource;
     }
     let result = this.resource;

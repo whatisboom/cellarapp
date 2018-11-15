@@ -20,7 +20,6 @@ export class Dashboard extends React.Component<RouteComponentProps> {
   public async componentDidMount() {
     try {
       const { user } = await this.me.read();
-      console.log(user);
       this.setState({
         user
       });
