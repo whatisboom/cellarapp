@@ -17,19 +17,23 @@ export class App extends React.Component {
     return (
       <div>
         <nav>
-          <Link to="/">Home</Link>
-
-          {AuthService.isAuthenticated() ? (
-            <span>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
               <Link to="users">Users</Link>
+            </li>
+            <li>
               <Link to="beers">Beers</Link>
-            </span>
-          ) : (
-            <span>
+            </li>
+            <li>
               <Link to="signin">Signin</Link>
+            </li>
+            <li>
               <Link to="signup">Signup</Link>
-            </span>
-          )}
+            </li>
+          </ul>
         </nav>
         <Router>
           <Home path="/" />
