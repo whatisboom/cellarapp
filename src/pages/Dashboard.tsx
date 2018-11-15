@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { CellarApiResource } from '../services/api';
+import { IUserResponse } from 'types';
 
 export class Dashboard extends React.Component<RouteComponentProps> {
   public state: any = {
@@ -9,7 +10,7 @@ export class Dashboard extends React.Component<RouteComponentProps> {
     }
   };
 
-  public me = new CellarApiResource({
+  public me = new CellarApiResource<null, IUserResponse>({
     path: '/users/me'
   });
 

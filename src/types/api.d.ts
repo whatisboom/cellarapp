@@ -3,7 +3,7 @@ export interface ILoginResponse {
   refreshToken: string;
 }
 
-export interface IUserResponse {
+export interface IUser {
   _id: string;
   createdAt: Date;
   username: string;
@@ -13,6 +13,10 @@ export interface IUserResponse {
   lastName: string;
 }
 
+export interface IUserResponse {
+  user: IUser;
+}
+
 export interface IUsersResponse {
-  users: IUserResponse[];
+  users: IUser[];
 }

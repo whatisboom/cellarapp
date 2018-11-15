@@ -1,5 +1,10 @@
-import { CellarApiResource, IResourcePayload } from './api';
-import { ILoginResponse, ISigninForm, ISignupForm } from '../types';
+import { CellarApiResource } from './api';
+import {
+  ILoginResponse,
+  ISigninForm,
+  ISignupForm,
+  IUserResponse
+} from '../types';
 import {
   JWT_KEY,
   REFRESH_TOKEN_KEY,
@@ -9,20 +14,20 @@ import {
 } from './jwt';
 
 const endpoints = {
-  signup: new CellarApiResource({
+  signup: new CellarApiResource<ISignupForm, IUserResponse>({
     path: '/auth/signup'
   }),
-  signin: new CellarApiResource({
+  signin: new CellarApiResource<ISigninForm, ILoginResponse>({
     path: '/auth/signin'
   })
 };
 
 export const AuthService = {
   async signin(payload: ISigninForm): Promise<ILoginResponse> {
-    return endpoints.signin.create(<IResourcePayload>(<unknown>payload));
+    return endpoints.signin.create(payload);
   },
   async signup(payload: ISignupForm): Promise<ILoginResponse> {
-    return endpoints.signup.create(<IResourcePayload>(<unknown>payload)).then(
+    return endpoints.signup.create(payload).then(
       async (): Promise<ILoginResponse> => {
         return await this.signin(payload);
       }
