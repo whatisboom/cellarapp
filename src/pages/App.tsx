@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Router, Link } from '@reach/router';
 import { Home } from './Home';
 import { Beers, BeersListContainer, BeerDetails } from './Beers';
@@ -8,17 +9,36 @@ import { Signup } from './Signup';
 import { Signin } from './Signin';
 import { Dashboard } from './Dashboard';
 import { AppNav } from '../components/nav/app-nav';
+import { AuthService } from '../services/auth';
+import { CellarApiResource } from '../services/api';
+import { IUserResponse, IUser } from '../types';
 
-export class App extends React.Component {
+interface IComponentProps {
+  signedInUser?: any;
+  signin: (user: IUser) => void;
+}
+
+export class App extends React.Component<IComponentProps> {
+  public async componentDidMount() {
+    const isAuthedticated = AuthService.isAuthenticated();
+    if (isAuthedticated) {
+      const me = new CellarApiResource<null, IUserResponse>({
+        path: '/users/me'
+      });
+      const { user } = await me.read();
+      this.props.signin(user);
+    }
+  }
   public render() {
+    const { signedInUser } = this.props;
     return (
       <div>
-        <AppNav />
+        <AppNav signedInUser={signedInUser} />
         <Router>
           <Home path="/" />
           <Signup path="signup" />
           <Signin path="signin" />
-          <Dashboard path="dashboard" />
+          <Dashboard path="dashboard" signin={this.props.signin} />
           <Users path="users">
             <UsersListContainer default path="/" />
             <UserDetails path=":userId" />
@@ -36,3 +56,25 @@ export class App extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state: any, ownProps: any) {
+  return {
+    signedInUser: state.user
+  };
+}
+
+function mapDispatchToProps(dispatch: any, ownProps: any) {
+  return {
+    signin: (user: IUser) => {
+      dispatch({
+        type: 'SIGNIN',
+        user
+      });
+    }
+  };
+}
+
+export const AppConnected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
