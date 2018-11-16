@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from '@reach/router';
+import { NavUserDropdown } from './nav-user-dropdown';
 const styles = require('./app-nav.css');
 
 interface IComponentProps {
@@ -24,9 +25,7 @@ export class AuthenticatedNav extends React.Component<IComponentProps> {
             Beers
           </Link>
         </span>
-        <span className={[styles.section, styles.justifyEnd].join(' ')}>
-          <a className={styles.link}>{this.props.user.username}</a>
-        </span>
+        <NavUserDropdown user={this.props.user} />
       </nav>
     );
   }
