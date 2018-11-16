@@ -4,12 +4,18 @@ import { CellarApiResource } from '../services/api';
 import { IUserResponse, IUser } from 'types';
 import { Loader } from '../components/loaders/loader';
 
+interface IComponentProps {
+  signin: (user: IUser) => void;
+}
+
 interface IComponentState {
   user?: IUser;
   loading: boolean;
 }
 
-export class Dashboard extends React.Component<RouteComponentProps> {
+export class Dashboard extends React.Component<
+  RouteComponentProps<IComponentProps>
+> {
   public state: IComponentState = {
     loading: true
   };
@@ -33,6 +39,7 @@ export class Dashboard extends React.Component<RouteComponentProps> {
         user,
         loading: false
       });
+      this.props.signin(user);
     } catch (e) {}
   }
 }
