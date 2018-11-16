@@ -7,6 +7,7 @@ import { Users, UsersListContainer, UserDetails } from './Users';
 import { Breweries, BreweriesListContainer, BreweryDetails } from './Breweries';
 import { Signup } from './Signup';
 import { Signin } from './Signin';
+import { Logout } from './Logout';
 import { Dashboard } from './Dashboard';
 import { AppNav } from '../components/nav/app-nav';
 import { AuthService } from '../services/auth';
@@ -38,6 +39,7 @@ export class App extends React.Component<IComponentProps> {
           <Home path="/" />
           <Signup path="signup" />
           <Signin path="signin" />
+          <Logout path="logout" logout={this.props.logout} />
           <Dashboard path="dashboard" signin={this.props.signin} />
           <Users path="users">
             <UsersListContainer default path="/" />
@@ -69,6 +71,11 @@ function mapDispatchToProps(dispatch: any, ownProps: any) {
       dispatch({
         type: 'SIGNIN',
         user
+      });
+    },
+    logout: () => {
+      dispatch({
+        type: 'LOGOUT'
       });
     }
   };

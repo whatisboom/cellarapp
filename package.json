@@ -1,7 +1,9 @@
 {
   "scripts": {
+    "clean": "rm -rf ./dist",
     "build": "./node_modules/.bin/parcel build src/index.html",
     "dev": "./node_modules/.bin/parcel src/index.html",
+    "prod": "npm run clean && npm run build",
     "test": ""
   },
   "dependencies": {

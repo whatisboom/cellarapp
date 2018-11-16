@@ -34,9 +34,14 @@ export const AuthService = {
       }
     );
   },
-  saveTokens({ token, refreshToken }: ILoginResponse): void {
+  logout() {},
+  async saveTokens({ token, refreshToken }: ILoginResponse): Promise<void> {
     localStorage.setItem(JWT_KEY, token);
     localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+  },
+  async deleteTokens(): Promise<void> {
+    localStorage.removeItem(JWT_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
   },
   isAuthenticated() {
     return isJWTValid();
