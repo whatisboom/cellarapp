@@ -34,6 +34,7 @@ export class UsersListContainer extends React.Component<RouteComponentProps> {
             listItemComponent={ListItem}
             items={this.state.users}
             format="%username%"
+            toKey="username"
           />
         )}
       </div>

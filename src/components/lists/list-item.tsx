@@ -5,16 +5,17 @@ const styles = require('./list.css');
 interface IComponentProps {
   item: any;
   format: string;
+  toKey: string;
 }
 
 export class ListItem extends React.Component<IComponentProps> {
   render() {
-    const { item, format } = this.props;
+    const { item, format, toKey } = this.props;
     const text = this.formatText(format, item);
-
+    // convert to item[key]
     return (
       <li key={item._id} className={styles.listItem}>
-        <Link to={item._id} className={styles.listItemLink}>
+        <Link to={item[toKey]} className={styles.listItemLink}>
           {text}
         </Link>
       </li>
@@ -34,7 +35,7 @@ export class ListItem extends React.Component<IComponentProps> {
 
     const matches: string[] = format.match(regex);
 
-    matches.forEach(match => {
+    matches.forEach((match) => {
       const key = match.substr(1, match.length - 2);
       result = result.replace(match, item[key]);
     });

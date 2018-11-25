@@ -11,7 +11,7 @@ interface IComponentState {
 
 export class BeerDetails extends React.Component<
   RouteComponentProps<{
-    beerId: string;
+    slug: string;
   }>
 > {
   public state: IComponentState = {
@@ -20,11 +20,11 @@ export class BeerDetails extends React.Component<
 
   public resource = new CellarApiResource<
     {
-      _id: string;
+      slug: string;
     },
     IBeerResponse
   >({
-    path: '/beers/:_id'
+    path: '/beers/:slug'
   });
 
   public render() {
@@ -47,7 +47,7 @@ export class BeerDetails extends React.Component<
   public async componentDidMount() {
     try {
       const { beer } = await this.resource.read({
-        _id: this.props.beerId
+        slug: this.props.slug
       });
       this.setState({
         beer,

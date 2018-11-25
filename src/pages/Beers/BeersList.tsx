@@ -34,6 +34,7 @@ export class BeersListContainer extends React.Component<RouteComponentProps> {
             listItemComponent={ListItem}
             items={this.state.beers}
             format="%name% (%abv%%)"
+            toKey="slug"
           />
         )}
       </div>

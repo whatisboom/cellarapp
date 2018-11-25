@@ -1,3 +1,4 @@
 {
+  "plugins": ["transform-inline-environment-variables"],
   "presets": ["env", "react"]
 }
