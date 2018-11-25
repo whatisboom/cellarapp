@@ -4,7 +4,7 @@ export interface ICellarApiResourceConfig {
 }
 
 export class CellarApiResource<T, U> {
-  private domain: string = 'https://api.beercellar.io';
+  private domain: string = process.env.API_HOST;
   private resource: string = '';
   private headers = {
     'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export class CellarApiResource<T, U> {
       return this.resource;
     }
     let result = this.resource;
-    Object.keys(params).forEach(key => {
+    Object.keys(params).forEach((key) => {
       result = result.replace(`:${key}`, params[key]);
     });
     return result;

@@ -11,7 +11,7 @@ interface IComponentState {
 
 export class UserDetails extends React.Component<
   RouteComponentProps<{
-    userId: string;
+    username: string;
   }>
 > {
   public state: IComponentState = {
@@ -20,11 +20,11 @@ export class UserDetails extends React.Component<
 
   public resource = new CellarApiResource<
     {
-      _id: string;
+      username: string;
     },
     IUserResponse
   >({
-    path: '/users/:_id'
+    path: '/users/:username'
   });
 
   public render() {
@@ -38,7 +38,7 @@ export class UserDetails extends React.Component<
   public async componentDidMount() {
     try {
       const { user } = await this.resource.read({
-        _id: this.props.userId
+        username: this.props.username
       });
       this.setState({
         user,

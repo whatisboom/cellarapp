@@ -17,6 +17,7 @@ import { IUserResponse, IUser } from '../types';
 interface IComponentProps {
   signedInUser?: any;
   signin: (user: IUser) => void;
+  logout: () => void;
 }
 
 export class App extends React.Component<IComponentProps> {
@@ -43,15 +44,15 @@ export class App extends React.Component<IComponentProps> {
           <Dashboard path="dashboard" signin={this.props.signin} />
           <Users path="users">
             <UsersListContainer default path="/" />
-            <UserDetails path=":userId" />
+            <UserDetails path=":username" />
           </Users>
           <Beers path="beers">
             <BeersListContainer default path="/" />
-            <BeerDetails path=":beerId" />
+            <BeerDetails path=":slug" />
           </Beers>
           <Breweries path="breweries">
             <BreweriesListContainer default path="/" />
-            <BreweryDetails path=":breweryId" />
+            <BreweryDetails path=":slug" />
           </Breweries>
         </Router>
       </div>

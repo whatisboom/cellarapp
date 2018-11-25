@@ -25,7 +25,11 @@ const endpoints = {
 
 export const AuthService = {
   async signin(payload: ISigninForm): Promise<ILoginResponse> {
-    return endpoints.signin.create(payload);
+    try {
+      return endpoints.signin.create(payload);
+    } catch (e) {
+      return e;
+    }
   },
   async signup(payload: ISignupForm): Promise<ILoginResponse> {
     return endpoints.signup.create(payload).then(

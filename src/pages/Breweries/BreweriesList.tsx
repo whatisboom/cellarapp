@@ -36,6 +36,7 @@ export class BreweriesListContainer extends React.Component<
             listItemComponent={ListItem}
             items={this.state.breweries}
             format="%name% (%city%, %state%)"
+            toKey="slug"
           />
         )}
       </div>
