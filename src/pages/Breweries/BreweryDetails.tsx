@@ -3,6 +3,8 @@ import { RouteComponentProps } from '@reach/router';
 import { IBrewery, IBreweryResponse } from 'types';
 import { CellarApiResource } from '../../services/api';
 import { Loader } from '../../components/loaders/loader';
+import { List } from '../../components/lists/list';
+import { ListItem } from '../../components/lists/list-item';
 
 interface IComponentState {
   brewery?: IBrewery;
@@ -38,6 +40,11 @@ export class BreweryDetails extends React.Component<
         <span>
           {brewery.city}, {brewery.state}
         </span>
+        <List
+          listItemComponent={ListItem}
+          items={brewery.beers}
+          format="%name%"
+        />
       </div>
     );
   }

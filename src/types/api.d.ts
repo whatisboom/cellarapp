@@ -40,6 +40,7 @@ export interface IBrewery {
   name: string;
   city: string;
   state: string;
+  beers: IBeer[];
 }
 
 export interface IBreweryResponse {
