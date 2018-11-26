@@ -26,7 +26,7 @@ export class BreweryDetails extends React.Component<
     },
     IBreweryResponse
   >({
-    path: '/breweries/:slug'
+    path: '/breweries/:slug/beers'
   });
 
   public render() {
@@ -40,11 +40,16 @@ export class BreweryDetails extends React.Component<
         <span>
           {brewery.city}, {brewery.state}
         </span>
-        <List
-          listItemComponent={ListItem}
-          items={brewery.beers}
-          format="%name%"
-        />
+        {brewery.beers && brewery.beers.length ? (
+          <List
+            listItemComponent={ListItem}
+            items={brewery.beers}
+            format="%name%"
+            toKey="slug"
+          />
+        ) : (
+          <div>no beers found</div>
+        )}
       </div>
     );
   }
