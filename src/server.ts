@@ -6,7 +6,7 @@ const path = require('path');
 const port = process.env.PORT || 8080;
 
 // maps file extention to MIME types
-const mimeType = {
+const mimeType: { [ext: string]: string } = {
   '.ico': 'image/x-icon',
   '.html': 'text/html',
   '.js': 'text/javascript',
@@ -23,7 +23,7 @@ const mimeType = {
   '.ttf': 'aplication/font-sfnt'
 };
 http
-  .createServer(function(req, res) {
+  .createServer(function(req: any, res: any) {
     console.log(`${req.method} ${req.url}`);
     // parse URL
     const parsedUrl = url.parse(req.url);
@@ -35,7 +35,7 @@ http
       .normalize(parsedUrl.pathname)
       .replace(/^(\.\.[\/\\])+/, '');
     let pathname = path.join(__dirname, sanitizePath);
-    fs.exists(pathname, function(exist) {
+    fs.exists(pathname, function(exist: boolean) {
       if (!exist) {
         pathname = path.resolve(__dirname, 'index.html');
       }
@@ -44,7 +44,7 @@ http
         pathname += '/index.html';
       }
       // read file from file system
-      fs.readFile(pathname, function(err, data) {
+      fs.readFile(pathname, function(err: Error, data: any) {
         if (err) {
           res.statusCode = 500;
           res.end(`Error getting the file: ${err}.`);
