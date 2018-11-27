@@ -8,6 +8,9 @@
     "test": "jest",
     "tdd": "jest --watchAll"
   },
+  "engines": {
+    "node": "11.2.0"
+  },
   "dependencies": {
     "@reach/router": "1.2.1",
     "express": "4.16.4",
