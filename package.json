@@ -1,10 +1,9 @@
 {
   "scripts": {
     "clean": "rm -rf ./dist ./.cache",
-    "build:prod": "./node_modules/.bin/parcel build src/index.html",
-    "build:staging": "NODE_ENV=staging ./node_modules/.bin/parcel build src/index.html",
+    "build": "npm run clean && ./node_modules/.bin/parcel build src/index.html",
     "dev": "./node_modules/.bin/parcel src/index.html",
-    "prod": "npm run clean && npm run build",
+    "start": "",
     "test": "jest",
     "tdd": "jest --watchAll"
   },
