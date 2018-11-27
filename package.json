@@ -1,9 +1,9 @@
 {
   "scripts": {
     "clean": "rm -rf ./dist ./.cache",
-    "build": "npm run clean && ./node_modules/.bin/parcel build src/index.html && tsc src/server.ts --outDir dist",
+    "build": "npm run clean && ./node_modules/.bin/parcel build ./src/index.html && tsc ./src/server.ts --outDir ./dist",
     "dev": "./node_modules/.bin/parcel src/index.html",
-    "start": "node dist/server.js",
+    "start": "node ./dist/server.js",
     "test": "jest",
     "tdd": "jest --watchAll"
   },
