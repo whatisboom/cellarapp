@@ -5,30 +5,47 @@
     "build:staging": "NODE_ENV=staging ./node_modules/.bin/parcel build src/index.html",
     "dev": "./node_modules/.bin/parcel src/index.html",
     "prod": "npm run clean && npm run build",
-    "test": ""
+    "test": "jest",
+    "tdd": "jest --watchAll"
+  },
+  "engines": {
+    "node": "11.2.0"
   },
   "dependencies": {
-    "@reach/router": "^1.2.1",
-    "express": "^4.16.4",
-    "final-form": "^4.10.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-final-form": "^3.6.7",
-    "react-redux": "^5.1.1",
-    "redux": "^4.0.1",
-    "validate.js": "^0.12.0"
+    "@reach/router": "1.2.1",
+    "express": "4.16.4",
+    "final-form": "4.10.0",
+    "react": "16.6.3",
+    "react-dom": "16.6.3",
+    "react-final-form": "3.6.7",
+    "react-redux": "5.1.1",
+    "redux": "4.0.1",
+    "validate.js": "0.12.0"
   },
   "devDependencies": {
-    "@types/reach__router": "^1.2.2",
-    "@types/react": "^16.7.3",
-    "@types/react-dom": "^16.0.9",
-    "@types/react-redux": "^6.0.9",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "parcel-bundler": "^1.10.3",
-    "postcss-modules": "^1.4.1",
-    "typescript": "^3.1.6"
+    "@types/jest": "23.3.9",
+    "@types/reach__router": "1.2.2",
+    "@types/react": "16.7.3",
+    "@types/react-dom": "16.0.9",
+    "@types/react-redux": "6.0.9",
+    "babel-core": "6.26.3",
+    "babel-plugin-transform-inline-environment-variables": "0.4.3",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-react": "6.24.1",
+    "jest": "23.6.0",
+    "parcel-bundler": "1.10.3",
+    "postcss-modules": "1.4.1",
+    "react-testing-library": "5.3.0",
+    "ts-jest": "23.10.5",
+    "typescript": "3.1.6"
+  },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverage": true,
+    "preset": "ts-jest",
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "<rootDir>/src/**/*.spec.tsx"
+    ]
   }
 }
