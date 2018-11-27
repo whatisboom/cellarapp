@@ -3,7 +3,7 @@
     "clean": "rm -rf ./dist ./.cache",
     "build": "npm run clean && ./node_modules/.bin/parcel build src/index.html",
     "dev": "./node_modules/.bin/parcel src/index.html",
-    "start": "",
+    "start": "node dist/server.js",
     "test": "jest",
     "tdd": "jest --watchAll"
   },
@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@reach/router": "1.2.1",
-    "express": "4.16.4",
     "final-form": "4.10.0",
     "react": "16.6.3",
     "react-dom": "16.6.3",
