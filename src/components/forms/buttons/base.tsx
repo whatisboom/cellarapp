@@ -6,7 +6,7 @@ export class BaseButton<T> extends React.Component<T> {
   public disabled: boolean = false;
   public render() {
     return (
-      <button disabled={this.disabled} type={this.type}>
+      <button data-testid="Button" disabled={this.disabled} type={this.type}>
         {this.text}
       </button>
     );
