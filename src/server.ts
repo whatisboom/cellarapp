@@ -3,7 +3,7 @@ const url = require('url');
 const fs = require('fs');
 const path = require('path');
 // you can pass the parameter in the command line. e.g. node static_server.js 3000
-const port = process.env.PORT || '8080';
+const port = process.env.PORT || 8080;
 // maps file extention to MIME types
 const mimeType = {
   '.ico': 'image/x-icon',
@@ -57,5 +57,5 @@ http
       });
     });
   })
-  .listen(parseInt(port));
+  .listen(port);
 console.log(`Server listening on port ${port}`);
