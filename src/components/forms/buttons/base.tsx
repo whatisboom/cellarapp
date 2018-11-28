@@ -1,13 +1,16 @@
 import * as React from 'react';
 
-export class BaseButton<T> extends React.Component<T> {
-  public text: string = 'Base Button';
-  public type: string = '';
-  public disabled: boolean = false;
+export interface BaseButtonProps {
+  disabled: boolean;
+  type?: string;
+}
+
+export class BaseButton extends React.Component<BaseButtonProps> {
   public render() {
+    const { children, disabled, type = 'text' } = this.props;
     return (
-      <button data-testid="Button" disabled={this.disabled} type={this.type}>
-        {this.text}
+      <button data-testid="Button" disabled={disabled} type={type}>
+        {children}
       </button>
     );
   }

@@ -5,24 +5,30 @@ import { navigate } from '@reach/router';
 import { Username, Password, Email } from '../forms/inputs';
 import { SubmitButton } from '../forms/buttons';
 import { AuthService } from '../../services/auth';
-
 import { ISignupForm } from '../../types';
+const styles = require('./signup-form.css');
 
 export class SignupForm extends React.Component {
   public render() {
     return (
-      <Form
-        onSubmit={this.onSubmit}
-        validate={this.validate}
-        render={({ handleSubmit, pristine, invalid }) => (
-          <form onSubmit={handleSubmit}>
-            <Username />
-            <Email />
-            <Password />
-            <SubmitButton isPristine={pristine} isInvalid={invalid} />
-          </form>
-        )}
-      />
+      <div className={styles.content}>
+        <p>
+          Let us know a bit about you. Your email is safe with us. We will only
+          email you with service updates, unless you opt-in for more.
+        </p>
+        <Form
+          onSubmit={this.onSubmit}
+          validate={this.validate}
+          render={({ handleSubmit, pristine, invalid }) => (
+            <form onSubmit={handleSubmit}>
+              <Username />
+              <Email />
+              <Password />
+              <SubmitButton disabled={pristine || invalid} />
+            </form>
+          )}
+        />
+      </div>
     );
   }
 
