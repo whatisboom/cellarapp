@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Router, Link } from '@reach/router';
+import { Router } from '@reach/router';
 import { Home } from './Home';
 import { Beers, BeersListContainer, BeerDetails } from './Beers';
 import { Users, UsersListContainer, UserDetails } from './Users';
@@ -9,7 +9,7 @@ import { Signup } from './Signup';
 import { Signin } from './Signin';
 import { Logout } from './Logout';
 import { Dashboard } from './Dashboard';
-import { AppNav } from '../components/nav/app-nav';
+import { AppNav } from '../components/nav';
 import { AuthService } from '../services/auth';
 import { CellarApiResource } from '../services/api';
 import { IUserResponse, IUser } from '../types';
@@ -34,7 +34,7 @@ export class App extends React.Component<IComponentProps> {
   public render() {
     const { signedInUser } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <AppNav signedInUser={signedInUser} />
         <Router>
           <Home path="/" />
@@ -55,7 +55,7 @@ export class App extends React.Component<IComponentProps> {
             <BreweryDetails path=":slug" />
           </Breweries>
         </Router>
-      </div>
+      </React.Fragment>
     );
   }
 }
