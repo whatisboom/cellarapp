@@ -7,7 +7,7 @@ describe('BaseButtom', () => {
     expect(BaseButton).toBeDefined();
   });
   it('should render', () => {
-    const cmp = render(<BaseButton />);
+    const cmp = render(<BaseButton>Base Button</BaseButton>);
     expect(cmp).toBeDefined();
     expect(cmp.getByTestId('Button').textContent).toBe('Base Button');
   });

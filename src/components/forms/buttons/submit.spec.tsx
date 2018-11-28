@@ -7,7 +7,7 @@ describe('BaseButtom', () => {
     expect(SubmitButton).toBeDefined();
   });
   it('should render', () => {
-    const cmp = render(<SubmitButton />);
+    const cmp = render(<SubmitButton>Submit</SubmitButton>);
     expect(cmp).toBeDefined();
     expect(cmp.getByTestId('Button').textContent).toBe('Submit');
   });

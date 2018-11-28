@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface BaseButtonProps {
-  disabled: boolean;
+  disabled?: boolean;
   type?: string;
 }
 
