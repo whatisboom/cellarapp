@@ -12,10 +12,10 @@ export class UnauthenticatedNav extends React.Component {
           </Link>
         </span>
         <span className={[styles.section, styles.justifyEnd].join(' ')}>
-          <Link to="signin" className={styles.link}>
+          <Link to="/signin" className={styles.link}>
             Signin
           </Link>
-          <Link to="signup" className={styles.link}>
+          <Link to="/signup" className={styles.link}>
             Signup
           </Link>
         </span>

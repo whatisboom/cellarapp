@@ -35,7 +35,9 @@ export class App extends React.Component<IComponentProps> {
     const { signedInUser } = this.props;
     return (
       <React.Fragment>
-        <AppNav signedInUser={signedInUser} />
+        <Router primary={false}>
+          <AppNav path=":page" signedInUser={signedInUser} />
+        </Router>
         <Router>
           <Home path="/" />
           <Signup path="signup" />
