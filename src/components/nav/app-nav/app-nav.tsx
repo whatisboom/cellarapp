@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AuthenticatedNav, UnauthenticatedNav } from './index';
-import { IUser } from '../../types';
+import { IUser } from '../../../types';
 interface IComponentProps {
   signedInUser: IUser;
 }
