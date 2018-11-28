@@ -1,0 +1,18 @@
+.button {
+  text-decoration: none;
+  background: linear-gradient(hsl(208, 34%, 55%), hsl(208, 34%, 35%));
+  border-radius: 3px;
+  color: #fff;
+  text-shadow: 0 1px 1px #888;
+  display: inline-block;
+  padding: 1rem 2rem;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(100, 100, 100, 0.5);
+  transition: box-shadow 0.2s ease;
+}
+
+.button:hover {
+  top: -1px;
+  box-shadow: 0 2px 5px rgba(100, 100, 100, 0.5);
+  background: linear-gradient(hsl(208, 34%, 60%), hsl(208, 34%, 40%));
+}

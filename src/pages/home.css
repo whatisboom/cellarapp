@@ -1,0 +1,22 @@
+.center {
+  text-align: center;
+}
+
+.content {
+  padding: 2rem 1.25rem;
+}
+
+.content ul {
+  padding-left: 1.25rem;
+}
+
+.content p {
+  margin: 1.25rem 0;
+}
+
+.logo {
+  padding: 20px;
+  border-radius: 50%;
+  background: hsla(49, 7%, 84%, 0.7);
+  color: rgba(0, 0, 0, 0.65);
+}

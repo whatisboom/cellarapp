@@ -12,16 +12,16 @@ export class AuthenticatedNav extends React.Component<IComponentProps> {
     return (
       <nav className={styles.nav}>
         <span className={styles.section}>
-          <Link to="dashboard" className={styles.link}>
+          <Link to="/dashboard" className={styles.link}>
             Dashboard
           </Link>
-          <Link to="users" className={styles.link}>
+          <Link to="/users" className={styles.link}>
             Users
           </Link>
-          <Link to="breweries" className={styles.link}>
+          <Link to="/breweries" className={styles.link}>
             Breweries
           </Link>
-          <Link to="beers" className={styles.link}>
+          <Link to="/beers" className={styles.link}>
             Beers
           </Link>
         </span>
