@@ -13,15 +13,17 @@ export class GenericInput extends React.Component {
         {({ input, meta }) => (
           <div className={styles.container}>
             {this.label && <label className={styles.label}>{this.label}</label>}
-            <span className={styles.inputContainer}>
+            <div className={styles.inputContainer}>
               <input
                 className={styles.input}
                 {...input}
                 placeholder={this.placeholder}
                 type={this.type}
               />
-            </span>
-            {meta.error && meta.touched && <span>{meta.error}</span>}
+            </div>
+            {meta.error && meta.touched && (
+              <span className={styles.error}>{meta.error}</span>
+            )}
           </div>
         )}
       </Field>

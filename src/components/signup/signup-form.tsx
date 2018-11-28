@@ -12,22 +12,30 @@ export class SignupForm extends React.Component {
   public render() {
     return (
       <div className={styles.content}>
+        <h1>Sign up for Beer Cellar</h1>
         <p>
           Let us know a bit about you. Your email is safe with us. We will only
           email you with service updates, unless you opt-in for more.
         </p>
-        <Form
-          onSubmit={this.onSubmit}
-          validate={this.validate}
-          render={({ handleSubmit, pristine, invalid }) => (
-            <form onSubmit={handleSubmit}>
-              <Username />
-              <Email />
-              <Password />
-              <SubmitButton disabled={pristine || invalid} />
-            </form>
-          )}
-        />
+        <div className={styles.formContainer}>
+          <Form
+            onSubmit={this.onSubmit}
+            validate={this.validate}
+            render={({ handleSubmit, pristine, invalid }) => (
+              <form onSubmit={handleSubmit}>
+                <Username />
+                <Email />
+                <Password />
+                <SubmitButton
+                  className={styles.submit}
+                  disabled={pristine || invalid}
+                >
+                  Signup
+                </SubmitButton>
+              </form>
+            )}
+          />
+        </div>
       </div>
     );
   }

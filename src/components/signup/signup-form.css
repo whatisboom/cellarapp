@@ -5,3 +5,12 @@
 .content p {
   padding-bottom: 1.25rem;
 }
+
+.formContainer {
+  max-width: 275px;
+  margin: auto;
+}
+
+.submit {
+  float: right;
+}
