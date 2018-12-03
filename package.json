@@ -12,9 +12,10 @@
     "node": "11.2.0"
   },
   "dependencies": {
+    "@material-ui/core": "3.6.1",
     "@reach/router": "1.2.1",
-    "base.css": "1.0.0",
     "final-form": "4.10.0",
+    "normalize.css": "8.0.1",
     "react": "16.6.3",
     "react-dom": "16.6.3",
     "react-final-form": "3.6.7",
@@ -33,9 +34,7 @@
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
     "jest": "23.6.0",
-    "normalize.css": "8.0.1",
     "parcel-bundler": "1.10.3",
-    "postcss-modules": "1.4.1",
     "react-testing-library": "5.3.0",
     "ts-jest": "23.10.5",
     "typescript": "3.1.6"

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Link } from '@reach/router';
-const styles = require('./list.css');
 
 interface IComponentProps {
   item: any;
@@ -14,10 +13,8 @@ export class ListItem extends React.Component<IComponentProps> {
     const text = this.formatText(format, item);
     // convert to item[key]
     return (
-      <li key={item._id} className={styles.listItem}>
-        <Link to={item[toKey]} className={styles.listItemLink}>
-          {text}
-        </Link>
+      <li key={item._id}>
+        <Link to={item[toKey]}>{text}</Link>
       </li>
     );
   }

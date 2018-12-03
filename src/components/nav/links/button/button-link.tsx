@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Link } from '@reach/router';
-const styles = require('./button-link.css');
 
 export interface ButtonLinkProps {
   to: string;
@@ -9,10 +8,6 @@ export interface ButtonLinkProps {
 export class ButtonLink extends React.Component<ButtonLinkProps> {
   public render() {
     const { children, to } = this.props;
-    return (
-      <Link className={styles.button} to={to}>
-        {children}
-      </Link>
-    );
+    return <Link to={to}>{children}</Link>;
   }
 }
