@@ -24,3 +24,10 @@
 .justifyEnd {
   justify-content: flex-end;
 }
+
+.logo {
+  padding: 5px;
+  border-radius: 50%;
+  background: hsla(49, 7%, 84%, 0.7);
+  color: rgba(0, 0, 0, 0.65);
+}

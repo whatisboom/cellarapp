@@ -8,7 +8,7 @@ export class UnauthenticatedNav extends React.Component {
       <nav className={styles.nav}>
         <span className={styles.section}>
           <Link to="/" className={styles.link}>
-            Home
+            <span className={styles.logo}>bc</span>
           </Link>
         </span>
         <span className={[styles.section, styles.justifyEnd].join(' ')}>
