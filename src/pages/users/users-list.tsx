@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
 import { CellarApiResource } from '../../services/api';
-import { Loader } from '../../components/loaders/loader';
+import Loader from '../../components/loaders/loader';
 import { IUserResponse, IUser } from '../../types';
 import {
   Theme,
@@ -10,7 +10,7 @@ import {
   withStyles
 } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { CellarApiResource } from '../services/api';
 import { IUserResponse, IUser } from 'types';
-import { Loader } from '../components/loaders/loader';
+import Loader from '../components/loaders/loader';
 import { WithStyles, withStyles } from '@material-ui/core/styles';
 
 interface DashboardProps extends WithStyles {
