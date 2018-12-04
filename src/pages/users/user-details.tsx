@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
 import { IQuantity, IUser, IUserResponse, IBeer, IBrewery } from 'types';
 import { CellarApiResource } from '../../services/api';
-import { Loader } from '../../components/loaders';
+import Loader from '../../components/loaders/loader';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
