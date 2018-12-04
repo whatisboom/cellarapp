@@ -1,17 +1,20 @@
 import * as React from 'react';
-import { RouteComponentProps } from '@reach/router';
-import { IUser, IUserResponse } from 'types';
+import { RouteComponentProps, Link } from '@reach/router';
+import { IQuantity, IUser, IUserResponse } from 'types';
 import { CellarApiResource } from '../../services/api';
-import { Loader } from '../../components/loaders/loader';
+import { Loader } from '../../components/loaders';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import {
-  Typography,
-  Grid,
   Theme,
   createStyles,
   WithStyles,
-  withStyles,
-  Paper
-} from '@material-ui/core';
+  withStyles
+} from '@material-ui/core/styles';
 
 interface UserDetailsState {
   user?: IUser;
@@ -30,6 +33,20 @@ const styles = (theme: Theme) =>
     },
     cell: {
       padding: theme.spacing.unit * 1
+    },
+    beerName: {
+      fontWeight: 800,
+      textDecoration: 'none'
+    },
+    amount: {
+      color: theme.palette.primary.dark
+    },
+    beerList: {
+      margin: theme.spacing.unit * 2
+    },
+    listLink: {
+      display: 'block',
+      width: '100%'
     }
   });
 
@@ -56,24 +73,63 @@ export class UserDetails extends React.Component<
   public render() {
     const { loading, user } = this.state;
     const { classes } = this.props;
+
     if (loading) {
       return <Loader />;
     }
+
     return (
-      <Paper className={classes.paper}>
-        <Grid container>
-          <Grid item xs={6} className={classes.cell}>
-            <img
-              className={classes.avatar}
-              src={user.avatar}
-              alt={user.username}
-            />
+      <React.Fragment>
+        <Paper className={classes.paper}>
+          <Grid container>
+            <Grid item xs={4} className={classes.cell}>
+              <img
+                className={classes.avatar}
+                src={user.avatar}
+                alt={user.username}
+              />
+            </Grid>
+            <Grid item xs={8} className={classes.cell}>
+              <Typography variant="h6">{user.username}</Typography>
+              {user.location && (
+                <Typography component="span">{user.location}</Typography>
+              )}
+            </Grid>
           </Grid>
-          <Grid item xs={6} className={classes.cell}>
-            <Typography variant="h6">{user.username}</Typography>
-          </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+        <List
+          className={classes.beerList}
+          component="ul"
+          subheader={<Typography variant="h6">Inventory</Typography>}
+        >
+          {user.owned.map(({ beer, amount }: IQuantity) => {
+            return (
+              <ListItem key={beer._id} disableGutters={true}>
+                <ListItemText
+                  className={classes.beerName}
+                  primary={
+                    <Link
+                      className={classes.listLink}
+                      to={`/beers/${beer.slug}`}
+                    >
+                      {beer.name}
+                    </Link>
+                  }
+                  secondary={
+                    <Link
+                      className={classes.listLink}
+                      to={`/breweries/${beer.brewery.slug}`}
+                    >
+                      {beer.brewery.name}
+                    </Link>
+                  }
+                />
+                <Typography className={classes.amount}>{amount}</Typography>
+              </ListItem>
+            );
+          })}
+        </List>
+      </React.Fragment>
     );
   }
 

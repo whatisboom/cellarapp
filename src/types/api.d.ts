@@ -11,14 +11,14 @@ export interface IUser {
   role: string;
   firstName: string;
   lastName: string;
-  owned: Array<
-    | string
-    | {
-        amount: number;
-        beer: IBeer;
-      }
-  >;
+  owned: IQuantity[];
   avatar: string;
+  location: string;
+  social: {
+    twitter: string;
+    untappd: string;
+    instagram: string;
+  };
 }
 
 export interface IUserResponse {
@@ -34,6 +34,7 @@ export interface IBeer {
   name: string;
   abv: number;
   brewery: IBrewery;
+  slug: string;
 }
 
 export interface IBeerResponse {
@@ -49,6 +50,7 @@ export interface IBrewery {
   city: string;
   state: string;
   beers: IBeer[];
+  slug: string;
 }
 
 export interface IBreweryResponse {
@@ -57,4 +59,10 @@ export interface IBreweryResponse {
 
 export interface IBreweriesResponse {
   breweries: IBrewery[];
+}
+
+export interface IQuantity {
+  _id: string;
+  amount: number;
+  beer: IBeer;
 }
