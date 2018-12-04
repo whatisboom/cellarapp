@@ -1,41 +1,36 @@
 import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
 import { CellarApiResource } from '../../services/api';
-import { IBrewery, IBreweriesResponse } from '../../types';
+import { IBeersResponse, IBeer } from '../../types';
 import { List } from '../../components/lists/list';
 import { ListItem } from '../../components/lists/list-item';
 import { Loader } from '../../components/loaders/loader';
 
 interface IComponentState {
-  breweries?: IBrewery[];
+  beers?: IBeer[];
   loading: boolean;
 }
 
-export class BreweriesListContainer extends React.Component<
-  RouteComponentProps
-> {
+export class BeersListContainer extends React.Component<RouteComponentProps> {
   public state: IComponentState = {
     loading: true
   };
 
-  public resource = new CellarApiResource<null, IBreweriesResponse>({
-    path: '/breweries'
+  public resource = new CellarApiResource<null, IBeersResponse>({
+    path: '/beers'
   });
 
   public render() {
     return (
       <div>
-        <h1>Breweries</h1>
-        <div>
-          toolbar: <Link to="add">Add</Link>
-        </div>
+        <h1>Beers</h1>
         {this.state.loading ? (
           <Loader />
         ) : (
           <List
             listItemComponent={ListItem}
-            items={this.state.breweries}
-            format="%name% (%city%, %state%)"
+            items={this.state.beers}
+            format="%name% (%abv%%)"
             toKey="slug"
           />
         )}
@@ -44,9 +39,9 @@ export class BreweriesListContainer extends React.Component<
   }
   public async componentDidMount() {
     try {
-      const { breweries } = await this.resource.list();
+      const { beers } = await this.resource.list();
       this.setState({
-        breweries,
+        beers,
         loading: false
       });
     } catch (e) {}

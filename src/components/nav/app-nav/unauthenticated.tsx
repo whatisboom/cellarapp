@@ -1,25 +1,54 @@
 import * as React from 'react';
 import { Link } from '@reach/router';
-const styles = require('./app-nav.css');
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import {
+  withStyles,
+  createStyles,
+  WithStyles,
+  Theme
+} from '@material-ui/core/styles';
 
-export class UnauthenticatedNav extends React.Component {
+const styles = (theme: Theme) =>
+  createStyles({
+    link: {
+      textDecoration: 'none',
+      color: theme.palette.common.white,
+      marginLeft: theme.spacing.unit * 2
+    },
+    grow: {
+      flexGrow: 1
+    }
+  });
+
+interface StyledComponentProps extends WithStyles<typeof styles> {}
+
+export class UnauthenticatedNav extends React.Component<StyledComponentProps> {
   public render() {
+    const { classes } = this.props;
     return (
-      <nav className={styles.nav}>
-        <span className={styles.section}>
-          <Link to="/" className={styles.link}>
-            <span className={styles.logo}>bc</span>
-          </Link>
-        </span>
-        <span className={[styles.section, styles.justifyEnd].join(' ')}>
-          <Link to="/signin" className={styles.link}>
-            Signin
-          </Link>
-          <Link to="/signup" className={styles.link}>
-            Signup
-          </Link>
-        </span>
-      </nav>
+      <div className={classes.grow}>
+        <AppBar>
+          <Toolbar>
+            <Typography variant="h6" className={classes.grow}>
+              <Link className={[classes.link].join(' ')} to="/">
+                bc
+              </Link>
+            </Typography>
+            <Typography variant="h6">
+              <Link className={classes.link} to="/signin">
+                Signin
+              </Link>
+              <Link className={classes.link} to="/signup">
+                Signup
+              </Link>
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </div>
     );
   }
 }
+
+export default withStyles(styles)(UnauthenticatedNav);

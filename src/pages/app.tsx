@@ -1,21 +1,24 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Router } from '@reach/router';
-import { Home } from './Home';
-import { Beers, BeersListContainer, BeerDetails } from './Beers';
-import { Users, UsersListContainer, UserDetails } from './Users';
-import { Breweries, BreweriesListContainer, BreweryDetails } from './Breweries';
-import { Signup } from './Signup';
-import { Signin } from './Signin';
-import { Logout } from './Logout';
-import { Dashboard } from './Dashboard';
+
+import { Home } from './home';
+import { Beers } from './beers';
+import { Users } from './users';
+import { Breweries } from './breweries';
+import { Signup } from './signup';
+import { Signin } from './signin';
+import { Logout } from './logout';
+import Dashboard from './dashboard';
 import { AppNav } from '../components/nav';
 import { AuthService } from '../services/auth';
 import { CellarApiResource } from '../services/api';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 import { IUserResponse, IUser } from '../types';
 
 interface IComponentProps {
-  signedInUser?: any;
+  signedInUser?: IUser;
   signin: (user: IUser) => void;
   logout: () => void;
 }
@@ -35,28 +38,24 @@ export class App extends React.Component<IComponentProps> {
     const { signedInUser } = this.props;
     return (
       <React.Fragment>
+        <CssBaseline />
         <Router primary={false}>
-          <AppNav path=":page" signedInUser={signedInUser} />
+          <AppNav path=":page/*" signedInUser={signedInUser} />
         </Router>
         <Router>
           <Home path="/" />
-          <Signup path="signup" />
-          <Signin path="signin" />
-          <Logout path="logout" logout={this.props.logout} />
-          <Dashboard path="dashboard" signin={this.props.signin} />
-          <Users path="users">
-            <UsersListContainer default path="/" />
-            <UserDetails path=":username" />
-          </Users>
-          <Beers path="beers">
-            <BeersListContainer default path="/" />
-            <BeerDetails path=":slug" />
-          </Beers>
-          <Breweries path="breweries">
-            <BreweriesListContainer default path="/" />
-            <BreweryDetails path=":slug" />
-          </Breweries>
         </Router>
+        <div style={{ paddingTop: '60px' }}>
+          <Router>
+            <Signup path="signup" />
+            <Signin path="signin" />
+            <Logout path="logout" logout={this.props.logout} />
+            <Dashboard path="dashboard" signin={this.props.signin} />
+            <Users path="users/*" />
+            <Beers path="beers/*" />
+            <Breweries path="breweries/*" />
+          </Router>
+        </div>
       </React.Fragment>
     );
   }

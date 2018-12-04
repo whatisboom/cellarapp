@@ -11,6 +11,13 @@ export interface IUser {
   role: string;
   firstName: string;
   lastName: string;
+  owned: Array<
+    | string
+    | {
+        amount: number;
+        beer: IBeer;
+      }
+  >;
 }
 
 export interface IUserResponse {
