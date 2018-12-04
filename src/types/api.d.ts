@@ -18,6 +18,7 @@ export interface IUser {
         beer: IBeer;
       }
   >;
+  avatar: string;
 }
 
 export interface IUserResponse {
