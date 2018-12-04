@@ -42,9 +42,11 @@ export class App extends React.Component<IComponentProps> {
         <Router primary={false}>
           <AppNav path=":page/*" signedInUser={signedInUser} />
         </Router>
+        <Router>
+          <Home path="/" />
+        </Router>
         <div style={{ paddingTop: '60px' }}>
           <Router>
-            <Home path="/" />
             <Signup path="signup" />
             <Signin path="signin" />
             <Logout path="logout" logout={this.props.logout} />
