@@ -30,7 +30,7 @@ export class UnauthenticatedNav extends React.Component<StyledComponentProps> {
     return (
       <div className={classes.grow}>
         <AppBar>
-          <Toolbar variant="dense">
+          <Toolbar>
             <Typography variant="h6" className={classes.grow}>
               <Link className={[classes.link].join(' ')} to="/">
                 bc

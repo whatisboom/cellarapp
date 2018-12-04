@@ -24,9 +24,6 @@ export class UsersListContainer extends React.Component<RouteComponentProps> {
     return (
       <div>
         <h1>Users</h1>
-        <div>
-          toolbar: <Link to="add">Add</Link>
-        </div>
         {this.state.loading ? (
           <Loader />
         ) : (

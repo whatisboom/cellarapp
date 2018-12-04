@@ -26,9 +26,6 @@ export class BreweriesListContainer extends React.Component<
     return (
       <div>
         <h1>Breweries</h1>
-        <div>
-          toolbar: <Link to="add">Add</Link>
-        </div>
         {this.state.loading ? (
           <Loader />
         ) : (

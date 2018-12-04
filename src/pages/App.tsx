@@ -42,16 +42,18 @@ export class App extends React.Component<IComponentProps> {
         <Router primary={false}>
           <AppNav path=":page/*" signedInUser={signedInUser} />
         </Router>
-        <Router>
-          <Home path="/" />
-          <Signup path="signup" />
-          <Signin path="signin" />
-          <Logout path="logout" logout={this.props.logout} />
-          <Dashboard path="dashboard" signin={this.props.signin} />
-          <Users path="users/*" />
-          <Beers path="beers/*" />
-          <Breweries path="breweries/*" />
-        </Router>
+        <div style={{ paddingTop: '60px' }}>
+          <Router>
+            <Home path="/" />
+            <Signup path="signup" />
+            <Signin path="signin" />
+            <Logout path="logout" logout={this.props.logout} />
+            <Dashboard path="dashboard" signin={this.props.signin} />
+            <Users path="users/*" />
+            <Beers path="beers/*" />
+            <Breweries path="breweries/*" />
+          </Router>
+        </div>
       </React.Fragment>
     );
   }

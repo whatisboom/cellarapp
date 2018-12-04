@@ -1,23 +1,63 @@
 import * as React from 'react';
 import { Link } from '@reach/router';
-import { NavUserDropdown } from './nav-user-dropdown';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import {
+  withStyles,
+  createStyles,
+  WithStyles,
+  Theme
+} from '@material-ui/core/styles';
 
-interface IComponentProps {
-  user: any;
+import { NavUserDropdown } from './nav-user-dropdown';
+import { IUser } from 'types';
+
+const styles = (theme: Theme) =>
+  createStyles({
+    link: {
+      textDecoration: 'none',
+      color: theme.palette.common.white,
+      marginRight: theme.spacing.unit * 2
+    },
+    grow: {
+      flexGrow: 1
+    }
+  });
+
+interface StyledComponentProps extends WithStyles<typeof styles> {
+  user: IUser;
 }
 
-export class AuthenticatedNav extends React.Component<IComponentProps> {
+export class AuthenticatedNav extends React.Component<StyledComponentProps> {
   public render() {
+    const { classes } = this.props;
     return (
-      <nav>
-        <span>
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/users">Users</Link>
-          <Link to="/breweries">Breweries</Link>
-          <Link to="/beers">Beers</Link>
-        </span>
-        <NavUserDropdown user={this.props.user} />
-      </nav>
+      <div className={classes.grow}>
+        <AppBar>
+          <Toolbar>
+            <Typography variant="h6" className={classes.grow}>
+              <Link className={classes.link} to="/dashboard">
+                Dashboard
+              </Link>
+              <Link className={classes.link} to="/users">
+                Users
+              </Link>
+              <Link className={classes.link} to="/breweries">
+                Breweries
+              </Link>
+              <Link className={classes.link} to="/beers">
+                Beers
+              </Link>
+            </Typography>
+            <Typography variant="h6">
+              <NavUserDropdown user={this.props.user} />
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </div>
     );
   }
 }
+
+export default withStyles(styles)(AuthenticatedNav);
