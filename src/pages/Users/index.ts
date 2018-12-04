@@ -1,3 +1,3 @@
-export * from './UserDetails';
-export * from './Users';
-export * from './UsersList';
+export * from './user-details';
+export * from './users';
+export * from './users-list';

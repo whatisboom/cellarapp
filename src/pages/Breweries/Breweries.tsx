@@ -1,8 +1,14 @@
 import * as React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { RouteComponentProps, Router } from '@reach/router';
+import { BreweriesListContainer, BreweryDetails } from './index';
 
 export class Breweries extends React.Component<RouteComponentProps> {
   public render() {
-    return this.props.children;
+    return (
+      <Router>
+        <BreweriesListContainer default path="/" />
+        <BreweryDetails path=":slug" />
+      </Router>
+    );
   }
 }

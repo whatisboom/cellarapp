@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 
 (async () => {
-  const { AppConnected } = await import('./pages/App');
+  const { AppConnected } = await import('./pages/app');
   render(
     <Provider store={store}>
       <AppConnected />

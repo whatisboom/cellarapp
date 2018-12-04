@@ -1,3 +1,3 @@
-export * from './BeerDetails';
-export * from './Beers';
-export * from './BeersList';
+export * from './beer-details';
+export * from './beers';
+export * from './beers-list';

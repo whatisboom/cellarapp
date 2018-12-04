@@ -1,8 +1,13 @@
 import * as React from 'react';
-import { RouteComponentProps } from '@reach/router';
-
+import { RouteComponentProps, Router } from '@reach/router';
+import { UserDetails, UsersListContainer } from './index';
 export class Users extends React.Component<RouteComponentProps> {
   public render() {
-    return this.props.children;
+    return (
+      <Router>
+        <UsersListContainer default path="/" />
+        <UserDetails path=":username" />
+      </Router>
+    );
   }
 }

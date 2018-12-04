@@ -3,8 +3,9 @@ import { RouteComponentProps } from '@reach/router';
 import { CellarApiResource } from '../services/api';
 import { IUserResponse, IUser } from 'types';
 import { Loader } from '../components/loaders/loader';
+import { WithStyles, withStyles } from '@material-ui/core/styles';
 
-interface IComponentProps {
+interface DashboardProps extends WithStyles {
   signin: (user: IUser) => void;
 }
 
@@ -14,7 +15,7 @@ interface IComponentState {
 }
 
 export class Dashboard extends React.Component<
-  RouteComponentProps<IComponentProps>
+  RouteComponentProps<DashboardProps>
 > {
   public state: IComponentState = {
     loading: true
@@ -43,3 +44,5 @@ export class Dashboard extends React.Component<
     } catch (e) {}
   }
 }
+
+export default withStyles({})(Dashboard);

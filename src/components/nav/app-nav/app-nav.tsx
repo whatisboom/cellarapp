@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { AuthenticatedNav, UnauthenticatedNav } from './index';
+import UnauthenticatedNav from './unauthenticated';
+import { AuthenticatedNav } from './index';
 import { IUser } from '../../../types';
 interface IComponentProps {
   signedInUser: IUser;

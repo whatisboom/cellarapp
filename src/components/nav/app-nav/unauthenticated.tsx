@@ -1,20 +1,54 @@
 import * as React from 'react';
 import { Link } from '@reach/router';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import {
+  withStyles,
+  createStyles,
+  WithStyles,
+  Theme
+} from '@material-ui/core/styles';
 
-export class UnauthenticatedNav extends React.Component {
+const styles = (theme: Theme) =>
+  createStyles({
+    link: {
+      textDecoration: 'none',
+      color: theme.palette.common.white,
+      marginLeft: theme.spacing.unit * 2
+    },
+    grow: {
+      flexGrow: 1
+    }
+  });
+
+interface StyledComponentProps extends WithStyles<typeof styles> {}
+
+export class UnauthenticatedNav extends React.Component<StyledComponentProps> {
   public render() {
+    const { classes } = this.props;
     return (
-      <nav>
-        <span>
-          <Link to="/">
-            <span>bc</span>
-          </Link>
-        </span>
-        <span>
-          <Link to="/signin">Signin</Link>
-          <Link to="/signup">Signup</Link>
-        </span>
-      </nav>
+      <div className={classes.grow}>
+        <AppBar>
+          <Toolbar variant="dense">
+            <Typography variant="h6" className={classes.grow}>
+              <Link className={[classes.link].join(' ')} to="/">
+                bc
+              </Link>
+            </Typography>
+            <Typography variant="h6">
+              <Link className={classes.link} to="/signin">
+                Signin
+              </Link>
+              <Link className={classes.link} to="/signup">
+                Signup
+              </Link>
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </div>
     );
   }
 }
+
+export default withStyles(styles)(UnauthenticatedNav);
