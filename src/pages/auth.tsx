@@ -17,6 +17,10 @@ export class Auth extends React.Component<RouteComponentProps> {
   });
 
   public async componentWillMount() {
+    this.getCode();
+  }
+
+  public async getCode() {
     const code = this.parseQS(this.props.location.search).get('code');
     try {
       const response: IUserResponse = await this.resource.create({
@@ -25,9 +29,7 @@ export class Auth extends React.Component<RouteComponentProps> {
       this.setState({
         loading: false
       });
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   }
 
   public render() {
