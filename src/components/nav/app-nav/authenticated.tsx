@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Link } from '@reach/router';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import {
+  AppBar,
+  Toolbar,
+  Typography,
   withStyles,
   createStyles,
   WithStyles,
   Theme
-} from '@material-ui/core/styles';
+} from '@material-ui/core';
 
 import { NavUserDropdown } from './nav-user-dropdown';
 import { IUser } from 'types';

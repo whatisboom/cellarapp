@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { IBrewery, IBreweryResponse } from 'types';
 import { CellarApiResource } from '../../services/api';
-import { Loader } from '../../components/loaders/loader';
+import Loader from '../../components/loaders/loader';
 import { List } from '../../components/lists/list';
 import { ListItem } from '../../components/lists/list-item';
 

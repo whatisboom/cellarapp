@@ -4,7 +4,7 @@ import { CellarApiResource } from '../../services/api';
 import { IBrewery, IBreweriesResponse } from '../../types';
 import { List } from '../../components/lists/list';
 import { ListItem } from '../../components/lists/list-item';
-import { Loader } from '../../components/loaders/loader';
+import Loader from '../../components/loaders/loader';
 
 interface IComponentState {
   breweries?: IBrewery[];
