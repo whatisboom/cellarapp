@@ -16,7 +16,9 @@ export class Auth extends React.Component<RouteComponentProps> {
     path: '/auth/oauth/untappd'
   });
 
-  public async componentWillMount() {
+  public async componentWillMount() {}
+
+  public async getCode() {
     const code = this.parseQS(this.props.location.search).get('code');
     try {
       const response: IUserResponse = await this.resource.create({
