@@ -16,7 +16,9 @@ export class Auth extends React.Component<RouteComponentProps> {
     path: '/auth/oauth/untappd'
   });
 
-  public async componentWillMount() {}
+  public async componentWillMount() {
+    this.getCode();
+  }
 
   public async getCode() {
     const code = this.parseQS(this.props.location.search).get('code');
@@ -27,9 +29,7 @@ export class Auth extends React.Component<RouteComponentProps> {
       this.setState({
         loading: false
       });
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   }
 
   public render() {
