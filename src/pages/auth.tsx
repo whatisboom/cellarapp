@@ -39,7 +39,7 @@ export class Auth extends React.Component<RouteComponentProps> {
     return this.state.loading ? (
       <div>Creating account...</div>
     ) : (
-      <div>Account created! Redirecting...</div>
+      <div>Successfully signed in! Redirecting...</div>
     );
   }
 

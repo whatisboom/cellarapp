@@ -7,8 +7,6 @@ import { Auth } from './auth';
 import { Beers } from './beers';
 import { Users } from './users';
 import { Breweries } from './breweries';
-import { Signup } from './signup';
-import { Signin } from './signin';
 import { Logout } from './logout';
 import Dashboard from './dashboard';
 import { AppNav } from '../components/nav';
@@ -49,8 +47,6 @@ export class App extends React.Component<IComponentProps> {
         <div style={{ paddingTop: '60px' }}>
           <Router>
             <Auth path="auth/*" />
-            <Signup path="signup" />
-            <Signin path="signin" />
             <Logout path="logout" logout={this.props.logout} />
             <Dashboard path="dashboard" signin={this.props.signin} />
             <Users path="users/*" />
