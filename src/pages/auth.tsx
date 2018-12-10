@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { RouteComponentProps, navigate } from '@reach/router';
 import { CellarApiResource } from '../services/api';
-import { IUserResponse } from 'types';
+import { ILoginResponse } from 'types';
+import { AuthService } from '../services/auth';
 
 export interface AuthState {
   loading: boolean;
@@ -12,22 +13,24 @@ export class Auth extends React.Component<RouteComponentProps> {
     loading: true
   };
 
-  private resource = new CellarApiResource<{ code: string }, IUserResponse>({
+  private resource = new CellarApiResource<{ code: string }, ILoginResponse>({
     path: '/auth/oauth/untappd'
   });
 
   public async componentWillMount() {
-    this.getCode();
+    const response = await this.getCode();
+    AuthService.saveTokens(response);
+    this.setState({
+      loading: false
+    });
+    navigate('/dashboard');
   }
 
-  public async getCode() {
+  public async getCode(): Promise<ILoginResponse> {
     const code = this.parseQS(this.props.location.search).get('code');
     try {
-      const response: IUserResponse = await this.resource.create({
+      return await this.resource.create({
         code
-      });
-      this.setState({
-        loading: false
       });
     } catch (e) {}
   }
