@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Router } from '@reach/router';
 
 import { Home } from './home';
+import { Auth } from './auth';
 import { Beers } from './beers';
 import { Users } from './users';
 import { Breweries } from './breweries';
@@ -47,6 +48,7 @@ export class App extends React.Component<IComponentProps> {
         </Router>
         <div style={{ paddingTop: '60px' }}>
           <Router>
+            <Auth path="auth/*" />
             <Signup path="signup" />
             <Signin path="signin" />
             <Logout path="logout" logout={this.props.logout} />
