@@ -21,9 +21,7 @@ export class Home extends React.Component<RouteComponentProps> {
           </ul>
         </div>
         <div>
-          <ButtonLink to="/signin">Signin</ButtonLink>
-          <span> or </span>
-          <ButtonLink to="/signup">Signup</ButtonLink>
+          <ButtonLink to="/auth">Signin or Signup</ButtonLink>
         </div>
       </React.Fragment>
     );

@@ -1,14 +1,40 @@
 import * as React from 'react';
-import { RouteComponentProps, navigate } from '@reach/router';
-import { CellarApiResource } from '../services/api';
-import { ILoginResponse } from 'types';
-import { AuthService } from '../services/auth';
+import { RouteComponentProps, navigate, Router } from '@reach/router';
+import { AuthService, CellarApiResource } from '../../services';
+import { ILoginResponse } from '../../types';
 
 export interface AuthState {
   loading: boolean;
 }
 
 export class Auth extends React.Component<RouteComponentProps> {
+  render() {
+    return (
+      <Router>
+        <SignupSignin default path="/" />
+        <OAuthUntappd path="oauth/untappd" />
+      </Router>
+    );
+  }
+}
+
+export class SignupSignin extends React.Component<RouteComponentProps> {
+  render() {
+    return (
+      <div>
+        <a
+          href={`https://untappd.com/oauth/authenticate/?client_id=${
+            process.env.UNTAPPD_CLIENT_ID
+          }&response_type=code&redirect_url=https://app.beercellar.io/auth/oauth/untappd`}
+        >
+          Authenticate via Untappd
+        </a>
+      </div>
+    );
+  }
+}
+
+export class OAuthUntappd extends React.Component<RouteComponentProps> {
   public state: AuthState = {
     loading: true
   };
@@ -37,9 +63,9 @@ export class Auth extends React.Component<RouteComponentProps> {
 
   public render() {
     return this.state.loading ? (
-      <div>Creating account...</div>
+      <div>Authenticating...</div>
     ) : (
-      <div>Successfully signed in! Redirecting...</div>
+      <div>Successfully signed in! Redirecting to your dashboard!</div>
     );
   }
 

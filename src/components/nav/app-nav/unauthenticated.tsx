@@ -37,11 +37,8 @@ export class UnauthenticatedNav extends React.Component<StyledComponentProps> {
               </Link>
             </Typography>
             <Typography variant="h6">
-              <Link className={classes.link} to="/signin">
-                Signin
-              </Link>
-              <Link className={classes.link} to="/signup">
-                Signup
+              <Link className={classes.link} to="/auth">
+                Signin or Signup
               </Link>
             </Typography>
           </Toolbar>
