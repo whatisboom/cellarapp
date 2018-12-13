@@ -10,7 +10,7 @@ import {
   Theme
 } from '@material-ui/core';
 
-import { NavUserDropdown } from './nav-user-dropdown';
+import NavUserDropdown from './nav-user-dropdown/nav-user-dropdown';
 import { IUser } from 'types';
 
 const styles = (theme: Theme) =>
@@ -39,15 +39,6 @@ export class AuthenticatedNav extends React.Component<StyledComponentProps> {
             <Typography variant="h6" className={classes.grow}>
               <Link className={classes.link} to="/dashboard">
                 Dashboard
-              </Link>
-              <Link className={classes.link} to="/users">
-                Users
-              </Link>
-              <Link className={classes.link} to="/breweries">
-                Breweries
-              </Link>
-              <Link className={classes.link} to="/beers">
-                Beers
               </Link>
             </Typography>
             <Typography variant="h6">
