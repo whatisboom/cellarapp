@@ -4,6 +4,7 @@ export function getJWT(): string {
   // if jwt is expired, get a new one?
   return localStorage.getItem(JWT_KEY);
 }
+
 export function decodeJWT(): any {
   const jwt: string = getJWT();
   if (!jwt) {
@@ -12,6 +13,7 @@ export function decodeJWT(): any {
   const payload: string = jwt.split('.')[1];
   return JSON.parse(atob(payload));
 }
+
 export function refreshToken(): void {}
 
 export function isJWTValid(): boolean {
