@@ -25,7 +25,9 @@ export class SignupSignin extends React.Component<RouteComponentProps> {
         <a
           href={`https://untappd.com/oauth/authenticate/?client_id=${
             process.env.UNTAPPD_CLIENT_ID
-          }&response_type=code&redirect_url=https://app.beercellar.io/auth/oauth/untappd`}
+          }&response_type=code&redirect_url=${
+            process.env.UNTAPPD_REDIRECT_URL
+          }`}
         >
           Authenticate via Untappd
         </a>
