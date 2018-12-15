@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { Link, RouteComponentProps } from '@reach/router';
 import { CellarApiResource } from '../services/api';
-import { IUserResponse, IUser } from 'types';
+import { IUserResponse, IUser, IQuantity, IBeer, IBrewery } from 'types';
 import Loader from '../components/loaders/loader';
 import { WithStyles, withStyles } from '@material-ui/core/styles';
 import {
@@ -9,7 +9,10 @@ import {
   Paper,
   Grid,
   Theme,
-  createStyles
+  createStyles,
+  ListItem,
+  List,
+  ListItemText
 } from '@material-ui/core';
 import UserCard from '../components/cards/user-card';
 
@@ -76,6 +79,7 @@ export class Dashboard extends React.Component<
     return (
       <React.Fragment>
         <UserCard user={user} />
+        {this.getBeerList('owned', 'Inventory')}
       </React.Fragment>
     );
   }
@@ -89,6 +93,57 @@ export class Dashboard extends React.Component<
       });
       this.props.signin(user);
     } catch (e) {}
+  }
+
+  public getBeerList(key: 'owned', subheading: string = ''): React.ReactNode {
+    const { user } = this.state;
+    const { classes } = this.props;
+    return (
+      <List
+        className={classes.beerList}
+        component="ul"
+        subheader={<Typography variant="h6">{subheading}</Typography>}
+      >
+        {user[key].map((row: IQuantity) => {
+          return this.getBeerListItem(row);
+        })}
+      </List>
+    );
+  }
+
+  public getBeerListItem({ beer, amount }: IQuantity): React.ReactNode {
+    const { classes } = this.props;
+    return (
+      <ListItem key={beer._id} disableGutters={true}>
+        <ListItemText
+          className={classes.beerName}
+          primary={this.getBeerLink(beer)}
+          secondary={this.getBreweryLink(beer.brewery)}
+        />
+        <Typography className={classes.amount}>{amount}</Typography>
+      </ListItem>
+    );
+  }
+
+  public getBeerLink(beer: IBeer): React.ReactNode {
+    const { classes } = this.props;
+    return (
+      <Link className={classes.listLink} to={`/beers/${beer.slug}`}>
+        {beer.name}
+      </Link>
+    );
+  }
+
+  public getBreweryLink(brewery: IBrewery): React.ReactNode {
+    const { classes } = this.props;
+    return (
+      <Link
+        className={[classes.listLink, classes.breweryName].join(' ')}
+        to={`/breweries/${brewery.slug}`}
+      >
+        {brewery.name}
+      </Link>
+    );
   }
 }
 
