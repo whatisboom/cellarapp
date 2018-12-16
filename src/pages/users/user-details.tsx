@@ -78,7 +78,6 @@ export class UserDetails extends React.Component<
 
   public render() {
     const { loading, user } = this.state;
-    const { classes } = this.props;
 
     if (loading) {
       return <Loader />;
