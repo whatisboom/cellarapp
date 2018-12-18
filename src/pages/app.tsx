@@ -5,6 +5,7 @@ import { Router } from '@reach/router';
 import { Home } from './home';
 import { Auth } from './auth';
 import { Beers } from './beers';
+import { Search } from './search';
 import { Users } from './users';
 import { Breweries } from './breweries';
 import { Logout } from './logout';
@@ -52,6 +53,7 @@ export class App extends React.Component<IComponentProps> {
             <Users path="users/*" />
             <Beers path="beers/*" />
             <Breweries path="breweries/*" />
+            <Search path="search/*" />
           </Router>
         </div>
       </React.Fragment>

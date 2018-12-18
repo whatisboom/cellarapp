@@ -4,8 +4,6 @@ import { IQuantity, IUser, IUserResponse, IBeer, IBrewery } from 'types';
 import { CellarApiResource } from '../../services/api';
 import Loader from '../../components/loaders/loader';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';

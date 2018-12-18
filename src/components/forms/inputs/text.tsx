@@ -5,7 +5,7 @@ interface TextProps {
 }
 
 export class Text extends GenericInput<TextProps> {
-  public type: string = 'string';
+  public type: string = 'text';
   componentWillMount() {
     this.name = this.props.name;
   }

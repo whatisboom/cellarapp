@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, RouteComponentProps } from '@reach/router';
+import { Link, RouteComponentProps, navigate } from '@reach/router';
 import { CellarApiResource } from '../services/api';
 import { IUserResponse, IUser, IQuantity, IBeer, IBrewery } from 'types';
 import Loader from '../components/loaders/loader';
@@ -14,6 +14,7 @@ import {
   List,
   ListItemText
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import UserCard from '../components/cards/user-card';
 
 const styles = (theme: Theme) =>
@@ -47,6 +48,11 @@ const styles = (theme: Theme) =>
     },
     breweryName: {
       opacity: 0.6
+    },
+    addIcon: {
+      float: 'right',
+      position: 'relative',
+      top: theme.spacing.unit
     }
   });
 
@@ -71,7 +77,6 @@ export class Dashboard extends React.Component<
   });
 
   public render() {
-    const { classes } = this.props;
     const { user, loading } = this.state;
     if (loading) {
       return <Loader />;
@@ -102,7 +107,17 @@ export class Dashboard extends React.Component<
       <List
         className={classes.beerList}
         component="ul"
-        subheader={<Typography variant="h6">{subheading}</Typography>}
+        subheader={
+          <React.Fragment>
+            <AddIcon
+              className={classes.addIcon}
+              onClick={() => {
+                navigate('/search/beers');
+              }}
+            />
+            <Typography variant="h6">{subheading}</Typography>
+          </React.Fragment>
+        }
       >
         {user[key].map((row: IQuantity) => {
           return this.getBeerListItem(row);
