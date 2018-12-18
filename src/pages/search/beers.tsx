@@ -25,7 +25,9 @@ interface BeerSearchState {
 const styles = (theme: Theme) =>
   createStyles({
     right: {
-      float: 'right'
+      float: 'right',
+      position: 'relative',
+      top: theme.spacing.unit
     },
     searchField: {
       margin: theme.spacing.unit,
