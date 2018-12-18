@@ -4,8 +4,6 @@ import { IQuantity, IUser, IUserResponse, IBeer, IBrewery } from 'types';
 import { CellarApiResource } from '../../services/api';
 import Loader from '../../components/loaders/loader';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -15,6 +13,7 @@ import {
   WithStyles,
   withStyles
 } from '@material-ui/core/styles';
+import UserCard from '../../components/cards/user-card';
 
 interface UserDetailsState {
   user?: IUser;
@@ -77,7 +76,6 @@ export class UserDetails extends React.Component<
 
   public render() {
     const { loading, user } = this.state;
-    const { classes } = this.props;
 
     if (loading) {
       return <Loader />;
@@ -85,23 +83,7 @@ export class UserDetails extends React.Component<
 
     return (
       <React.Fragment>
-        <Paper className={classes.paper}>
-          <Grid container>
-            <Grid item xs={4} className={classes.cell}>
-              <img
-                className={classes.avatar}
-                src={user.avatar}
-                alt={user.username}
-              />
-            </Grid>
-            <Grid item xs={8} className={classes.cell}>
-              <Typography variant="h6">{user.username}</Typography>
-              {user.location && (
-                <Typography component="span">{user.location}</Typography>
-              )}
-            </Grid>
-          </Grid>
-        </Paper>
+        <UserCard user={user} />
         {this.getBeerList('owned', 'Inventory')}
       </React.Fragment>
     );

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Field } from 'react-final-form';
 
-export class GenericInput extends React.Component {
+export class GenericInput<T = null> extends React.Component<T> {
   public label: string = '';
   public name: string = '';
   public placeholder: string = '';

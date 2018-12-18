@@ -10,7 +10,7 @@ import {
   Theme
 } from '@material-ui/core';
 
-import NavUserDropdown from './nav-user-dropdown/nav-user-dropdown';
+import NavUserDropdown from './nav-user-dropdown';
 import { IUser } from 'types';
 
 const styles = (theme: Theme) =>
