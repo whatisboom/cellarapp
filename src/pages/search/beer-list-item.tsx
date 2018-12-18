@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { IBeer, IUser } from '../../types';
+import { IBeer, IUser, IUserResponse } from '../../types';
 import {
   ListItem,
   TextField,
@@ -14,6 +14,7 @@ import {
 
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
+import { CellarApiResource } from '../../services';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -39,6 +40,18 @@ export class BeerListItem extends React.Component<
   public state: BeerListItemState = {
     adding: false
   };
+
+  private addBeerToUser = new CellarApiResource<
+    {
+      username: string;
+      untappdId: number;
+      amount: number;
+    },
+    IUserResponse
+  >({
+    path: '/users/:username/beers/:untappdId'
+  });
+
   render() {
     const { beer, classes } = this.props;
     const { adding } = this.state;
@@ -93,12 +106,19 @@ export class BeerListItem extends React.Component<
     );
   }
   private async addToMyInventory(beer: IBeer, amount: number): Promise<void> {
-    const { user } = this.props;
-    const url = `/users/${user.username}/beers/${beer.slug}`;
-    const body = {
-      amount
-    };
-    console.log(url, body);
+    try {
+      const { user } = this.props;
+      await this.addBeerToUser.create({
+        username: user.username,
+        untappdId: beer.untappdId,
+        amount
+      });
+      this.setState({
+        adding: false
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 

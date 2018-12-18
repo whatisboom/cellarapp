@@ -36,6 +36,7 @@ export interface IBeer {
   abv: number;
   brewery: IBrewery;
   slug: string;
+  untappdId: number;
 }
 
 export interface IBeerResponse {

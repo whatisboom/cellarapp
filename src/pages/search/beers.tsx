@@ -56,7 +56,7 @@ export class BeerSearch extends React.Component<
           validate={this.validate}
           onSubmit={this.onSubmit.bind(this)}
           render={({ handleSubmit, pristine, invalid }) => (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} autoComplete="off">
               <IconButton
                 type="submit"
                 color="primary"
