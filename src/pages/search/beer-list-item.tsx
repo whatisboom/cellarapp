@@ -40,6 +40,7 @@ export class BeerListItem extends React.Component<
   public state: BeerListItemState = {
     adding: false
   };
+
   private addBeerToUser = new CellarApiResource<
     {
       username: string;
@@ -50,6 +51,7 @@ export class BeerListItem extends React.Component<
   >({
     path: '/users/:username/beers/:untappdId'
   });
+
   render() {
     const { beer, classes } = this.props;
     const { adding } = this.state;

@@ -70,13 +70,16 @@ export class CellarApiResource<T, U> {
       return this.resource;
     }
     let result = this.resource;
+    const queryString: string[] = [];
     Object.keys(params).forEach((key) => {
       const pattern = new RegExp(`:${key}`);
       if (result.match(pattern)) {
         result = result.replace(`:${key}`, params[key]);
       }
     });
-    return result;
+    return queryString.length > 0
+      ? `${result}?${queryString.join('&')}`
+      : result;
   }
 
   private buildGetPath(params?: { [key: string]: any }): string {
