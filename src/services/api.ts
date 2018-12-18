@@ -17,7 +17,7 @@ export class CellarApiResource<T, U> {
     this.setResourceString(config.path);
   }
   public async list(opts?: any): Promise<{ [resource: string]: U[] }> {
-    const url = this.getPath();
+    const url = this.buildGetPath();
     const response = await fetch(url, {
       method: 'GET',
       headers: this.headers
@@ -25,7 +25,7 @@ export class CellarApiResource<T, U> {
     return response.json();
   }
   public async read(payload?: T, opts?: any): Promise<U> {
-    const url = this.getPath(payload);
+    const url = this.buildGetPath(payload);
     const response = await fetch(url, {
       method: 'GET',
       headers: this.headers
@@ -33,7 +33,7 @@ export class CellarApiResource<T, U> {
     return response.json();
   }
   public async create(payload: T, opts?: any): Promise<U> {
-    const url = this.getPath(payload);
+    const url = this.buildPathWithBody(payload);
     const response = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -42,7 +42,7 @@ export class CellarApiResource<T, U> {
     return response.json();
   }
   public async update(payload: T): Promise<U> {
-    const url = this.getPath(payload);
+    const url = this.buildPathWithBody(payload);
     const response = await fetch(url, {
       method: 'PUT',
       body: JSON.stringify(payload),
@@ -51,7 +51,7 @@ export class CellarApiResource<T, U> {
     return response.json();
   }
   public async remove(payload: T): Promise<U> {
-    const url = this.getPath(payload);
+    const url = this.buildGetPath(payload);
     const response = await fetch(url, {
       method: 'DELETE',
       headers: this.headers
@@ -64,7 +64,22 @@ export class CellarApiResource<T, U> {
     }
     this.resource = this.domain + path;
   }
-  private getPath(params?: { [key: string]: any }): string {
+
+  private buildPathWithBody(params: { [key: string]: any }): string {
+    if (!params || this.resource.split(':').length === 2) {
+      return this.resource;
+    }
+    let result = this.resource;
+    Object.keys(params).forEach((key) => {
+      const pattern = new RegExp(`:${key}`);
+      if (result.match(pattern)) {
+        result = result.replace(`:${key}`, params[key]);
+      }
+    });
+    return result;
+  }
+
+  private buildGetPath(params?: { [key: string]: any }): string {
     if (!params || this.resource.split(':').length === 2) {
       return this.resource;
     }
