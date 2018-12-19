@@ -87,8 +87,8 @@ export class BeerSearch extends React.Component<
   }
 
   private async onSubmit(values: { [key: string]: string }): Promise<void> {
-    const { q } = values;
     try {
+      const { q } = values;
       const { beers } = await this.resource.read({
         q
       });
