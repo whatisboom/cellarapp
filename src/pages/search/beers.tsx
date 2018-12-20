@@ -87,10 +87,10 @@ export class BeerSearch extends React.Component<
   }
 
   private async onSubmit(formValues: { [key: string]: string }): Promise<void> {
-    const { q } = formValues;
+    const q = formValues.q;
     try {
       const { beers } = await this.resource.read({
-        q
+        q: q
       });
       this.setState({ beers });
     } catch (e) {
