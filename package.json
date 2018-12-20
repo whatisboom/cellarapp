@@ -5,7 +5,7 @@
     "build": "npm run clean && ./node_modules/.bin/webpack && cp src/server.js dist/server.js",
     "dev": "./node_modules/.bin/parcel src/index.html",
     "postinstall": "npm run build",
-    "start": "./node_modules/.bin/nodemon ./dist/server.js",
+    "start": "node ./dist/server.js",
     "test": "jest",
     "tdd": "jest --watchAll"
   },
@@ -19,7 +19,6 @@
     "express": "4.16.4",
     "final-form": "4.10.0",
     "final-form-material-ui": "0.3.0",
-    "nodemon": "1.18.9",
     "normalize.css": "8.0.1",
     "react": "16.6.3",
     "react-dom": "16.6.3",
