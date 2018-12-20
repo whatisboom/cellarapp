@@ -1,14 +1,16 @@
+require('dotenv').config();
 const path = require('path'),
   webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    app: './src/index.tsx'
+    app: ['@babel/polyfill', './src/index.tsx']
   },
   output: {
     filename: '[name].bundle.js',
-    path: __dirname + '/dist'
+    path: __dirname + '/dist',
+    publicPath: '/'
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -23,7 +25,7 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        loader: 'ts-loader'
+        loader: 'babel-loader'
       },
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
     ]
