@@ -4,20 +4,18 @@ const path = require('path'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'production',
   entry: {
     app: ['@babel/polyfill', './src/index.tsx']
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[hash].js',
     path: __dirname + '/dist',
     publicPath: '/'
   },
-
-  // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
 
   resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx', '.js', '.json']
   },
 
