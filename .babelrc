@@ -1,4 +1,12 @@
 {
-  "plugins": ["transform-inline-environment-variables"],
-  "presets": ["env", "react"]
+  "plugins": [
+    "transform-inline-environment-variables",
+    "transform-class-properties",
+    "@babel/plugin-syntax-dynamic-import"
+  ],
+  "presets": [
+    "@babel/react",
+    "@babel/typescript",
+    ["@babel/env", { "modules": false }]
+  ]
 }
