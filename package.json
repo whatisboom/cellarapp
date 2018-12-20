@@ -5,7 +5,7 @@
     "build": "npm run clean && ./node_modules/.bin/webpack && cp src/server.js dist/server.js",
     "dev": "./node_modules/.bin/parcel src/index.html",
     "postinstall": "npm run build",
-    "start": "node ./dist/server.js",
+    "start": "./node_modules/.bin/pm2 start ./dist/server.js",
     "test": "jest",
     "tdd": "jest --watchAll"
   },
@@ -19,7 +19,9 @@
     "express": "4.16.4",
     "final-form": "4.10.0",
     "final-form-material-ui": "0.3.0",
+    "morgan": "1.9.1",
     "normalize.css": "8.0.1",
+    "pm2": "3.2.4",
     "react": "16.6.3",
     "react-dom": "16.6.3",
     "react-final-form": "3.6.7",
