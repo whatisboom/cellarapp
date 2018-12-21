@@ -87,7 +87,6 @@ export class BeerSearch extends React.Component<
   }
 
   private async onSubmit(values: { [key: string]: string }): Promise<void> {
-    console.log('onSubmit: values', values);
     const { q } = values;
     try {
       const { beers } = await this.resource.read({
@@ -100,7 +99,6 @@ export class BeerSearch extends React.Component<
   }
 
   private validate(values: { [key: string]: string }): any {
-    console.log('validate: values', values);
     if (values.q && values.q.length < 3) {
       return {
         q: 'Minimum 3 characters'
