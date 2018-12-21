@@ -4,59 +4,11 @@ import { CellarApiResource } from '../services/api';
 import { IUserResponse, IUser, IQuantity, IBeer, IBrewery } from 'types';
 import Loader from '../components/loaders/loader';
 import { WithStyles, withStyles } from '@material-ui/core/styles';
-import {
-  Typography,
-  Paper,
-  Grid,
-  Theme,
-  createStyles,
-  ListItem,
-  List,
-  ListItemText
-} from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+
 import UserCard from '../components/cards/user-card';
+import Inventory from '../components/lists/inventory/inventory';
 
-const styles = (theme: Theme) =>
-  createStyles({
-    avatar: {
-      width: '100%',
-      borderRadius: '50%'
-    },
-    paper: {
-      margin: theme.spacing.unit * 2,
-      padding: theme.spacing.unit * 2
-    },
-    cell: {
-      padding: theme.spacing.unit * 1
-    },
-    beerName: {
-      fontWeight: theme.typography.fontWeightMedium,
-      textDecoration: 'none'
-    },
-    amount: {
-      color: theme.palette.getContrastText(theme.palette.background.paper)
-    },
-    beerList: {
-      margin: theme.spacing.unit * 2
-    },
-    listLink: {
-      display: 'block',
-      width: '100%',
-      textDecoration: 'none',
-      color: theme.palette.getContrastText(theme.palette.background.paper)
-    },
-    breweryName: {
-      opacity: 0.6
-    },
-    addIcon: {
-      float: 'right',
-      position: 'relative',
-      top: theme.spacing.unit
-    }
-  });
-
-interface DashboardProps extends WithStyles<typeof styles> {
+interface DashboardProps {
   signin: (user: IUser) => void;
 }
 
@@ -65,7 +17,7 @@ interface IComponentState {
   loading: boolean;
 }
 
-export class Dashboard extends React.Component<
+export default class Dashboard extends React.Component<
   RouteComponentProps<DashboardProps>
 > {
   public state: IComponentState = {
@@ -84,7 +36,7 @@ export class Dashboard extends React.Component<
     return (
       <React.Fragment>
         <UserCard user={user} />
-        {this.getBeerList('owned', 'Inventory')}
+        <Inventory beers={user.owned} />
       </React.Fragment>
     );
   }
@@ -99,67 +51,4 @@ export class Dashboard extends React.Component<
       this.props.signin(user);
     } catch (e) {}
   }
-
-  public getBeerList(key: 'owned', subheading: string = ''): React.ReactNode {
-    const { user } = this.state;
-    const { classes } = this.props;
-    return (
-      <List
-        className={classes.beerList}
-        component="ul"
-        subheader={
-          <React.Fragment>
-            <AddIcon
-              className={classes.addIcon}
-              onClick={() => {
-                navigate('/search/beers');
-              }}
-            />
-            <Typography variant="h6">{subheading}</Typography>
-          </React.Fragment>
-        }
-      >
-        {user[key].map((row: IQuantity) => {
-          return this.getBeerListItem(row);
-        })}
-      </List>
-    );
-  }
-
-  public getBeerListItem({ beer, amount }: IQuantity): React.ReactNode {
-    const { classes } = this.props;
-    return (
-      <ListItem key={beer._id} disableGutters={true}>
-        <ListItemText
-          className={classes.beerName}
-          primary={this.getBeerLink(beer)}
-          secondary={this.getBreweryLink(beer.brewery)}
-        />
-        <Typography className={classes.amount}>{amount}</Typography>
-      </ListItem>
-    );
-  }
-
-  public getBeerLink(beer: IBeer): React.ReactNode {
-    const { classes } = this.props;
-    return (
-      <Link className={classes.listLink} to={`/beers/${beer.slug}`}>
-        {beer.name}
-      </Link>
-    );
-  }
-
-  public getBreweryLink(brewery: IBrewery): React.ReactNode {
-    const { classes } = this.props;
-    return (
-      <Link
-        className={[classes.listLink, classes.breweryName].join(' ')}
-        to={`/breweries/${brewery.slug}`}
-      >
-        {brewery.name}
-      </Link>
-    );
-  }
 }
-
-export default withStyles(styles)(Dashboard);
