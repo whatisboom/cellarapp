@@ -1,10 +1,13 @@
-require('dotenv').config();
+if (!process.env.NODE_ENV) {
+  console.log('NODE_ENV not set, using dotenv');
+  require('dotenv').config();
+}
 const path = require('path'),
   webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: process.env.NODE_ENV,
   entry: {
     app: ['@babel/polyfill', './src/index.tsx']
   },
