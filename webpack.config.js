@@ -4,7 +4,7 @@ const path = require('path'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     app: ['@babel/polyfill', './src/index.tsx']
   },
