@@ -1,23 +1,24 @@
-require('dotenv').config();
+if (!process.env.NODE_ENV) {
+  console.log('NODE_ENV not set, using dotenv');
+  require('dotenv').config();
+}
 const path = require('path'),
   webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: process.env.NODE_ENV,
   entry: {
     app: ['@babel/polyfill', './src/index.tsx']
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[hash].js',
     path: __dirname + '/dist',
     publicPath: '/'
   },
-
-  // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
 
   resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx', '.js', '.json']
   },
 

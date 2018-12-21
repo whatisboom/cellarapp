@@ -26,6 +26,7 @@ export class CellarApiResource<T, U> {
   }
   public async read(payload?: T, opts?: any): Promise<U> {
     const url = this.buildGetPath(payload);
+
     const response = await fetch(url, {
       method: 'GET',
       headers: this.headers
@@ -66,7 +67,7 @@ export class CellarApiResource<T, U> {
   }
 
   private buildPathWithBody(params: { [key: string]: any }): string {
-    if (!params || this.resource.split(':').length === 2) {
+    if (!params) {
       return this.resource;
     }
     let result = this.resource;
@@ -83,9 +84,10 @@ export class CellarApiResource<T, U> {
   }
 
   private buildGetPath(params?: { [key: string]: any }): string {
-    if (!params || this.resource.split(':').length === 2) {
+    if (!params) {
       return this.resource;
     }
+
     let result = this.resource;
     const queryString: string[] = [];
     Object.keys(params).forEach((key) => {

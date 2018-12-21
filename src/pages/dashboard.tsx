@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { Link, RouteComponentProps, navigate } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import { CellarApiResource } from '../services/api';
-import { IUserResponse, IUser, IQuantity, IBeer, IBrewery } from 'types';
+import { IUserResponse, IUser } from 'types';
 import Loader from '../components/loaders/loader';
-import { WithStyles, withStyles } from '@material-ui/core/styles';
-
 import UserCard from '../components/cards/user-card';
 import Inventory from '../components/lists/inventory/inventory';
 
