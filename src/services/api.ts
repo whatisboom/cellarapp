@@ -25,9 +25,8 @@ export class CellarApiResource<T, U> {
     return response.json();
   }
   public async read(payload?: T, opts?: any): Promise<U> {
-    console.log('read payload', payload);
     const url = this.buildGetPath(payload);
-    console.log('read url', url);
+
     const response = await fetch(url, {
       method: 'GET',
       headers: this.headers
@@ -88,11 +87,10 @@ export class CellarApiResource<T, U> {
     if (!params) {
       return this.resource;
     }
-    console.log('params', params);
+
     let result = this.resource;
     const queryString: string[] = [];
     Object.keys(params).forEach((key) => {
-      console.log('buildGetPath forEach', key, params[key]);
       const pattern = new RegExp(`:${key}`);
       if (result.match(pattern)) {
         result = result.replace(`:${key}`, params[key]);
