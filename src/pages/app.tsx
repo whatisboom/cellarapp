@@ -16,14 +16,22 @@ import { CellarApiResource } from '../services/api';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { IUserResponse, IUser } from '../types';
+import { Loader } from '../components/loaders';
 
-interface IComponentProps {
+interface AppProps {
   signedInUser?: IUser;
   signin: (user: IUser) => void;
   logout: () => void;
 }
 
-export class App extends React.Component<IComponentProps> {
+interface AppState {
+  loading: boolean;
+}
+
+export class App extends React.Component<AppProps> {
+  public state: AppState = {
+    loading: true
+  };
   public async componentDidMount() {
     const isAuthedticated = AuthService.isAuthenticated();
     if (isAuthedticated) {
@@ -32,10 +40,23 @@ export class App extends React.Component<IComponentProps> {
       });
       const { user } = await me.read();
       this.props.signin(user);
+      this.setState({
+        loading: false
+      });
+    } else {
+      this.setState({
+        loading: false
+      });
     }
   }
   public render() {
     const { signedInUser } = this.props;
+    const { loading } = this.state;
+
+    if (loading) {
+      return <Loader />;
+    }
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -49,7 +70,7 @@ export class App extends React.Component<IComponentProps> {
           <Router>
             <Auth path="auth/*" />
             <Logout path="logout" logout={this.props.logout} />
-            <Dashboard path="dashboard" signin={this.props.signin} />
+            <Dashboard path="dashboard" user={signedInUser} />
             <Users path="users/*" />
             <Beers path="beers/*" />
             <Breweries path="breweries/*" />
