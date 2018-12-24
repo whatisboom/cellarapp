@@ -3,7 +3,7 @@
   "scripts": {
     "clean": "rm -rf ./dist",
     "build": "npm run clean && ./node_modules/.bin/webpack && cp src/server.js dist/server.js",
-    "dev": "./node_modules/.bin/parcel src/index.html",
+    "dev": "./node_modules/.bin/webpack --watch",
     "postinstall": "npm run build",
     "start": "node ./dist/server.js",
     "test": "jest",
@@ -64,7 +64,7 @@
     "preset": "ts-jest",
     "testEnvironment": "jsdom",
     "testMatch": [
-      "<rootDir>/src/**/*.spec.tsx"
+      "<rootDir>/src/**/*.spec.(tsx|ts)"
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",

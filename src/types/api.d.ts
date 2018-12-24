@@ -68,3 +68,7 @@ export interface IQuantity {
   amount: number;
   beer: IBeer;
 }
+
+export interface IQuantityResponse {
+  [key: string]: IQuantity;
+}
