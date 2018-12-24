@@ -48,7 +48,7 @@ export class Inventory extends React.Component<InventoryProps> {
         }
       >
         {beers.map((row) => (
-          <InventoryListItem row={row} />
+          <InventoryListItem key={row._id} row={row} />
         ))}
       </List>
     );
