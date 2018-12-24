@@ -6,15 +6,21 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-  withStyles
+  withStyles,
+  TextField
 } from '@material-ui/core';
+import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { IQuantity } from 'types';
+import { IQuantity, IQuantityResponse } from 'types';
 import { Link } from '@reach/router';
+import { CellarApiResource } from '../../../services';
 
 const styles = (theme: Theme) =>
   createStyles({
+    updateQuantity: {
+      width: 50
+    },
     beerName: {
       fontWeight: theme.typography.fontWeightMedium,
       textDecoration: 'none'
@@ -37,13 +43,14 @@ interface InventoryListItemState {
   editing: boolean;
 }
 export class InventoryListItem extends React.Component<InventoryListItemProps> {
+  private inputRef: HTMLInputElement;
   public state: InventoryListItemState = {
     editing: false
   };
   public render() {
-    const { row, classes } = this.props;
+    const { classes } = this.props;
     return (
-      <ListItem key={row._id} disableGutters={true}>
+      <ListItem disableGutters={true}>
         <ListItemText
           className={classes.beerName}
           primary={this.getBeerLink()}
@@ -55,9 +62,18 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
   }
 
   private getRowActions(): React.ReactNode {
-    return (
+    const { editing } = this.state;
+    return editing ? (
+      <ListItemSecondaryAction>{this.getEditInput()}</ListItemSecondaryAction>
+    ) : (
       <ListItemSecondaryAction>
-        <EditIcon onClick={() => {}} />
+        <EditIcon
+          onClick={() => {
+            this.setState({
+              editing: true
+            });
+          }}
+        />
         <DeleteIcon onClick={() => {}} />
       </ListItemSecondaryAction>
     );
@@ -83,6 +99,58 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
         {brewery.name}
       </Link>
     );
+  }
+
+  private getEditInput(): React.ReactNode {
+    const { classes, row } = this.props;
+    return (
+      <React.Fragment>
+        <TextField
+          type="number"
+          defaultValue={row.amount}
+          label="Amount:"
+          InputLabelProps={{
+            shrink: true
+          }}
+          className={classes.updateQuantity}
+          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+            event.persist();
+            if (event.keyCode === 13) {
+              this.handleUpdate();
+            }
+          }}
+          inputRef={(input) => {
+            this.inputRef = input;
+          }}
+        />
+        <CheckIcon
+          onClick={() => {
+            this.handleUpdate();
+          }}
+        />
+      </React.Fragment>
+    );
+  }
+
+  private async handleUpdate(): Promise<void> {
+    const resource = new CellarApiResource<
+      {
+        ownedId: string;
+        amount: number;
+      },
+      IQuantityResponse
+    >({
+      path: '/inventory/:ownedId'
+    });
+    const amount = parseInt(this.inputRef.value, 10);
+    const ownedId = this.props.row._id;
+    const { owned } = await resource.update({
+      ownedId,
+      amount
+    });
+    return this.setState({
+      editing: false
+    });
   }
 }
 
