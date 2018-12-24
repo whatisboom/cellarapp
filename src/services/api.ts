@@ -5,7 +5,7 @@ export interface ICellarApiResourceConfig {
 
 export class CellarApiResource<T, U> {
   private domain: string = process.env.API_HOST;
-  private resource: string = '';
+  public resource: string = '';
   private headers = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${getJWT()}`
@@ -17,89 +17,107 @@ export class CellarApiResource<T, U> {
     this.setResourceString(config.path);
   }
   public async list(opts?: any): Promise<{ [resource: string]: U[] }> {
-    const url = this.buildGetPath();
+    const { url, headers } = this.buildRequestObject();
     const response = await fetch(url, {
       method: 'GET',
-      headers: this.headers
+      headers
     });
     return response.json();
   }
   public async read(payload?: T, opts?: any): Promise<U> {
-    const url = this.buildGetPath(payload);
+    const { url, method, headers } = this.buildRequestObject('GET', payload);
 
     const response = await fetch(url, {
-      method: 'GET',
-      headers: this.headers
+      method,
+      headers
     });
     return response.json();
   }
   public async create(payload: T, opts?: any): Promise<U> {
-    const url = this.buildPathWithBody(payload);
+    const { url, method, body, headers } = this.buildRequestObject(
+      'POST',
+      payload
+    );
     const response = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-      headers: this.headers
+      method,
+      body,
+      headers
     });
     return response.json();
   }
   public async update(payload: T): Promise<U> {
-    const url = this.buildPathWithBody(payload);
+    const { url, method, body, headers } = this.buildRequestObject(
+      'PATCH',
+      payload
+    );
     const response = await fetch(url, {
-      method: 'PUT',
-      body: JSON.stringify(payload),
-      headers: this.headers
+      method,
+      body,
+      headers
     });
     return response.json();
   }
   public async remove(payload: T): Promise<U> {
-    const url = this.buildGetPath(payload);
+    const { url, method, headers } = this.buildRequestObject('DELETE', payload);
     const response = await fetch(url, {
-      method: 'DELETE',
-      headers: this.headers
+      method,
+      headers
     });
     return response.json();
   }
+
+  public buildRequestObject(
+    method: string = 'GET',
+    params: { [key: string]: any } = {}
+  ): {
+    url: string;
+    body?: string;
+    method: string;
+    headers: {
+      [key: string]: any;
+    };
+  } {
+    const keys = Object.keys(params);
+    let body: { [key: string]: any } = {};
+    let url = this.resource;
+
+    const query: string[] = [];
+
+    if (keys.length === 0) {
+      return {
+        method,
+        url: this.resource,
+        headers: this.headers
+      };
+    }
+
+    keys.forEach((key) => {
+      const template = `:${key}`;
+      const pattern = new RegExp(template);
+      if (url.match(pattern)) {
+        url = url.replace(template, params[key]);
+      } else if (method === 'GET') {
+        query.push(`${key}=${JSON.stringify(params[key])}`);
+      } else {
+        body[key] = params[key];
+      }
+    });
+
+    if (query.length) {
+      url = `${url}?${query.join('&')}`;
+    }
+    return {
+      method,
+      url,
+      headers: this.headers,
+      body: Object.keys(body).length ? JSON.stringify(body) : undefined
+    };
+  }
+
   private setResourceString(path: string): void {
     if (path.charAt(0) !== '/') {
       path = `/${path}`;
     }
     this.resource = this.domain + path;
-  }
-
-  private buildPathWithBody(params: { [key: string]: any }): string {
-    if (!params) {
-      return this.resource;
-    }
-    let result = this.resource;
-    const queryString: string[] = [];
-    Object.keys(params).forEach((key) => {
-      const pattern = new RegExp(`:${key}`);
-      if (result.match(pattern)) {
-        result = result.replace(`:${key}`, params[key]);
-      }
-    });
-    return queryString.length > 0
-      ? `${result}?${queryString.join('&')}`
-      : result;
-  }
-
-  private buildGetPath(params?: { [key: string]: any }): string {
-    if (!params) {
-      return this.resource;
-    }
-
-    let result = this.resource;
-    const queryString: string[] = [];
-    Object.keys(params).forEach((key) => {
-      const pattern = new RegExp(`:${key}`);
-      if (result.match(pattern)) {
-        result = result.replace(`:${key}`, params[key]);
-      } else {
-        queryString.push(`${key}=${params[key]}`);
-      }
-    });
-    return queryString.length > 0
-      ? `${result}?${queryString.join('&')}`
-      : result;
   }
 }
