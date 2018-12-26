@@ -40,14 +40,10 @@ export class App extends React.Component<AppProps> {
       });
       const { user } = await me.read();
       this.props.signin(user);
-      this.setState({
-        loading: false
-      });
-    } else {
-      this.setState({
-        loading: false
-      });
     }
+    this.setState({
+      loading: false
+    });
   }
   public render() {
     const { signedInUser } = this.props;
@@ -70,7 +66,11 @@ export class App extends React.Component<AppProps> {
           <Router>
             <Auth path="auth/*" />
             <Logout path="logout" logout={this.props.logout} />
-            <Dashboard path="dashboard" user={signedInUser} />
+            <Dashboard
+              path="dashboard"
+              user={signedInUser}
+              signin={this.props.signin}
+            />
             <Users path="users/*" />
             <Beers path="beers/*" />
             <Breweries path="breweries/*" />
