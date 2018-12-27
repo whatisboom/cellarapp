@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Router } from '@reach/router';
 
-import { Home } from './home';
+import Home from './home';
 import { Auth } from './auth';
 import { Beers } from './beers';
 import { Search } from './search';
