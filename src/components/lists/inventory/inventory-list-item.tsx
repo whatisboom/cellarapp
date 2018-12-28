@@ -38,6 +38,7 @@ const styles = (theme: Theme) =>
 
 interface InventoryListItemProps extends WithStyles<typeof styles> {
   row: IQuantity;
+  update: (beer: IQuantity) => void;
 }
 interface InventoryListItemState {
   editing: boolean;
@@ -144,10 +145,11 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
     });
     const amount = parseInt(this.inputRef.value, 10);
     const ownedId = this.props.row._id;
-    const { owned } = await resource.update({
+    const { beer } = await resource.update({
       ownedId,
       amount
     });
+    this.props.update(beer);
     return this.setState({
       editing: false
     });

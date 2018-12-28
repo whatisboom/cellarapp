@@ -26,6 +26,7 @@ const styles = (theme: Theme) =>
 
 interface InventoryProps extends WithStyles<typeof styles> {
   beers: IQuantity[];
+  update: (beer: IQuantity) => void;
 }
 
 export class Inventory extends React.Component<InventoryProps> {
@@ -48,7 +49,11 @@ export class Inventory extends React.Component<InventoryProps> {
         }
       >
         {beers.map((row) => (
-          <InventoryListItem key={row._id} row={row} />
+          <InventoryListItem
+            key={row._id}
+            row={row}
+            update={this.props.update}
+          />
         ))}
       </List>
     );

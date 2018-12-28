@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { CellarApiResource } from '../services/api';
-import { IUserResponse, IUser } from 'types';
+import { IUserResponse, IUser, IQuantity } from 'types';
 import UserCard from '../components/cards/user-card';
 import Inventory from '../components/lists/inventory/inventory';
 import { Loader } from '../components/loaders';
@@ -31,7 +31,10 @@ export default class Dashboard extends React.Component<
     return (
       <React.Fragment>
         <UserCard user={user} />
-        <Inventory beers={user.owned} />
+        <Inventory
+          beers={user.owned}
+          update={this.updateOwnedQuantity.bind(this)}
+        />
       </React.Fragment>
     );
   }
@@ -48,5 +51,12 @@ export default class Dashboard extends React.Component<
     this.setState({
       loading: false
     });
+  }
+
+  private updateOwnedQuantity(updated: IQuantity) {
+    const { user } = this.props;
+    const rows = user.owned;
+    const owned = rows.find((row) => row.beer._id === updated.beer.toString());
+    owned.amount = updated.amount;
   }
 }
