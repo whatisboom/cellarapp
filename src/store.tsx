@@ -7,12 +7,13 @@ declare global {
   }
 }
 
-import { notifications, user } from './reducers';
+import { notifications, themeMode, user } from './reducers';
 import { createStore, combineReducers } from 'redux';
 
-const rootReducer = combineReducers({ user, notifications });
+const rootReducer = combineReducers({ notifications, themeMode, user });
 const initialState: Object = {
-  user: null
+  user: null,
+  themeMode: localStorage.getItem('beerCellarThemeMode') || 'dark'
 };
 const devToolsMiddleware =
   process.env.NODE_ENV === 'development'

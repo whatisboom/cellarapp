@@ -32,6 +32,7 @@ import { IUserResponse, IUser } from 'types';
 import { Loader } from 'components/loaders';
 
 interface AppProps {
+  themeMode: string;
   signedInUser?: IUser;
   signin: (user: IUser) => void;
   logout: () => void;
@@ -49,6 +50,18 @@ export class App extends React.Component<AppProps> {
   public state: AppState = {
     loading: true
   };
+  public componentDidUpdate() {
+    console.log('didUpdate', this.props);
+  }
+  public shouldComponentUpdate(
+    nextProps: AppProps,
+    nextState: AppState
+  ): boolean {
+    return (
+      this.props.themeMode !== nextProps.themeMode ||
+      this.state.loading !== nextState.loading
+    );
+  }
   public async componentDidMount() {
     const isAuthedticated = AuthService.isAuthenticated();
     if (isAuthedticated) {
@@ -106,10 +119,11 @@ export class App extends React.Component<AppProps> {
 }
 
 function mapStateToProps(state: any, ownProps: any) {
-  const { notifications, user } = state;
+  const { notifications, user, themeMode } = state;
   return {
     signedInUser: user,
-    notifications
+    notifications,
+    themeMode
   };
 }
 
