@@ -53,15 +53,7 @@ export class App extends React.Component<AppProps> {
   public state: AppState = {
     loading: true
   };
-  public shouldComponentUpdate(
-    nextProps: AppProps,
-    nextState: AppState
-  ): boolean {
-    return (
-      this.props.darkMode !== nextProps.darkMode ||
-      this.state.loading !== nextState.loading
-    );
-  }
+
   public async componentDidMount() {
     const isAuthedticated = AuthService.isAuthenticated();
     if (isAuthedticated) {
@@ -75,6 +67,7 @@ export class App extends React.Component<AppProps> {
       loading: false
     });
   }
+
   public render() {
     const { signedInUser } = this.props;
     const { loading } = this.state;
