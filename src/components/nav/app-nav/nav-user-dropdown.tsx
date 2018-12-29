@@ -104,9 +104,6 @@ export class NavUserDropdownMenu extends React.Component<
           </Link>
         </MenuItem>
         <MenuItem>
-          <ThemeSwitcher />
-        </MenuItem>
-        <MenuItem>
           <Link className={classes.menuItem} onClick={handleClose} to="/logout">
             <Typography>Logout</Typography>
           </Link>
