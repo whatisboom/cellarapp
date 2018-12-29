@@ -14,7 +14,7 @@ import { BEER_CELLAR_DARK_MODE_ENABLED } from 'beer-cellar-constants';
 const rootReducer = combineReducers({ notifications, darkMode, user });
 const initialState: Object = {
   user: null,
-  darkMode: localStorage.getItem(BEER_CELLAR_DARK_MODE_ENABLED) === 'true'
+  darkMode: localStorage.getItem(BEER_CELLAR_DARK_MODE_ENABLED) !== 'false'
 };
 const devToolsMiddleware =
   process.env.NODE_ENV === 'development'
