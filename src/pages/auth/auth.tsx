@@ -16,7 +16,7 @@ interface AuthState {
   loading: boolean;
 }
 
-export class Auth extends React.Component<RouteComponentProps> {
+export default class Auth extends React.Component<RouteComponentProps> {
   render() {
     return (
       <Router>

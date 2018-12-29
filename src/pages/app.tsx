@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { Router } from '@reach/router';
 
 import Home from './home';
-import { Auth } from './auth';
-import { Beers } from './beers';
-import { Search } from './search';
-import { Users } from './users';
-import { Breweries } from './breweries';
-import { Logout } from './logout';
-import Dashboard from './dashboard';
+const Auth = React.lazy(() => import('./auth/auth'));
+const Beers = React.lazy(() => import('./beers/beers'));
+const Search = React.lazy(() => import('./search/search'));
+const Users = React.lazy(() => import('./users/users'));
+const Breweries = React.lazy(() => import('./breweries/breweries'));
+const Logout = React.lazy(() => import('./logout'));
+const Dashboard = React.lazy(() => import('./dashboard'));
 import { AppNav } from 'components/nav';
 import { Notification } from 'components/notification';
 import { AuthService } from 'services/auth';
@@ -68,23 +68,25 @@ export class App extends React.Component<AppProps> {
           <Home path="/" />
         </Router>
         <div style={{ paddingTop: '60px' }}>
-          <Router>
-            <Auth path="auth/*" />
-            <Logout path="logout" logout={this.props.logout} />
-            <Dashboard
-              path="dashboard"
-              user={signedInUser}
-              signin={this.props.signin}
-            />
-            <Users path="users/*" />
-            <Beers path="beers/*" />
-            <Breweries path="breweries/*" />
-            <Search path="search/*" />
-          </Router>
-          {this.props.notifications &&
-            this.props.notifications.map((note) => (
-              <Notification key={note.id} note={note} />
-            ))}
+          <React.Suspense fallback={<Loader />}>
+            <Router>
+              <Auth path="auth/*" />
+              <Logout path="logout" logout={this.props.logout} />
+              <Dashboard
+                path="dashboard"
+                user={signedInUser}
+                signin={this.props.signin}
+              />
+              <Users path="users/*" />
+              <Beers path="beers/*" />
+              <Breweries path="breweries/*" />
+              <Search path="search/*" />
+            </Router>
+            {this.props.notifications &&
+              this.props.notifications.map((note) => (
+                <Notification key={note.id} note={note} />
+              ))}
+          </React.Suspense>
         </div>
       </React.Fragment>
     );
