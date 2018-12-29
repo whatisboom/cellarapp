@@ -79,7 +79,7 @@ export class BeerSearch extends React.Component<
         />
         <List>
           {this.state.beers.map((beer, index) => (
-            <BeerListItem key={index} beer={beer} />
+            <BeerListItem key={index} beer={beer} user={this.props.user} />
           ))}
         </List>
       </React.Fragment>

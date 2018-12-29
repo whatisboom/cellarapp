@@ -27,7 +27,7 @@ const styles = (theme: Theme) =>
 interface BeerListItemProps extends WithStyles<typeof styles> {
   beer: IBeer;
   user: IUser;
-  updated: (amount: number) => void;
+  updated?: (amount: number) => void;
 }
 
 interface BeerListItemState {
@@ -144,7 +144,9 @@ function mapDispatchToProps(dispatch: any, ownProps: BeerListItemProps) {
   return props;
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(BeerListItem));
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(BeerListItem)
+);

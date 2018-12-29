@@ -10,6 +10,7 @@ import {
   withStyles,
   Typography
 } from '@material-ui/core';
+import { Loader } from 'components/loaders';
 
 interface AuthState {
   loading: boolean;
@@ -20,7 +21,7 @@ export class Auth extends React.Component<RouteComponentProps> {
     return (
       <Router>
         <SignupSigninStyled default path="/" />
-        <OAuthUntappd path="oauth/untappd" />
+        <OAuthUntappdStyled path="oauth/untappd" />
       </Router>
     );
   }
@@ -77,7 +78,11 @@ export class SignupSignin extends React.Component<
 
 export const SignupSigninStyled = withStyles(SignupStyles)(SignupSignin);
 
-export class OAuthUntappd extends React.Component<RouteComponentProps> {
+interface OAuthUntappdProps extends WithStyles<typeof SignupStyles> {}
+
+export class OAuthUntappd extends React.Component<
+  RouteComponentProps<OAuthUntappdProps>
+> {
   public state: AuthState = {
     loading: true
   };
@@ -101,14 +106,21 @@ export class OAuthUntappd extends React.Component<RouteComponentProps> {
       return await this.resource.create({
         code
       });
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   public render() {
-    return this.state.loading ? (
-      <div>Authenticating...</div>
-    ) : (
-      <div>Successfully signed in! Redirecting to your dashboard!</div>
+    return (
+      <div className={this.props.classes.container}>
+        <Typography>
+          {this.state.loading
+            ? 'Signing you in...'
+            : 'Successfully signed in! Redirecting to your dashboard!'}
+        </Typography>
+        <Loader />
+      </div>
     );
   }
 
@@ -122,3 +134,5 @@ export class OAuthUntappd extends React.Component<RouteComponentProps> {
     return result;
   }
 }
+
+export const OAuthUntappdStyled = withStyles(SignupStyles)(OAuthUntappd);
