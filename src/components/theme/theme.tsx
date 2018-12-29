@@ -4,9 +4,9 @@ import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
 import { connect } from 'react-redux';
 import { AppConnected } from 'pages/app';
-import { BEER_CELLAR_THEME_MODE } from 'beer-cellar-constants';
+import { BEER_CELLAR_DARK_MODE_ENABLED } from 'beer-cellar-constants';
 interface BeerCellarThemeProps {
-  themeMode: any;
+  darkMode: any;
 }
 
 export class BCTheme extends React.Component<BeerCellarThemeProps> {
@@ -22,8 +22,8 @@ export class BCTheme extends React.Component<BeerCellarThemeProps> {
   }
 
   private getTheme() {
-    const { themeMode } = this.props;
-    localStorage.setItem(BEER_CELLAR_THEME_MODE, themeMode);
+    const { darkMode } = this.props;
+    localStorage.setItem(BEER_CELLAR_DARK_MODE_ENABLED, darkMode);
     return createMuiTheme({
       palette: {
         primary: {
@@ -32,7 +32,7 @@ export class BCTheme extends React.Component<BeerCellarThemeProps> {
         secondary: {
           main: red[900]
         },
-        type: themeMode
+        type: darkMode ? 'dark' : 'light'
       },
       typography: {
         useNextVariants: true
@@ -42,9 +42,9 @@ export class BCTheme extends React.Component<BeerCellarThemeProps> {
 }
 
 function mapStateToProps(state: any) {
-  const { themeMode } = state;
+  const { darkMode } = state;
   return {
-    themeMode
+    darkMode
   };
 }
 

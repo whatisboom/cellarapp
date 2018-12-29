@@ -32,7 +32,7 @@ import { IUserResponse, IUser } from 'types';
 import { Loader } from 'components/loaders';
 
 interface AppProps {
-  themeMode: string;
+  darkMode: string;
   signedInUser?: IUser;
   signin: (user: IUser) => void;
   logout: () => void;
@@ -58,7 +58,7 @@ export class App extends React.Component<AppProps> {
     nextState: AppState
   ): boolean {
     return (
-      this.props.themeMode !== nextProps.themeMode ||
+      this.props.darkMode !== nextProps.darkMode ||
       this.state.loading !== nextState.loading
     );
   }
@@ -119,11 +119,11 @@ export class App extends React.Component<AppProps> {
 }
 
 function mapStateToProps(state: any, ownProps: any) {
-  const { notifications, user, themeMode } = state;
+  const { notifications, user, darkMode } = state;
   return {
     signedInUser: user,
     notifications,
-    themeMode
+    darkMode
   };
 }
 
