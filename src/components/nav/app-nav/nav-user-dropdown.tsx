@@ -10,6 +10,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { Link } from '@reach/router';
+import { ThemeSwitcher } from 'components/theme';
 
 interface NavUserDropdownProps extends WithStyles<typeof styles> {
   user: IUser;
@@ -101,6 +102,9 @@ export class NavUserDropdownMenu extends React.Component<
           >
             <Typography>Settings</Typography>
           </Link>
+        </MenuItem>
+        <MenuItem>
+          <ThemeSwitcher />
         </MenuItem>
         <MenuItem>
           <Link className={classes.menuItem} onClick={handleClose} to="/logout">

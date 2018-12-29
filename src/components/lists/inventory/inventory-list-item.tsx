@@ -19,7 +19,7 @@ import { CellarApiResource } from 'services';
 const styles = (theme: Theme) =>
   createStyles({
     updateQuantity: {
-      width: 50
+      width: 35
     },
     beerName: {
       fontWeight: theme.typography.fontWeightMedium,
@@ -28,11 +28,18 @@ const styles = (theme: Theme) =>
     breweryName: {
       opacity: 0.6
     },
+    icon: {
+      color: theme.palette.getContrastText(theme.palette.background.default)
+    },
     listLink: {
       display: 'block',
       width: '100%',
       textDecoration: 'none',
-      color: theme.palette.getContrastText(theme.palette.background.paper)
+      color: theme.palette.getContrastText(theme.palette.background.default)
+    },
+    checkIcon: {
+      top: theme.spacing.unit * 2,
+      position: 'relative'
     }
   });
 
@@ -63,19 +70,21 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
   }
 
   private getRowActions(): React.ReactNode {
+    const { classes } = this.props;
     const { editing } = this.state;
     return editing ? (
       <ListItemSecondaryAction>{this.getEditInput()}</ListItemSecondaryAction>
     ) : (
       <ListItemSecondaryAction>
         <EditIcon
+          className={classes.icon}
           onClick={() => {
             this.setState({
               editing: true
             });
           }}
         />
-        <DeleteIcon onClick={() => {}} />
+        <DeleteIcon className={classes.icon} onClick={() => {}} />
       </ListItemSecondaryAction>
     );
   }
@@ -125,6 +134,7 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
           }}
         />
         <CheckIcon
+          className={[classes.icon, classes.checkIcon].join(' ')}
           onClick={() => {
             this.handleUpdate();
           }}

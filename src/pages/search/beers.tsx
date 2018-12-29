@@ -32,6 +32,9 @@ const styles = (theme: Theme) =>
     searchField: {
       margin: theme.spacing.unit,
       display: 'flex'
+    },
+    icon: {
+      color: theme.palette.getContrastText(theme.palette.background.default)
     }
   });
 
@@ -65,7 +68,7 @@ export class BeerSearch extends React.Component<
                 disabled={pristine || invalid}
                 className={classes.right}
               >
-                <SearchIcon />
+                <SearchIcon className={classes.icon} />
               </IconButton>
               <Field
                 className={classes.searchField}

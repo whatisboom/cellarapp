@@ -17,7 +17,8 @@ const styles = (theme: Theme) =>
     addIcon: {
       float: 'right',
       position: 'relative',
-      top: theme.spacing.unit
+      top: theme.spacing.unit,
+      color: theme.palette.getContrastText(theme.palette.background.default)
     },
     beerList: {
       margin: theme.spacing.unit * 2

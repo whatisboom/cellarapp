@@ -20,7 +20,14 @@ import { CellarApiResource } from 'services';
 const styles = (theme: Theme) =>
   createStyles({
     addField: {
-      width: 50
+      width: 35
+    },
+    icon: {
+      color: theme.palette.getContrastText(theme.palette.background.default)
+    },
+    checkIcon: {
+      top: theme.spacing.unit * 2,
+      position: 'relative'
     }
   });
 
@@ -86,6 +93,7 @@ export class BeerListItem extends React.Component<
                 }}
               />
               <CheckIcon
+                className={[classes.icon, classes.checkIcon].join(' ')}
                 onClick={() => {
                   this.addToMyInventory(
                     beer,
@@ -96,6 +104,7 @@ export class BeerListItem extends React.Component<
             </React.Fragment>
           ) : (
             <AddIcon
+              className={classes.icon}
               onClick={() =>
                 this.setState({
                   adding: true
