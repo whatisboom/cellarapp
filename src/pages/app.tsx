@@ -10,14 +10,14 @@ import { Users } from './users';
 import { Breweries } from './breweries';
 import { Logout } from './logout';
 import Dashboard from './dashboard';
-import { AppNav } from '../components/nav';
-import { Notification } from '../components/notification';
-import { AuthService } from '../services/auth';
-import { CellarApiResource } from '../services/api';
+import { AppNav } from 'components/nav';
+import { Notification } from 'components/notification';
+import { AuthService } from 'services/auth';
+import { CellarApiResource } from 'services/api';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { LOGOUT, UPDATE_LOGGED_IN_USER } from '../actions';
-import { IUserResponse, IUser } from '../types';
-import { Loader } from '../components/loaders';
+import { LOGOUT, UPDATE_LOGGED_IN_USER } from 'actions';
+import { IUserResponse, IUser } from 'types';
+import { Loader } from 'components/loaders';
 
 interface AppProps {
   signedInUser?: IUser;

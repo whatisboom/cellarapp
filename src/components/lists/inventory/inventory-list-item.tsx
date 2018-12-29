@@ -14,7 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { IQuantity, IQuantityResponse } from 'types';
 import { Link } from '@reach/router';
-import { CellarApiResource } from '../../../services';
+import { CellarApiResource } from 'services';
 
 const styles = (theme: Theme) =>
   createStyles({

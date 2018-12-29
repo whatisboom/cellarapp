@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { IBeer, IBeerResponse } from '../../types';
-import { CellarApiResource } from '../../services/api';
-import Loader from '../../components/loaders/loader';
+import { IBeer, IBeerResponse } from 'types';
+import { CellarApiResource } from 'services/api';
+import Loader from 'components/loaders/loader';
 
 interface IComponentState {
   beer?: IBeer;

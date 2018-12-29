@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { CellarApiResource } from '../services/api';
+import { CellarApiResource } from 'services/api';
 import { IUserResponse, IUser, IQuantity } from 'types';
-import UserCard from '../components/cards/user-card';
-import Inventory from '../components/lists/inventory/inventory';
-import { Loader } from '../components/loaders';
+import UserCard from 'components/cards/user-card';
+import Inventory from 'components/lists/inventory/inventory';
+import { Loader } from 'components/loaders';
 import { connect } from 'react-redux';
-import { BEER_UPDATE_INVENTORY_QUANTITY } from '../actions';
+import { BEER_UPDATE_INVENTORY_QUANTITY } from 'actions';
 
 interface DashboardProps {
   signin: (user: IUser) => void;

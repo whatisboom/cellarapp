@@ -1,10 +1,5 @@
 import { CellarApiResource } from './api';
-import {
-  ILoginResponse,
-  ISigninForm,
-  ISignupForm,
-  IUserResponse
-} from '../types';
+import { ILoginResponse, ISigninForm, ISignupForm, IUserResponse } from 'types';
 import {
   JWT_KEY,
   REFRESH_TOKEN_KEY,

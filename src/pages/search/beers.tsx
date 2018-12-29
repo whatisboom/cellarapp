@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Form, Field } from 'react-final-form';
-import { CellarApiResource } from '../../services';
-import { IBeersResponse, IBeer, IUser } from '../../types';
+import { CellarApiResource } from 'services';
+import { IBeersResponse, IBeer, IUser } from 'types';
 import BeerListItem from './beer-list-item';
 import {
   List,

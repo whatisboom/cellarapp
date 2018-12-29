@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
-import { CellarApiResource } from '../../services/api';
-import Loader from '../../components/loaders/loader';
-import { IUserResponse, IUser } from '../../types';
+import { CellarApiResource } from 'services/api';
+import Loader from 'components/loaders/loader';
+import { IUserResponse, IUser } from 'types';
 import {
   Theme,
   createStyles,
