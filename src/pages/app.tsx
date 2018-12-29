@@ -11,10 +11,11 @@ import { Breweries } from './breweries';
 import { Logout } from './logout';
 import Dashboard from './dashboard';
 import { AppNav } from '../components/nav';
+import { Notification } from '../components/notification';
 import { AuthService } from '../services/auth';
 import { CellarApiResource } from '../services/api';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
+import { LOGOUT, UPDATE_LOGGED_IN_USER } from '../actions';
 import { IUserResponse, IUser } from '../types';
 import { Loader } from '../components/loaders';
 
@@ -22,6 +23,10 @@ interface AppProps {
   signedInUser?: IUser;
   signin: (user: IUser) => void;
   logout: () => void;
+  notifications: Array<{
+    id: string;
+    text: string;
+  }>;
 }
 
 interface AppState {
@@ -76,6 +81,10 @@ export class App extends React.Component<AppProps> {
             <Breweries path="breweries/*" />
             <Search path="search/*" />
           </Router>
+          {this.props.notifications &&
+            this.props.notifications.map((note) => (
+              <Notification key={note.id} note={note} />
+            ))}
         </div>
       </React.Fragment>
     );
@@ -83,8 +92,10 @@ export class App extends React.Component<AppProps> {
 }
 
 function mapStateToProps(state: any, ownProps: any) {
+  const { notifications, user } = state;
   return {
-    signedInUser: state.user
+    signedInUser: user,
+    notifications
   };
 }
 
@@ -92,13 +103,13 @@ function mapDispatchToProps(dispatch: any, ownProps: any) {
   return {
     signin: (user: IUser) => {
       dispatch({
-        type: 'SIGNIN',
+        type: UPDATE_LOGGED_IN_USER,
         user
       });
     },
     logout: () => {
       dispatch({
-        type: 'LOGOUT'
+        type: LOGOUT
       });
     }
   };

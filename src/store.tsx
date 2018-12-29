@@ -1,12 +1,22 @@
-import { createStore, Action } from 'redux';
-function signinReducer(state: { [key: string]: any } = {}, action: any): any {
-  switch (action.type) {
-    case 'SIGNIN':
-      return { ...state, user: action.user };
-    case 'LOGOUT':
-      return { ...state, user: undefined };
-    default:
-      return state;
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION__: any;
+  }
+  interface DeepPartial {
+    [key: string]: any;
   }
 }
-export const store = createStore(signinReducer, {});
+
+import { notifications, user } from './reducers';
+import { createStore, combineReducers } from 'redux';
+
+const rootReducer = combineReducers({ user, notifications });
+const initialState: Object = {
+  user: null
+};
+const devToolsMiddleware =
+  process.env.NODE_ENV === 'development'
+    ? window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__()
+    : undefined;
+export const store = createStore(rootReducer, initialState, devToolsMiddleware);
