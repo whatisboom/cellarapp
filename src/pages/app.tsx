@@ -81,9 +81,10 @@ export class App extends React.Component<AppProps> {
             <Breweries path="breweries/*" />
             <Search path="search/*" />
           </Router>
-          {this.props.notifications.map((note) => (
-            <Notification key={note.id} note={note} />
-          ))}
+          {this.props.notifications &&
+            this.props.notifications.map((note) => (
+              <Notification key={note.id} note={note} />
+            ))}
         </div>
       </React.Fragment>
     );

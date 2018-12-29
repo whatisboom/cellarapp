@@ -18,7 +18,6 @@ export class Notification extends React.Component<SnackbarWrapperProps> {
     const { note } = this.props;
     return (
       <Snackbar
-        key={note.id}
         open={this.state.open}
         anchorOrigin={{
           vertical: 'bottom',
