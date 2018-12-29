@@ -9,11 +9,12 @@ declare global {
 
 import { notifications, themeMode, user } from './reducers';
 import { createStore, combineReducers } from 'redux';
+import { BEER_CELLAR_THEME_MODE } from 'beer-cellar-constants';
 
 const rootReducer = combineReducers({ notifications, themeMode, user });
 const initialState: Object = {
   user: null,
-  themeMode: localStorage.getItem('beerCellarThemeMode') || 'dark'
+  themeMode: localStorage.getItem(BEER_CELLAR_THEME_MODE) || 'dark'
 };
 const devToolsMiddleware =
   process.env.NODE_ENV === 'development'

@@ -4,6 +4,7 @@ import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
 import { connect } from 'react-redux';
 import { AppConnected } from 'pages/app';
+import { BEER_CELLAR_THEME_MODE } from 'beer-cellar-constants';
 interface BeerCellarThemeProps {
   themeMode: any;
 }
@@ -22,6 +23,7 @@ export class BCTheme extends React.Component<BeerCellarThemeProps> {
 
   private getTheme() {
     const { themeMode } = this.props;
+    localStorage.setItem(BEER_CELLAR_THEME_MODE, themeMode);
     return createMuiTheme({
       palette: {
         primary: {
