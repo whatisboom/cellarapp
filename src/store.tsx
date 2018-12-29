@@ -2,9 +2,6 @@ declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION__: any;
   }
-  interface DeepPartial {
-    [key: string]: any;
-  }
 }
 
 import { notifications, darkMode, user } from './reducers';
