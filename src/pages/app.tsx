@@ -50,6 +50,7 @@ export class App extends React.Component<AppProps> {
   public state: AppState = {
     loading: true
   };
+
   public async componentDidMount() {
     const isAuthedticated = AuthService.isAuthenticated();
     if (isAuthedticated) {
@@ -63,6 +64,7 @@ export class App extends React.Component<AppProps> {
       loading: false
     });
   }
+
   public render() {
     const { signedInUser } = this.props;
     const { loading } = this.state;
