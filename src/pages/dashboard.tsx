@@ -26,8 +26,7 @@ export class Dashboard extends React.Component<
   };
   public render() {
     const { user } = this.props;
-
-    if (this.state.loading) {
+    if (this.state.loading || user === null) {
       return <Loader />;
     }
 
@@ -62,9 +61,9 @@ export class Dashboard extends React.Component<
   }
 }
 
-function mapDispatchToProps(dispatch: any, ownProps: DashboardProps) {
+function mapDispatchToProps(dispatch: React.Dispatch<any>) {
   return {
-    updateQuantityNotification: (updated: IQuantity): void => {
+    updateQuantityNotification(updated: IQuantity): void {
       dispatch({
         type: BEER_UPDATE_INVENTORY_QUANTITY,
         updated
