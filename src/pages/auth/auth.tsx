@@ -106,7 +106,9 @@ export class OAuthUntappd extends React.Component<
       return await this.resource.create({
         code
       });
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   public render() {
@@ -114,7 +116,7 @@ export class OAuthUntappd extends React.Component<
       <div className={this.props.classes.container}>
         <Typography>
           {this.state.loading
-            ? 'Authenticating...'
+            ? 'Signing you in...'
             : 'Successfully signed in! Redirecting to your dashboard!'}
         </Typography>
         <Loader />
