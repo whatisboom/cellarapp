@@ -53,16 +53,6 @@ export class App extends React.Component<AppProps> {
   public state: AppState = {
     loading: true
   };
-  public shouldComponentUpdate(
-    nextProps: AppProps,
-    nextState: AppState
-  ): boolean {
-    return (
-      this.props.signedInUser !== nextProps.signedInUser ||
-      this.props.darkMode !== nextProps.darkMode ||
-      this.state.loading !== nextState.loading
-    );
-  }
 
   public async componentDidMount() {
     const isAuthedticated = AuthService.isAuthenticated();
