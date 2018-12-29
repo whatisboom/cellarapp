@@ -22,6 +22,9 @@ import Logout from './logout';
 const Dashboard = React.lazy(() =>
   import(/* webpackChunkName: "dashboard" */ './dashboard')
 );
+const Settings = React.lazy(() =>
+  import(/* webpachChunkName: "settings" */ './settings')
+);
 import { AppNav } from 'components/nav';
 import { Notification } from 'components/notification';
 import { AuthService } from 'services/auth';
@@ -50,9 +53,6 @@ export class App extends React.Component<AppProps> {
   public state: AppState = {
     loading: true
   };
-  public componentDidUpdate() {
-    console.log('didUpdate', this.props);
-  }
   public shouldComponentUpdate(
     nextProps: AppProps,
     nextState: AppState
@@ -106,6 +106,7 @@ export class App extends React.Component<AppProps> {
               <Beers path="beers/*" />
               <Breweries path="breweries/*" />
               <Search path="search/*" />
+              <Settings path="settings" />
             </Router>
             {this.props.notifications &&
               this.props.notifications.map((note) => (

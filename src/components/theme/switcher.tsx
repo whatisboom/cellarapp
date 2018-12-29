@@ -1,23 +1,39 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Typography, Switch } from '@material-ui/core';
+import {
+  Typography,
+  Switch,
+  Theme,
+  createStyles,
+  WithStyles,
+  withStyles
+} from '@material-ui/core';
 import { SWITCH_THEME_MODE } from 'actions';
 
-interface SwitcherProps {
+const styles = (theme: Theme) =>
+  createStyles({
+    container: {
+      display: 'flex',
+      alignItems: 'center'
+    }
+  });
+
+interface SwitcherProps extends WithStyles<typeof styles> {
   darkMode: string;
   changeTheme?: () => void;
 }
 
 export class Switcher extends React.Component<SwitcherProps> {
   public render() {
+    const { classes } = this.props;
     return (
-      <Typography>
-        Dark Mode:{' '}
+      <div className={classes.container}>
+        <Typography style={{ flex: 1 }}>Dark Mode:</Typography>
         <Switch
           checked={this.props.darkMode}
           onChange={() => this.props.changeTheme()}
         />
-      </Typography>
+      </div>
     );
   }
 }
@@ -42,4 +58,4 @@ function mapDispatchToProps(dispatch: React.Dispatch<any>) {
 export const ThemeSwitcher = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Switcher);
+)(withStyles(styles)(Switcher));
