@@ -3,13 +3,25 @@ import { connect } from 'react-redux';
 import { Router } from '@reach/router';
 
 import Home from './home';
-const Auth = React.lazy(() => import('./auth/auth'));
-const Beers = React.lazy(() => import('./beers/beers'));
-const Search = React.lazy(() => import('./search/search'));
-const Users = React.lazy(() => import('./users/users'));
-const Breweries = React.lazy(() => import('./breweries/breweries'));
-const Logout = React.lazy(() => import('./logout'));
-const Dashboard = React.lazy(() => import('./dashboard'));
+const Auth = React.lazy(() =>
+  import(/* webpackChunkName: "auth" */ './auth/auth')
+);
+const Beers = React.lazy(() =>
+  import(/* webpackChunkName: "beers" */ './beers/beers')
+);
+const Search = React.lazy(() =>
+  import(/* webpackChunkName: "search" */ './search/search')
+);
+const Users = React.lazy(() =>
+  import(/* webpackChunkName: "users" */ './users/users')
+);
+const Breweries = React.lazy(() =>
+  import(/* webpackChunkName: "breweries" */ './breweries/breweries')
+);
+import Logout from './logout';
+const Dashboard = React.lazy(() =>
+  import(/* webpackChunkName: "dashboard" */ './dashboard')
+);
 import { AppNav } from 'components/nav';
 import { Notification } from 'components/notification';
 import { AuthService } from 'services/auth';

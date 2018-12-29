@@ -23,6 +23,12 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules']
   },
 
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  },
+
   module: {
     rules: [
       {
