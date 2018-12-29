@@ -31,7 +31,7 @@ import { AuthService } from 'services/auth';
 import { CellarApiResource } from 'services/api';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { LOGOUT, UPDATE_LOGGED_IN_USER } from 'actions';
-import { IUserResponse, IUser } from 'types';
+import { IUserResponse, IUser, INotification } from 'types';
 import { Loader } from 'components/loaders';
 
 interface AppProps {
@@ -39,10 +39,7 @@ interface AppProps {
   signedInUser?: IUser;
   signin: (user: IUser) => void;
   logout: () => void;
-  notifications: Array<{
-    id: string;
-    text: string;
-  }>;
+  notifications: INotification[];
 }
 
 interface AppState {

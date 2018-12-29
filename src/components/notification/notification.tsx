@@ -1,8 +1,29 @@
 import * as React from 'react';
 import { INotification } from 'types';
-import { Snackbar } from '@material-ui/core';
+import {
+  Snackbar,
+  Theme,
+  createStyles,
+  WithStyles,
+  withStyles,
+  SnackbarContent
+} from '@material-ui/core';
+import { green, red } from '@material-ui/core/colors';
 
-interface SnackbarWrapperProps {
+const styles = (theme: Theme) =>
+  createStyles({
+    success: {
+      background: green[700],
+      color: theme.palette.getContrastText(green[700])
+    },
+    neutral: {},
+    error: {
+      background: red[500],
+      color: theme.palette.getContrastText(red[500])
+    }
+  });
+
+interface SnackbarWrapperProps extends WithStyles<{ [key: string]: any }> {
   note: INotification;
 }
 
@@ -10,12 +31,14 @@ interface SnackbarWrapperState {
   open: boolean;
 }
 
-export class Notification extends React.Component<SnackbarWrapperProps> {
+export class NotificationCmp extends React.Component<SnackbarWrapperProps> {
   public state: SnackbarWrapperState = {
     open: true
   };
   public render() {
-    const { note } = this.props;
+    const { note, classes } = this.props;
+    const status = note.status || 'neutral';
+    const variant: string = classes[status];
     return (
       <Snackbar
         open={this.state.open}
@@ -24,13 +47,19 @@ export class Notification extends React.Component<SnackbarWrapperProps> {
           horizontal: 'right'
         }}
         autoHideDuration={3000}
-        message={<span>{note.text}</span>}
         onClose={() =>
           this.setState({
             open: false
           })
         }
-      />
+      >
+        <SnackbarContent
+          className={variant}
+          message={<span>{note.text}</span>}
+        />
+      </Snackbar>
     );
   }
 }
+
+export const Notification = withStyles(styles)(NotificationCmp);
