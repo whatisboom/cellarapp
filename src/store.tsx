@@ -10,10 +10,13 @@ declare global {
 import { notifications, user } from './reducers';
 import { createStore, combineReducers } from 'redux';
 
-export const store = createStore(
-  combineReducers({ user, notifications }),
-  {
-    user: null
-  },
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const rootReducer = combineReducers({ user, notifications });
+const initialState: Object = {
+  user: null
+};
+const devToolsMiddleware =
+  process.env.NODE_ENV === 'development'
+    ? window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__()
+    : undefined;
+export const store = createStore(rootReducer, initialState, devToolsMiddleware);

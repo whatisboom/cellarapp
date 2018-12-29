@@ -40,14 +40,11 @@ export default class Dashboard extends React.Component<
   }
 
   public async componentDidMount() {
-    const { user } = this.props;
-    if (!user) {
-      const me = new CellarApiResource<null, IUserResponse>({
-        path: '/users/me'
-      });
-      const { user } = await me.read();
-      this.props.signin(user);
-    }
+    const me = new CellarApiResource<null, IUserResponse>({
+      path: '/users/me'
+    });
+    const { user } = await me.read();
+    this.props.signin(user);
     this.setState({
       loading: false
     });

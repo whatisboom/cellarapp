@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IBeer, IUser, IUserResponse } from '../../types';
+
 import {
   ListItem,
   TextField,
@@ -11,7 +12,7 @@ import {
   WithStyles,
   withStyles
 } from '@material-ui/core';
-
+import { BEER_ADDED_TO_INVENTORY } from '../../actions';
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 import { CellarApiResource } from '../../services';
@@ -26,6 +27,7 @@ const styles = (theme: Theme) =>
 interface BeerListItemProps extends WithStyles<typeof styles> {
   beer: IBeer;
   user: IUser;
+  updated: (amount: number) => void;
 }
 
 interface BeerListItemState {
@@ -116,17 +118,33 @@ export class BeerListItem extends React.Component<
       this.setState({
         adding: false
       });
+      this.props.updated(amount);
     } catch (e) {
       console.log(e);
     }
   }
 }
 
-function mapStateToProps(state: any, ownProps: any) {
+function mapStateToProps(state: any, ownProps: BeerListItemProps) {
   const { user } = state;
   return {
     user
   };
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(BeerListItem));
+function mapDispatchToProps(dispatch: any, ownProps: BeerListItemProps) {
+  const props = {
+    updated: (amount: number) => {
+      dispatch({
+        type: BEER_ADDED_TO_INVENTORY,
+        beer: { ...ownProps.beer, amount }
+      });
+    }
+  };
+  return props;
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(BeerListItem));
