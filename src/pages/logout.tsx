@@ -7,7 +7,7 @@ interface IComponentProps {
   logout: () => void;
 }
 
-export class Logout extends React.Component<
+export default class Logout extends React.Component<
   RouteComponentProps<IComponentProps>
 > {
   public render() {

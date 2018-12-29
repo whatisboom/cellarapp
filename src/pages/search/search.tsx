@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
 import BeerSearch from './beers';
 
-export class Search extends React.Component<RouteComponentProps> {
+export default class Search extends React.Component<RouteComponentProps> {
   public render() {
     return (
       <Router>
