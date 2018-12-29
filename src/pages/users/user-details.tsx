@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
 import { IQuantity, IUser, IUserResponse, IBeer, IBrewery } from 'types';
-import { CellarApiResource } from '../../services/api';
-import Loader from '../../components/loaders/loader';
+import { CellarApiResource } from 'services/api';
+import Loader from 'components/loaders/loader';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,7 +13,7 @@ import {
   WithStyles,
   withStyles
 } from '@material-ui/core/styles';
-import UserCard from '../../components/cards/user-card';
+import UserCard from 'components/cards/user-card';
 
 interface UserDetailsState {
   user?: IUser;

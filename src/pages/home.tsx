@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
-import { HeroImage } from '../components/images';
+import { HeroImage } from 'components/images';
 import {
   Theme,
   createStyles,

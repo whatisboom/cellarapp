@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps, navigate, Router } from '@reach/router';
-import { AuthService, CellarApiResource } from '../../services';
-import { ILoginResponse } from '../../types';
+import { AuthService, CellarApiResource } from 'services';
+import { ILoginResponse } from 'types';
 import {
   Button,
   WithStyles,

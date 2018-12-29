@@ -1,7 +1,7 @@
 import {
   BEER_UPDATE_INVENTORY_QUANTITY,
   BEER_ADDED_TO_INVENTORY
-} from '../actions';
+} from 'actions';
 
 export function notifications(state: any[] = [], action: any): any {
   const clonedState = state.slice(0);

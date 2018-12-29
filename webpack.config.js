@@ -5,7 +5,7 @@ if (!process.env.NODE_ENV) {
 const path = require('path'),
   webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
-
+console.log(path.resolve(__dirname, 'src'));
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
@@ -19,7 +19,8 @@ module.exports = {
   devtool: 'source-map',
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules']
   },
 
   module: {

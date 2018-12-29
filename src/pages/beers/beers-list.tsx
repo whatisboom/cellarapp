@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
-import { CellarApiResource } from '../../services/api';
-import { IBeersResponse, IBeer } from '../../types';
-import { List } from '../../components/lists/list';
-import { ListItem } from '../../components/lists/list-item';
-import Loader from '../../components/loaders/loader';
+import { CellarApiResource } from 'services/api';
+import { IBeersResponse, IBeer } from 'types';
+import { List } from 'components/lists/list';
+import { ListItem } from 'components/lists/list-item';
+import Loader from 'components/loaders/loader';
 
 interface IComponentState {
   beers?: IBeer[];

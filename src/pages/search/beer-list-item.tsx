@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { IBeer, IUser, IUserResponse } from '../../types';
+import { IBeer, IUser, IUserResponse } from 'types';
 
 import {
   ListItem,
@@ -12,10 +12,10 @@ import {
   WithStyles,
   withStyles
 } from '@material-ui/core';
-import { BEER_ADDED_TO_INVENTORY } from '../../actions';
+import { BEER_ADDED_TO_INVENTORY } from 'actions';
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
-import { CellarApiResource } from '../../services';
+import { CellarApiResource } from 'services';
 
 const styles = (theme: Theme) =>
   createStyles({

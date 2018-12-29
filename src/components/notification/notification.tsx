@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { INotification } from '../../types';
+import { INotification } from 'types';
 import { Snackbar } from '@material-ui/core';
 
 interface SnackbarWrapperProps {
