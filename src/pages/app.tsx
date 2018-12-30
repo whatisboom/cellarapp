@@ -23,7 +23,7 @@ const Dashboard = React.lazy(() =>
   import(/* webpackChunkName: "dashboard" */ './dashboard')
 );
 const Settings = React.lazy(() =>
-  import(/* webpachChunkName: "settings" */ './settings')
+  import(/* webpackChunkName: "settings" */ './settings')
 );
 import { AppNav } from 'components/nav';
 import { Notification } from 'components/notification';

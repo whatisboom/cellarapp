@@ -4,12 +4,18 @@ declare global {
   }
 }
 
-import { notifications, darkMode, user } from './reducers';
+import { navigation, notifications, darkMode, user } from './reducers';
 import { createStore, combineReducers } from 'redux';
 import { BEER_CELLAR_DARK_MODE_ENABLED } from 'beer-cellar-constants';
 
-const rootReducer = combineReducers({ notifications, darkMode, user });
+const rootReducer = combineReducers({
+  navigation,
+  notifications,
+  darkMode,
+  user
+});
 const initialState: Object = {
+  navigation: { open: false },
   user: null,
   darkMode: localStorage.getItem(BEER_CELLAR_DARK_MODE_ENABLED) !== 'false'
 };
