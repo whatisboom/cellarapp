@@ -90,9 +90,8 @@ export class UsersListContainer extends React.Component<
     const { classes } = this.props;
     return (
       <Form
-        validate={this.validateSearch.bind(this)}
         onSubmit={this.searchSubmit.bind(this)}
-        render={({ handleSubmit, pristine, invalid, values }) => (
+        render={({ handleSubmit }) => (
           <form
             className={classes.searchForm}
             onSubmit={handleSubmit}
@@ -134,10 +133,6 @@ export class UsersListContainer extends React.Component<
         loading: false
       });
     }
-  }
-
-  private validateSearch(values: object): object {
-    return {};
   }
 
   private getListItem(user: IUser) {
