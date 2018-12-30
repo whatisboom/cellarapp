@@ -46,7 +46,7 @@ export class NotificationCmp extends React.Component<SnackbarWrapperProps> {
           vertical: 'bottom',
           horizontal: 'right'
         }}
-        autoHideDuration={3000}
+        autoHideDuration={note.duration || 3000}
         onClose={() =>
           this.setState({
             open: false
