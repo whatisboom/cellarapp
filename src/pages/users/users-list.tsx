@@ -13,18 +13,30 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import { Form, Field } from 'react-final-form';
+import { TextField } from 'final-form-material-ui';
+import SearchIcon from '@material-ui/icons/Search';
+import { InputAdornment, ListItemAvatar, Avatar } from '@material-ui/core';
 
 const styles = (theme: Theme) =>
   createStyles({
-    root: {
+    container: {
       width: '100%',
       backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing.unit * 2
+      padding: theme.spacing.unit
     },
-    link: {
-      textDecoration: 'none'
+    searchForm: {
+      display: 'flex',
+      paddingBottom: theme.spacing.unit
+    },
+    searchField: {
+      flex: 1
     }
   });
+
+interface ISearchForm {
+  search: string;
+}
 
 interface UsersListProps extends WithStyles<typeof styles> {}
 
@@ -39,14 +51,15 @@ export class UsersListContainer extends React.Component<
     loading: true
   };
 
-  public resource = new CellarApiResource<null, IUserResponse>({
+  public resource = new CellarApiResource<null | ISearchForm, IUserResponse>({
     path: '/users'
   });
 
   public render() {
     const { classes } = this.props;
     return (
-      <div className={classes.root}>
+      <div className={classes.container}>
+        {this.getSearch()}
         {this.state.loading ? (
           <Loader />
         ) : (
@@ -54,21 +67,7 @@ export class UsersListContainer extends React.Component<
             component="nav"
             subheader={<Typography variant="h4">Users</Typography>}
           >
-            {this.state.users.map((user) => (
-              <ListItem
-                key={user._id}
-                component={() => {
-                  return (
-                    <Link to={user.username} className={classes.link}>
-                      <ListItemText
-                        primary={user.username}
-                        secondary={`Owned: ${user.owned.length}`}
-                      />
-                    </Link>
-                  );
-                }}
-              />
-            ))}
+            {this.state.users.map(this.getListItem)}
           </List>
         )}
       </div>
@@ -82,7 +81,81 @@ export class UsersListContainer extends React.Component<
         users,
         loading: false
       });
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  private getSearch(): React.ReactNode {
+    const { classes } = this.props;
+    return (
+      <Form
+        validate={this.validateSearch.bind(this)}
+        onSubmit={this.searchSubmit.bind(this)}
+        render={({ handleSubmit, pristine, invalid, values }) => (
+          <form
+            className={classes.searchForm}
+            onSubmit={handleSubmit}
+            autoComplete="off"
+          >
+            <Field
+              className={classes.searchField}
+              name="search"
+              component={TextField}
+              label="Search Users"
+              autoFocus={true}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </form>
+        )}
+      />
+    );
+  }
+
+  private async searchSubmit(values: ISearchForm): Promise<void> {
+    let users;
+    try {
+      const { search } = values;
+      const response = await this.resource.list({
+        search
+      });
+      users = response.users;
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.setState({
+        users,
+        loading: false
+      });
+    }
+  }
+
+  private validateSearch(values: object): object {
+    return {};
+  }
+
+  private getListItem(user: IUser) {
+    return (
+      <ListItem
+        disableGutters={true}
+        key={user._id}
+        component={(props) => <Link to={user.username} {...props} />}
+      >
+        <ListItemAvatar>
+          <Avatar alt={user.username} src={user.avatar} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={user.username}
+          secondary={`Owned: ${user.owned.length}`}
+        />
+      </ListItem>
+    );
   }
 }
 

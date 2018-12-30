@@ -38,7 +38,7 @@ const styles = (theme: Theme) =>
       color: theme.palette.getContrastText(theme.palette.background.default)
     },
     checkIcon: {
-      top: theme.spacing.unit * 2,
+      top: theme.spacing.unit,
       position: 'relative'
     }
   });

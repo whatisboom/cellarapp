@@ -23,7 +23,7 @@ import UsersIcon from '@material-ui/icons/Group';
 const styles = (theme: Theme) =>
   createStyles({
     subheading: {
-      padding: theme.spacing.unit * 2
+      padding: theme.spacing.unit
     },
     link: {
       textDecoration: 'none',

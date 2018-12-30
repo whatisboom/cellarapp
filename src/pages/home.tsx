@@ -25,7 +25,7 @@ const styles = (theme: Theme) =>
       color: theme.palette.common.white
     },
     container: {
-      padding: theme.spacing.unit * 2,
+      padding: theme.spacing.unit,
       textAlign: 'center'
     },
     logo: {

@@ -16,8 +16,11 @@ export class CellarApiResource<T, U> {
     }
     this.setResourceString(config.path);
   }
-  public async list(opts?: any): Promise<{ [resource: string]: U[] }> {
-    const { url, headers } = this.buildRequestObject();
+  public async list(
+    payload?: T,
+    opts?: any
+  ): Promise<{ [resource: string]: U[] }> {
+    const { url, headers } = this.buildRequestObject('GET', payload);
     const response = await fetch(url, {
       method: 'GET',
       headers
@@ -97,7 +100,7 @@ export class CellarApiResource<T, U> {
       if (url.match(pattern)) {
         url = url.replace(template, params[key]);
       } else if (method === 'GET') {
-        query.push(`${key}=${JSON.stringify(params[key])}`);
+        query.push(`${key}=${params[key]}`);
       } else {
         body[key] = params[key];
       }

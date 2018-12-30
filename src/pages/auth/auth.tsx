@@ -30,14 +30,14 @@ export default class Auth extends React.Component<RouteComponentProps> {
 const SignupStyles = (theme: Theme) =>
   createStyles({
     button: {
-      marginTop: theme.spacing.unit * 2
+      marginTop: theme.spacing.unit
     },
     buttonLink: {
       textDecoration: 'none',
       color: theme.palette.common.white
     },
     container: {
-      padding: theme.spacing.unit * 2,
+      padding: theme.spacing.unit,
       textAlign: 'center'
     }
   });

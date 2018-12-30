@@ -36,6 +36,9 @@ export class BCTheme extends React.Component<BeerCellarThemeProps> {
       },
       typography: {
         useNextVariants: true
+      },
+      spacing: {
+        unit: 16
       }
     });
   }
