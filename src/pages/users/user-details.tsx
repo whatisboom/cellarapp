@@ -14,6 +14,7 @@ import {
   withStyles
 } from '@material-ui/core/styles';
 import UserCard from 'components/cards/user-card';
+import { Grid } from '@material-ui/core';
 
 interface UserDetailsState {
   user?: IUser;
@@ -82,10 +83,14 @@ export class UserDetails extends React.Component<
     }
 
     return (
-      <React.Fragment>
-        <UserCard user={user} />
-        {this.getBeerList('owned', 'Inventory')}
-      </React.Fragment>
+      <Grid container>
+        <Grid item xs={12} sm={6} md={4}>
+          <UserCard user={user} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={8}>
+          {this.getBeerList('owned', 'Inventory')}
+        </Grid>
+      </Grid>
     );
   }
 
