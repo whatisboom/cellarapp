@@ -84,7 +84,6 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
             });
           }}
         />
-        <DeleteIcon className={classes.icon} onClick={() => {}} />
       </ListItemSecondaryAction>
     );
   }
@@ -139,6 +138,10 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
             this.handleUpdate();
           }}
         />
+        {/* <DeleteIcon
+          className={[classes.icon, classes.checkIcon].join(' ')}
+          onClick={() => {}}
+        /> */}
       </React.Fragment>
     );
   }

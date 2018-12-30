@@ -82,7 +82,7 @@ export class App extends React.Component<AppProps> {
         <Router>
           <Home path="/" />
         </Router>
-        <div style={{ paddingTop: '60px' }}>
+        <div style={{ paddingTop: '64px' }}>
           <React.Suspense fallback={<Loader />}>
             <Router>
               <Auth path="auth/*" />
