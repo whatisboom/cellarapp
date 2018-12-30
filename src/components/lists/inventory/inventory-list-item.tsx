@@ -138,10 +138,10 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
             this.handleUpdate();
           }}
         />
-        <DeleteIcon
+        {/* <DeleteIcon
           className={[classes.icon, classes.checkIcon].join(' ')}
           onClick={() => {}}
-        />
+        /> */}
       </React.Fragment>
     );
   }
