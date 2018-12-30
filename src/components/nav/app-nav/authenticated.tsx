@@ -6,10 +6,9 @@ import {
   withStyles,
   createStyles,
   WithStyles,
-  Theme,
-  Drawer
+  Theme
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/menu';
+import MenuIcon from '@material-ui/icons/Menu';
 
 import NavUserDropdown from './nav-user-dropdown';
 import { IUser } from 'types';
