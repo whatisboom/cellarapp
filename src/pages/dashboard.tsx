@@ -7,6 +7,7 @@ import Inventory from 'components/lists/inventory/inventory';
 import { Loader } from 'components/loaders';
 import { connect } from 'react-redux';
 import { BEER_UPDATE_INVENTORY_QUANTITY } from 'actions';
+import { Grid } from '@material-ui/core';
 
 interface DashboardProps {
   signin: (user: IUser) => void;
@@ -31,13 +32,17 @@ export class Dashboard extends React.Component<
     }
 
     return (
-      <React.Fragment>
-        <UserCard user={user} />
-        <Inventory
-          beers={user.owned}
-          update={this.updateOwnedQuantity.bind(this)}
-        />
-      </React.Fragment>
+      <Grid container>
+        <Grid item xs={12} sm={6} md={4}>
+          <UserCard user={user} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={8}>
+          <Inventory
+            beers={user.owned}
+            update={this.updateOwnedQuantity.bind(this)}
+          />
+        </Grid>
+      </Grid>
     );
   }
 
