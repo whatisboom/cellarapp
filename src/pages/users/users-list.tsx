@@ -121,10 +121,10 @@ export class UsersListContainer extends React.Component<
   private async searchSubmit(values: ISearchForm): Promise<void> {
     let users;
     try {
-      const { search } = values;
-      const response = await this.resource.list({
-        search
-      });
+      const query: ISearchForm = {
+        ...values
+      };
+      const response = await this.resource.list(query);
       users = response.users;
     } catch (e) {
       console.log(e);
