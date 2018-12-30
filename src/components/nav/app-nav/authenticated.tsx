@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Link } from '@reach/router';
 import {
   AppBar,
   Toolbar,
@@ -7,48 +6,76 @@ import {
   withStyles,
   createStyles,
   WithStyles,
-  Theme
+  Theme,
+  Drawer
 } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/menu';
 
 import NavUserDropdown from './nav-user-dropdown';
 import { IUser } from 'types';
+import { NavMenu } from '../menu/menu';
+import { connect } from 'react-redux';
+import { TOGGLE_NAVIGATION_MENU } from 'actions';
 
 const styles = (theme: Theme) =>
   createStyles({
-    link: {
-      textDecoration: 'none',
-      color: theme.palette.common.white,
-      marginRight: theme.spacing.unit * 2
+    icon: {
+      color: theme.palette.primary.contrastText
     },
     grow: {
       flexGrow: 1
     }
   });
 
-interface StyledComponentProps extends WithStyles<typeof styles> {
+interface AuthenticatedNavProps extends WithStyles<typeof styles> {
   user: IUser;
+  toggleMenu?: () => void;
 }
 
-export class AuthenticatedNav extends React.Component<StyledComponentProps> {
+interface AuthenticatedNavState {
+  menu: boolean;
+}
+
+export class AuthenticatedNav extends React.Component<AuthenticatedNavProps> {
+  public state: AuthenticatedNavState = {
+    menu: false
+  };
+
   public render() {
     const { classes } = this.props;
     return (
       <div className={classes.grow}>
         <AppBar>
           <Toolbar>
-            <Typography variant="h6" className={classes.grow}>
-              <Link className={classes.link} to="/dashboard">
-                Dashboard
-              </Link>
+            <Typography
+              variant="h6"
+              className={[classes.grow, classes.icon].join(' ')}
+            >
+              <MenuIcon onClick={() => this.props.toggleMenu()} />
             </Typography>
             <Typography variant="h6">
               <NavUserDropdown user={this.props.user} />
             </Typography>
           </Toolbar>
         </AppBar>
+        <NavMenu />
       </div>
     );
   }
 }
 
-export default withStyles(styles)(AuthenticatedNav);
+function mapDispatchToProps(dispatch: React.Dispatch<any>) {
+  return {
+    toggleMenu() {
+      dispatch({
+        type: TOGGLE_NAVIGATION_MENU,
+        open: true
+      });
+    }
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(AuthenticatedNav));
