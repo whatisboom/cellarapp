@@ -60,13 +60,20 @@ export class CellarApiResource<T, U> {
     });
     return response.json();
   }
-  public async remove(payload: T): Promise<U> {
-    const { url, method, headers } = this.buildRequestObject('DELETE', payload);
-    const response = await fetch(url, {
-      method,
-      headers
-    });
-    return response.json();
+
+  public async remove(payload: T): Promise<void> {
+    try {
+      const { url, method, headers } = this.buildRequestObject(
+        'DELETE',
+        payload
+      );
+      await fetch(url, {
+        method,
+        headers
+      });
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   public buildRequestObject(
