@@ -21,7 +21,7 @@ const styles = (theme: Theme) =>
       color: theme.palette.getContrastText(theme.palette.background.default)
     },
     beerList: {
-      margin: theme.spacing.unit * 2
+      margin: theme.spacing.unit
     }
   });
 

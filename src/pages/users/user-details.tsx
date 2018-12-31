@@ -28,11 +28,8 @@ const styles = (theme: Theme) =>
       borderRadius: '50%'
     },
     paper: {
-      margin: theme.spacing.unit * 2,
-      padding: theme.spacing.unit * 2
-    },
-    cell: {
-      padding: theme.spacing.unit * 1
+      margin: theme.spacing.unit,
+      padding: theme.spacing.unit
     },
     beerName: {
       fontWeight: theme.typography.fontWeightMedium,
@@ -42,7 +39,7 @@ const styles = (theme: Theme) =>
       color: theme.palette.getContrastText(theme.palette.background.paper)
     },
     beerList: {
-      margin: theme.spacing.unit * 2
+      margin: theme.spacing.unit
     },
     listLink: {
       display: 'block',
