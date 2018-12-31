@@ -37,10 +37,7 @@ export class Dashboard extends React.Component<
           <UserCard user={user} />
         </Grid>
         <Grid item xs={12} sm={6} md={8}>
-          <Inventory
-            beers={user.owned}
-            update={this.updateOwnedQuantity.bind(this)}
-          />
+          <Inventory beers={user.owned} />
         </Grid>
       </Grid>
     );
@@ -56,28 +53,6 @@ export class Dashboard extends React.Component<
       loading: false
     });
   }
-
-  private updateOwnedQuantity(updated: IQuantity) {
-    const { user } = this.props;
-    const rows = user.owned;
-    const owned = rows.find((row) => row.beer._id === updated.beer.toString());
-    owned.amount = updated.amount;
-    this.props.updateQuantityNotification(owned);
-  }
 }
 
-function mapDispatchToProps(dispatch: React.Dispatch<any>) {
-  return {
-    updateQuantityNotification(updated: IQuantity): void {
-      dispatch({
-        type: BEER_UPDATE_INVENTORY_QUANTITY,
-        updated
-      });
-    }
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Dashboard);
+export default Dashboard;

@@ -2,7 +2,8 @@ import {
   BEER_UPDATE_INVENTORY_QUANTITY,
   BEER_ADDED_TO_INVENTORY,
   SHOW_GENERIC_NOTIFICATION,
-  ERROR_NOTIFICATION
+  ERROR_NOTIFICATION,
+  BEER_REMOVE_FROM_INVENTORY
 } from 'actions';
 
 export function notifications(state: any[] = [], action: any): any {
@@ -28,6 +29,13 @@ export function notifications(state: any[] = [], action: any): any {
       }`;
       status = 'success';
       clonedState.push({ id, text, status });
+      return clonedState;
+    case BEER_REMOVE_FROM_INVENTORY:
+      clonedState.push({
+        id: action.owned._id,
+        text: `Successfully removed from inventory`,
+        status: 'success'
+      });
       return clonedState;
     case SHOW_GENERIC_NOTIFICATION:
       clonedState.push(action.notification);

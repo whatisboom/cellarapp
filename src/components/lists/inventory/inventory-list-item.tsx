@@ -7,13 +7,12 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   withStyles,
-  TextField
+  TextField,
+  Typography
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import { IQuantity, IQuantityResponse } from 'types';
-import { Link } from '@reach/router';
 import { CellarApiResource } from 'services';
 
 const styles = (theme: Theme) =>
@@ -29,7 +28,8 @@ const styles = (theme: Theme) =>
       opacity: 0.6
     },
     icon: {
-      color: theme.palette.getContrastText(theme.palette.background.default)
+      color: theme.palette.getContrastText(theme.palette.background.default),
+      marginLeft: theme.spacing.unit / 2
     },
     listLink: {
       display: 'block',
@@ -46,6 +46,7 @@ const styles = (theme: Theme) =>
 interface InventoryListItemProps extends WithStyles<typeof styles> {
   row: IQuantity;
   update: (beer: IQuantity) => void;
+  deleteDialog: (row: IQuantity) => void;
 }
 interface InventoryListItemState {
   editing: boolean;
@@ -56,13 +57,20 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
     editing: false
   };
   public render() {
-    const { classes } = this.props;
+    const { classes, row } = this.props;
     return (
-      <ListItem disableGutters={true}>
+      <ListItem
+        disableGutters={true}
+        onClick={() => {
+          this.setState({
+            editing: true
+          });
+        }}
+      >
         <ListItemText
           className={classes.beerName}
-          primary={this.getBeerLink()}
-          secondary={this.getBreweryLink()}
+          primary={row.beer.name}
+          secondary={row.beer.brewery.name}
         />
         {this.getRowActions()}
       </ListItem>
@@ -70,48 +78,21 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
   }
 
   private getRowActions(): React.ReactNode {
-    const { classes } = this.props;
+    const { row } = this.props;
     const { editing } = this.state;
-    return editing ? (
-      <ListItemSecondaryAction>{this.getEditInput()}</ListItemSecondaryAction>
-    ) : (
+    return (
       <ListItemSecondaryAction>
-        <EditIcon
-          className={classes.icon}
-          onClick={() => {
-            this.setState({
-              editing: true
-            });
-          }}
-        />
+        {editing ? (
+          this.getEditInput()
+        ) : (
+          <Typography>({row.amount})</Typography>
+        )}
       </ListItemSecondaryAction>
     );
   }
 
-  private getBeerLink(): React.ReactNode {
-    const { row, classes } = this.props;
-    const { beer, amount } = row;
-    return (
-      <Link className={classes.listLink} to={`/beers/${beer.slug}`}>
-        {beer.name} ({amount})
-      </Link>
-    );
-  }
-  private getBreweryLink(): React.ReactNode {
-    const { row, classes } = this.props;
-    const { brewery } = row.beer;
-    return (
-      <Link
-        className={[classes.listLink, classes.breweryName].join(' ')}
-        to={`/breweries/${brewery.slug}`}
-      >
-        {brewery.name}
-      </Link>
-    );
-  }
-
   private getEditInput(): React.ReactNode {
-    const { classes, row } = this.props;
+    const { classes, row, deleteDialog } = this.props;
     return (
       <React.Fragment>
         <TextField
@@ -138,10 +119,15 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
             this.handleUpdate();
           }}
         />
-        {/* <DeleteIcon
+        <DeleteIcon
           className={[classes.icon, classes.checkIcon].join(' ')}
-          onClick={() => {}}
-        /> */}
+          onClick={() => {
+            deleteDialog(row);
+            this.setState({
+              editing: false
+            });
+          }}
+        />
       </React.Fragment>
     );
   }
