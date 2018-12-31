@@ -149,15 +149,14 @@ describe('CellarApiResource', () => {
     it('should be defined', () => {
       expect(req.remove).toBeDefined();
     });
-    it('should return an object', (done) => {
+    it('should return undefined', (done) => {
       req
         .remove({
           test: 'param',
           other: 'param'
         })
         .then((response) => {
-          expect(typeof response).toBe('object');
-          expect(response.resource).toEqual([]);
+          expect(response).toBeUndefined();
           done();
         });
     });
