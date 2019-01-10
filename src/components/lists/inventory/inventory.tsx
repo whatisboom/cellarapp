@@ -28,8 +28,9 @@ const styles = (theme: Theme) =>
     addIcon: {
       float: 'right',
       position: 'relative',
-      top: theme.spacing.unit,
-      color: theme.palette.getContrastText(theme.palette.background.default)
+      top: theme.spacing.unit / 2,
+      color: theme.palette.getContrastText(theme.palette.background.default),
+      opacity: 0.6
     },
     beerList: {
       margin: theme.spacing.unit
