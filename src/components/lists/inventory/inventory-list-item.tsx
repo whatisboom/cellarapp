@@ -13,7 +13,7 @@ import {
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
 import CheckIcon from '@material-ui/icons/Check';
-import CancelIcon from '@material-ui/icons/Cancel';
+import CancelIcon from '@material-ui/icons/NotInterested';
 import Slider from '@material-ui/lab/Slider';
 import { IQuantity, IQuantityResponse } from 'types';
 import { CellarApiResource } from 'services';
@@ -41,7 +41,10 @@ const styles = (theme: Theme) =>
       color: green[500]
     },
     cancelIcon: {
-      color: red[500]
+      color: red[500],
+      position: 'relative',
+      top: -1,
+      fontSize: 20
     },
     slider: {
       margin: `${theme.spacing.unit}px 0 ${theme.spacing.unit * 2}px`
