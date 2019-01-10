@@ -8,10 +8,15 @@ import {
   ListItemSecondaryAction,
   withStyles,
   TextField,
-  Typography
+  Typography,
+  Collapse
 } from '@material-ui/core';
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
+import Slider from '@material-ui/lab/Slider';
 import { IQuantity, IQuantityResponse } from 'types';
 import { CellarApiResource } from 'services';
 
@@ -38,8 +43,10 @@ const styles = (theme: Theme) =>
       color: theme.palette.getContrastText(theme.palette.background.default)
     },
     checkIcon: {
-      top: theme.spacing.unit,
-      position: 'relative'
+      color: green[500]
+    },
+    cancelIcon: {
+      color: red[500]
     }
   });
 
@@ -50,89 +57,81 @@ interface InventoryListItemProps extends WithStyles<typeof styles> {
 }
 interface InventoryListItemState {
   editing: boolean;
+  amount: number;
 }
 export class InventoryListItem extends React.Component<InventoryListItemProps> {
-  private inputRef: HTMLInputElement;
   public state: InventoryListItemState = {
-    editing: false
+    editing: false,
+    amount: this.props.row.amount
   };
   public render() {
     const { classes, row } = this.props;
-    return (
-      <ListItem
-        disableGutters={true}
-        onClick={() => {
-          this.setState({
-            editing: true
-          });
-        }}
-      >
-        <ListItemText
-          className={classes.beerName}
-          primary={row.beer.name}
-          secondary={row.beer.brewery.name}
-        />
-        {this.getRowActions()}
-      </ListItem>
-    );
-  }
-
-  private getRowActions(): React.ReactNode {
-    const { row } = this.props;
-    const { editing } = this.state;
-    return (
-      <ListItemSecondaryAction>
-        {editing ? (
-          this.getEditInput()
-        ) : (
-          <Typography>({row.amount})</Typography>
-        )}
-      </ListItemSecondaryAction>
-    );
-  }
-
-  private getEditInput(): React.ReactNode {
-    const { classes, row, deleteDialog } = this.props;
+    const { amount, editing } = this.state;
     return (
       <React.Fragment>
-        <TextField
-          type="number"
-          defaultValue={row.amount}
-          label="Amount:"
-          InputLabelProps={{
-            shrink: true
-          }}
-          className={classes.updateQuantity}
-          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-            event.persist();
-            if (event.keyCode === 13) {
-              this.handleUpdate();
-            }
-          }}
-          inputRef={(input) => {
-            this.inputRef = input;
-          }}
-        />
-        <CheckIcon
-          className={[classes.icon, classes.checkIcon].join(' ')}
+        <ListItem
+          disableGutters={true}
           onClick={() => {
-            this.handleUpdate();
-          }}
-        />
-        <DeleteIcon
-          className={[classes.icon, classes.checkIcon].join(' ')}
-          onClick={() => {
-            deleteDialog(row);
             this.setState({
-              editing: false
+              editing: !editing
             });
           }}
-        />
+        >
+          <ListItemText
+            className={classes.beerName}
+            primary={row.beer.name}
+            secondary={row.beer.brewery.name}
+          />
+          <ListItemSecondaryAction>
+            {editing && (
+              <React.Fragment>
+                <CheckIcon
+                  className={[classes.icon, classes.checkIcon].join(' ')}
+                  onClick={this.handleUpdate.bind(this)}
+                />
+                <CancelIcon
+                  className={[classes.icon, classes.cancelIcon].join(' ')}
+                  onClick={this.handleCancel.bind(this)}
+                />
+              </React.Fragment>
+            )}
+          </ListItemSecondaryAction>
+        </ListItem>
+        <Collapse in={editing}>
+          <Typography>
+            Amount in inventory: {amount > 12 ? 'Unlimited' : amount}
+          </Typography>
+          <Slider
+            value={amount}
+            min={0}
+            max={13}
+            step={1}
+            onChange={this.onChange.bind(this, 'amount')}
+          />
+        </Collapse>
       </React.Fragment>
     );
   }
 
+  private onChange(name: string, e: React.ChangeEvent, value: number): void {
+    this.setState({
+      [name]: value
+    });
+  }
+
+  private handleCancel(): void {
+    this.setState({
+      editing: false,
+      amount: this.props.row.amount
+    });
+  }
+
   private async handleUpdate(): Promise<void> {
+    if (this.props.row.amount === this.state.amount) {
+      return this.setState({
+        editing: false
+      });
+    }
     const resource = new CellarApiResource<
       {
         ownedId: string;
@@ -142,7 +141,7 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
     >({
       path: '/inventory/:ownedId'
     });
-    const amount = parseInt(this.inputRef.value, 10);
+    const amount = this.state.amount;
     const ownedId = this.props.row._id;
     const { beer } = await resource.update({
       ownedId,
