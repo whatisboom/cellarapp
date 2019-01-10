@@ -4,30 +4,36 @@ import { IBeer, IUser, IUserResponse } from 'types';
 
 import {
   ListItem,
-  TextField,
   ListItemText,
   ListItemSecondaryAction,
   Theme,
   createStyles,
   WithStyles,
-  withStyles
+  withStyles,
+  Collapse,
+  Typography
 } from '@material-ui/core';
 import { BEER_ADDED_TO_INVENTORY } from 'actions';
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 import { CellarApiResource } from 'services';
+import Slider from '@material-ui/lab/Slider';
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 
 const styles = (theme: Theme) =>
   createStyles({
-    addField: {
-      width: 35
-    },
     icon: {
       color: theme.palette.getContrastText(theme.palette.background.default)
     },
     checkIcon: {
-      top: theme.spacing.unit,
-      position: 'relative'
+      color: green[500]
+    },
+    cancelIcon: {
+      color: red[500]
+    },
+    slider: {
+      margin: `${theme.spacing.unit}px 0 ${theme.spacing.unit * 2}px`
     }
   });
 
@@ -39,15 +45,16 @@ interface BeerListItemProps extends WithStyles<typeof styles> {
 
 interface BeerListItemState {
   adding: boolean;
+  amount: number;
 }
 
 export class BeerListItem extends React.Component<
   BeerListItemProps,
   BeerListItemState
 > {
-  private inputRef: HTMLInputElement;
   public state: BeerListItemState = {
-    adding: false
+    adding: false,
+    amount: 1
   };
 
   private addBeerToUser = new CellarApiResource<
@@ -63,62 +70,56 @@ export class BeerListItem extends React.Component<
 
   render() {
     const { beer, classes } = this.props;
-    const { adding } = this.state;
+    const { adding, amount } = this.state;
 
     return (
-      <ListItem>
-        <ListItemText primary={beer.name} secondary={beer.brewery.name} />
-        <ListItemSecondaryAction>
-          {adding ? (
-            <React.Fragment>
-              <TextField
-                type="number"
-                defaultValue="1"
-                label="Amount:"
-                InputLabelProps={{
-                  shrink: true
-                }}
-                className={classes.addField}
-                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                  event.persist();
-                  if (event.keyCode === 13) {
-                    this.addToMyInventory(
-                      beer,
-                      parseInt(this.inputRef.value, 10)
-                    );
-                  }
-                }}
-                inputRef={(input) => {
-                  this.inputRef = input;
-                }}
-              />
+      <React.Fragment>
+        <ListItem disableGutters={true}>
+          <ListItemText primary={beer.name} secondary={beer.brewery.name} />
+          <ListItemSecondaryAction>
+            {adding ? (
               <CheckIcon
-                className={[classes.icon, classes.checkIcon].join(' ')}
-                onClick={() => {
-                  this.addToMyInventory(
-                    beer,
-                    parseInt(this.inputRef.value, 10)
-                  );
-                }}
+                className={classes.checkIcon}
+                onClick={this.addToMyInventory.bind(this)}
               />
-            </React.Fragment>
-          ) : (
-            <AddIcon
-              className={classes.icon}
-              onClick={() =>
-                this.setState({
-                  adding: true
-                })
-              }
-            />
-          )}
-        </ListItemSecondaryAction>
-      </ListItem>
+            ) : (
+              <AddIcon
+                className={classes.icon}
+                onClick={() =>
+                  this.setState({
+                    adding: true
+                  })
+                }
+              />
+            )}
+          </ListItemSecondaryAction>
+        </ListItem>
+        <Collapse in={adding}>
+          <Typography variant="caption">
+            Amount in inventory: {amount > 12 ? 'Unlimited' : amount}
+          </Typography>
+          <Slider
+            className={classes.slider}
+            value={amount}
+            min={1}
+            max={13}
+            step={1}
+            onChange={this.onChange.bind(this)}
+          />
+        </Collapse>
+      </React.Fragment>
     );
   }
-  private async addToMyInventory(beer: IBeer, amount: number): Promise<void> {
+  private onChange(e: React.ChangeEvent, amount: number): void {
+    this.setState({
+      amount
+    });
+  }
+
+  private async addToMyInventory(): Promise<void> {
     try {
-      const { user } = this.props;
+      const { user, beer } = this.props;
+      const { amount } = this.state;
       await this.addBeerToUser.create({
         username: user.username,
         untappdId: beer.untappdId,

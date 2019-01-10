@@ -7,14 +7,12 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   withStyles,
-  TextField,
   Typography,
   Collapse
 } from '@material-ui/core';
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
 import CheckIcon from '@material-ui/icons/Check';
-import DeleteIcon from '@material-ui/icons/Delete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Slider from '@material-ui/lab/Slider';
 import { IQuantity, IQuantityResponse } from 'types';
@@ -22,9 +20,6 @@ import { CellarApiResource } from 'services';
 
 const styles = (theme: Theme) =>
   createStyles({
-    updateQuantity: {
-      width: 35
-    },
     beerName: {
       fontWeight: theme.typography.fontWeightMedium,
       textDecoration: 'none'

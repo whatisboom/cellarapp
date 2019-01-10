@@ -35,6 +35,9 @@ const styles = (theme: Theme) =>
     },
     icon: {
       color: theme.palette.getContrastText(theme.palette.background.default)
+    },
+    beerList: {
+      margin: theme.spacing.unit
     }
   });
 
@@ -80,7 +83,7 @@ export class BeerSearch extends React.Component<
             </form>
           )}
         />
-        <List>
+        <List className={classes.beerList}>
           {this.state.beers.map((beer, index) => (
             <BeerListItem key={index} beer={beer} user={this.props.user} />
           ))}
