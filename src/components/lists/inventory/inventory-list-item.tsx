@@ -47,6 +47,9 @@ const styles = (theme: Theme) =>
     },
     cancelIcon: {
       color: red[500]
+    },
+    slider: {
+      margin: `${theme.spacing.unit}px 0 ${theme.spacing.unit * 2}px`
     }
   });
 
@@ -98,10 +101,11 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
           </ListItemSecondaryAction>
         </ListItem>
         <Collapse in={editing}>
-          <Typography>
+          <Typography variant="caption">
             Amount in inventory: {amount > 12 ? 'Unlimited' : amount}
           </Typography>
           <Slider
+            className={classes.slider}
             value={amount}
             min={0}
             max={13}
