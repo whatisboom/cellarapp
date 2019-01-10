@@ -19,7 +19,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import { CellarApiResource } from 'services';
 import Slider from '@material-ui/lab/Slider';
 import green from '@material-ui/core/colors/green';
-import red from '@material-ui/core/colors/red';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -28,9 +27,6 @@ const styles = (theme: Theme) =>
     },
     checkIcon: {
       color: green[500]
-    },
-    cancelIcon: {
-      color: red[500]
     },
     slider: {
       margin: `${theme.spacing.unit}px 0 ${theme.spacing.unit * 2}px`
