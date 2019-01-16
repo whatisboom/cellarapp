@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RouteComponentProps, navigate, Router } from '@reach/router';
+import { RouteComponentProps, navigate, Router, Link } from '@reach/router';
 import { AuthService, CellarApiResource } from 'services';
 import { ILoginResponse } from 'types';
 import {
@@ -14,6 +14,7 @@ import { Loader } from 'components/loaders';
 
 interface AuthState {
   loading: boolean;
+  error: Error;
 }
 
 export default class Auth extends React.Component<RouteComponentProps> {
@@ -39,6 +40,9 @@ const SignupStyles = (theme: Theme) =>
     container: {
       padding: theme.spacing.unit,
       textAlign: 'center'
+    },
+    link: {
+      color: theme.palette.getContrastText(theme.palette.background.default)
     }
   });
 
@@ -52,12 +56,15 @@ export class SignupSignin extends React.Component<
     return (
       <div className={classes.container}>
         <Typography>
-          In order to share <a href="https://untappd.com/">Untappd's</a> amazing
-          database of beer, we require authentication (OAuth) through their
-          website. We will import your username, first/last name, and email. You
-          will be able to update these after signing up (COMING SOON). Don't
-          worry your email will be kept private and only used for important
-          updates regarding our service.
+          In order to share{' '}
+          <a className={classes.link} href="https://untappd.com/">
+            Untappd's
+          </a>{' '}
+          amazing database of beer, we require authentication (OAuth) through
+          their website. We will import your username, first/last name, and
+          email. You will be able to update these after signing up (COMING
+          SOON). Don't worry your email will be kept private and only used for
+          important updates regarding our service.
         </Typography>
         <Button variant="contained" color="primary" className={classes.button}>
           <a
@@ -84,7 +91,8 @@ export class OAuthUntappd extends React.Component<
   RouteComponentProps<OAuthUntappdProps>
 > {
   public state: AuthState = {
-    loading: true
+    loading: true,
+    error: null
   };
 
   private resource = new CellarApiResource<{ code: string }, ILoginResponse>({
@@ -92,32 +100,38 @@ export class OAuthUntappd extends React.Component<
   });
 
   public async componentWillMount() {
-    const response = await this.getCode();
-    AuthService.saveTokens(response);
-    this.setState({
-      loading: false
-    });
-    navigate('/dashboard');
-  }
-
-  public async getCode(): Promise<ILoginResponse> {
-    const code = this.parseQS(this.props.location.search).get('code');
+    const code = this.getCode();
     try {
-      return await this.resource.create({
-        code
+      const response = await this.doLogin(code);
+      AuthService.saveTokens(response);
+      navigate('/dashboard');
+      this.setState({
+        loading: false
       });
     } catch (e) {
-      console.log(e);
+      console.log('error block', e);
+      this.setState({
+        error: e,
+        loading: false
+      });
     }
   }
 
   public render() {
+    const { classes } = this.props;
+    const { loading, error } = this.state;
     return (
       <div className={this.props.classes.container}>
         <Typography>
-          {this.state.loading
-            ? 'Signing you in...'
-            : 'Successfully signed in! Redirecting to your dashboard!'}
+          {loading && !error && 'Signing you in...'}
+          {error && (
+            <React.Fragment>
+              There was an error logging you in, please{' '}
+              <Link className={classes.link} to="/auth">
+                try again.
+              </Link>
+            </React.Fragment>
+          )}
         </Typography>
         <Loader />
       </div>
@@ -132,6 +146,15 @@ export class OAuthUntappd extends React.Component<
       result.set(key, value);
     });
     return result;
+  }
+  private getCode(): string {
+    const code = this.parseQS(this.props.location.search).get('code');
+    return code;
+  }
+  private async doLogin(code: string): Promise<ILoginResponse> {
+    return await this.resource.create({
+      code
+    });
   }
 }
 
