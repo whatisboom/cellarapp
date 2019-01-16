@@ -12,7 +12,7 @@ export interface IUser {
   role: string;
   firstName: string;
   lastName: string;
-  owned: IQuantity[];
+  owned: IOwned[];
   avatar: string;
   location: string;
   social: {
@@ -76,6 +76,10 @@ export interface IQuantityResponse {
 
 export interface IOwned extends IQuantity {
   forTrade: number;
+}
+
+export interface IUpdateOwnedResponse {
+  beer: IOwned;
 }
 
 export interface IOwnedResponse {

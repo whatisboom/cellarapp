@@ -15,7 +15,7 @@ import red from '@material-ui/core/colors/red';
 import CheckIcon from '@material-ui/icons/Check';
 import CancelIcon from '@material-ui/icons/NotInterested';
 import Slider from '@material-ui/lab/Slider';
-import { IQuantity, IQuantityResponse } from 'types';
+import { IOwned, IUpdateOwnedResponse } from 'types';
 import { CellarApiResource } from 'services';
 
 const styles = (theme: Theme) =>
@@ -52,9 +52,9 @@ const styles = (theme: Theme) =>
   });
 
 interface InventoryListItemProps extends WithStyles<typeof styles> {
-  row: IQuantity;
-  update: (beer: IQuantity) => void;
-  deleteDialog: (row: IQuantity) => void;
+  row: IOwned;
+  update: (beer: IOwned) => void;
+  deleteDialog: (row: IOwned) => void;
 }
 interface InventoryListItemState {
   editing: boolean;
@@ -139,7 +139,7 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
         ownedId: string;
         amount: number;
       },
-      IQuantityResponse
+      IUpdateOwnedResponse
     >({
       path: '/inventory/:ownedId'
     });

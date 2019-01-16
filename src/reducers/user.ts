@@ -3,7 +3,7 @@ import {
   LOGOUT,
   BEER_REMOVE_FROM_INVENTORY
 } from 'actions';
-import { IQuantity } from 'types';
+import { IOwned } from 'types';
 
 export function user(state: any = null, action: any): any {
   switch (action.type) {
@@ -13,7 +13,7 @@ export function user(state: any = null, action: any): any {
       const newState = JSON.parse(JSON.stringify(state));
       const { owned } = state;
       const index = owned.findIndex(
-        (item: IQuantity) => item._id === action.owned._id
+        (item: IOwned) => item._id === action.owned._id
       );
       newState.owned.splice(index, 1);
       return newState;

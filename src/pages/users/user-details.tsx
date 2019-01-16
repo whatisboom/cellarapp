@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
-import { IQuantity, IUser, IUserResponse, IBeer, IBrewery } from 'types';
+import { IOwned, IUser, IUserResponse, IBeer, IBrewery } from 'types';
 import { CellarApiResource } from 'services/api';
 import Loader from 'components/loaders/loader';
 import Typography from '@material-ui/core/Typography';
@@ -112,14 +112,14 @@ export class UserDetails extends React.Component<
         component="ul"
         subheader={<Typography variant="h6">{subheading}</Typography>}
       >
-        {user[key].map((row: IQuantity) => {
+        {user[key].map((row: IOwned) => {
           return this.getBeerListItem(row);
         })}
       </List>
     );
   }
 
-  public getBeerListItem({ beer, amount }: IQuantity): React.ReactNode {
+  public getBeerListItem({ beer, amount }: IOwned): React.ReactNode {
     const { classes } = this.props;
     return (
       <ListItem key={beer._id} disableGutters={true}>

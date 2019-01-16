@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { navigate } from '@reach/router';
-import { IQuantity } from 'types';
+import { IOwned } from 'types';
 import InventoryListItem from './inventory-list-item';
 import { CellarApiResource } from 'services';
 import { connect } from 'react-redux';
@@ -38,13 +38,13 @@ const styles = (theme: Theme) =>
   });
 
 interface InventoryProps extends WithStyles<typeof styles> {
-  beers: IQuantity[];
-  updateQuantityNotification: (updated: IQuantity) => void;
-  deleteFromInventory: (owned: IQuantity) => void;
+  beers: IOwned[];
+  updateQuantityNotification: (updated: IOwned) => void;
+  deleteFromInventory: (owned: IOwned) => void;
 }
 
 interface InventoryState {
-  deleteDialog: IQuantity | null;
+  deleteDialog: IOwned | null;
 }
 
 export class Inventory extends React.Component<InventoryProps> {
@@ -95,7 +95,7 @@ export class Inventory extends React.Component<InventoryProps> {
     );
   }
 
-  public openDeleteDialog(row: IQuantity): void {
+  public openDeleteDialog(row: IOwned): void {
     this.setState({
       deleteDialog: row
     });
@@ -156,13 +156,13 @@ export class Inventory extends React.Component<InventoryProps> {
 
 function mapDispatchToProps(dispatch: React.Dispatch<any>) {
   return {
-    updateQuantityNotification(updated: IQuantity): void {
+    updateQuantityNotification(updated: IOwned): void {
       dispatch({
         type: BEER_UPDATE_INVENTORY_QUANTITY,
         updated
       });
     },
-    deleteFromInventory(owned: IQuantity): void {
+    deleteFromInventory(owned: IOwned): void {
       dispatch({
         type: BEER_REMOVE_FROM_INVENTORY,
         owned

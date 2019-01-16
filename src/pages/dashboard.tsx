@@ -1,18 +1,16 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { CellarApiResource } from 'services/api';
-import { IUserResponse, IUser, IQuantity } from 'types';
+import { IUserResponse, IUser, IOwned } from 'types';
 import UserCard from 'components/cards/user-card';
 import Inventory from 'components/lists/inventory/inventory';
 import { Loader } from 'components/loaders';
-import { connect } from 'react-redux';
-import { BEER_UPDATE_INVENTORY_QUANTITY } from 'actions';
 import { Grid } from '@material-ui/core';
 
 interface DashboardProps {
   signin: (user: IUser) => void;
   user: IUser;
-  updateQuantityNotification?: (updated: IQuantity) => void;
+  updateQuantityNotification?: (updated: IOwned) => void;
 }
 
 interface DashboardState {
