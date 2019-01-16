@@ -47,7 +47,8 @@ const styles = (theme: Theme) =>
       fontSize: 20
     },
     slider: {
-      margin: `${theme.spacing.unit}px 0 ${theme.spacing.unit * 2}px`
+      margin: `${theme.spacing.unit}px 0 ${theme.spacing.unit * 2}px`,
+      touchAction: 'none'
     }
   });
 
@@ -59,15 +60,17 @@ interface InventoryListItemProps extends WithStyles<typeof styles> {
 interface InventoryListItemState {
   editing: boolean;
   amount: number;
+  forTrade: number;
 }
 export class InventoryListItem extends React.Component<InventoryListItemProps> {
   public state: InventoryListItemState = {
     editing: false,
-    amount: this.props.row.amount
+    amount: this.props.row.amount,
+    forTrade: this.props.row.forTrade
   };
   public render() {
     const { classes, row } = this.props;
-    const { amount, editing } = this.state;
+    const { amount, editing, forTrade } = this.state;
     return (
       <React.Fragment>
         <ListItem
@@ -100,31 +103,61 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
         </ListItem>
         <Collapse in={editing}>
           <Typography variant="caption">
-            Amount in inventory: {amount > 12 ? 'Unlimited' : amount}
+            Amount in inventory: {amount}
           </Typography>
           <Slider
             className={classes.slider}
             value={amount}
             min={0}
-            max={13}
+            max={12}
             step={1}
-            onChange={this.onChange.bind(this, 'amount')}
+            onChange={this.onAmountTrade.bind(this)}
+          />
+          <Typography variant="caption">
+            Amount for trade: {forTrade}
+          </Typography>
+          <Slider
+            className={classes.slider}
+            value={forTrade}
+            min={0}
+            max={12}
+            step={1}
+            onChange={this.onForTradeChange.bind(this)}
           />
         </Collapse>
       </React.Fragment>
     );
   }
 
-  private onChange(name: string, e: React.ChangeEvent, value: number): void {
-    this.setState({
-      [name]: value
-    });
+  private onAmountTrade(e: React.ChangeEvent, amount: number): void {
+    const { forTrade } = this.state;
+    if (amount < forTrade) {
+      this.setState({
+        amount,
+        forTrade: amount
+      });
+    } else {
+      this.setState({ amount });
+    }
+  }
+
+  private onForTradeChange(e: React.ChangeEvent, forTrade: number): void {
+    const { amount } = this.state;
+    if (forTrade > amount) {
+      this.setState({
+        amount: forTrade,
+        forTrade
+      });
+    } else {
+      this.setState({ forTrade });
+    }
   }
 
   private handleCancel(): void {
     this.setState({
       editing: false,
-      amount: this.props.row.amount
+      amount: this.props.row.amount,
+      forTrade: this.props.row.forTrade
     });
   }
 
@@ -138,16 +171,19 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
       {
         ownedId: string;
         amount: number;
+        forTrade?: number;
       },
       IUpdateOwnedResponse
     >({
       path: '/inventory/:ownedId'
     });
     const amount = this.state.amount;
+    const forTrade = this.state.forTrade;
     const ownedId = this.props.row._id;
     const { beer } = await resource.update({
       ownedId,
-      amount
+      amount,
+      forTrade
     });
     this.props.update(beer);
     return this.setState({
