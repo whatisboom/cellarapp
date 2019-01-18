@@ -46,12 +46,11 @@ export class AuthenticatedNav extends React.Component<AuthenticatedNavProps> {
       <div className={classes.grow}>
         <AppBar>
           <Toolbar>
-            <Typography
-              variant="h6"
-              className={[classes.grow, classes.icon].join(' ')}
-            >
-              <MenuIcon onClick={() => this.props.toggleMenu()} />
-            </Typography>
+            <MenuIcon
+              onClick={() => this.props.toggleMenu()}
+              className={classes.icon}
+            />
+            <div className={classes.grow} />
             <Typography variant="h6">
               <NavUserDropdown user={this.props.user} />
             </Typography>

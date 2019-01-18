@@ -14,7 +14,7 @@ export default class Logout extends React.Component<
     return <Loader />;
   }
   public async componentDidMount() {
-    await AuthService.deleteTokens();
+    await AuthService.logout();
     this.props.logout();
     navigate('/');
   }

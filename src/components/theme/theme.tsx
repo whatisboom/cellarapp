@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
-import blue from '@material-ui/core/colors/blue';
-import red from '@material-ui/core/colors/red';
+import primary from '@material-ui/core/colors/blue';
+import secondary from '@material-ui/core/colors/lightGreen';
 import { connect } from 'react-redux';
 import { AppConnected } from 'pages/app';
 import { BEER_CELLAR_DARK_MODE_ENABLED } from 'beer-cellar-constants';
@@ -27,10 +27,10 @@ export class BCTheme extends React.Component<BeerCellarThemeProps> {
     return createMuiTheme({
       palette: {
         primary: {
-          main: blue[800]
+          main: primary[800]
         },
         secondary: {
-          main: red[900]
+          main: secondary[800]
         },
         type: darkMode ? 'dark' : 'light'
       },

@@ -1,4 +1,4 @@
-import { getJWT } from './jwt';
+import { AuthService } from './auth';
 export interface ICellarApiResourceConfig {
   path: string;
 }
@@ -6,9 +6,10 @@ export interface ICellarApiResourceConfig {
 export class CellarApiResource<T, U> {
   private domain: string = process.env.API_HOST;
   public resource: string = '';
-  private headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${getJWT()}`
+  private headers: {
+    [key: string]: string;
+  } = {
+    'Content-Type': 'application/json'
   };
   constructor(config: ICellarApiResourceConfig) {
     if (!config && !config.path) {
@@ -20,6 +21,7 @@ export class CellarApiResource<T, U> {
     payload?: T,
     opts?: any
   ): Promise<{ [resource: string]: U[] }> {
+    await this.preRequest();
     const { url, headers } = this.buildRequestObject('GET', payload);
     const response = await fetch(url, {
       method: 'GET',
@@ -28,6 +30,7 @@ export class CellarApiResource<T, U> {
     return response.json();
   }
   public async read(payload?: T, opts?: any): Promise<U> {
+    await this.preRequest();
     const { url, method, headers } = this.buildRequestObject('GET', payload);
 
     const response = await fetch(url, {
@@ -37,6 +40,7 @@ export class CellarApiResource<T, U> {
     return response.json();
   }
   public async create(payload: T, opts?: any): Promise<U> {
+    await this.preRequest();
     const { url, method, body, headers } = this.buildRequestObject(
       'POST',
       payload
@@ -49,6 +53,7 @@ export class CellarApiResource<T, U> {
     return response.json();
   }
   public async update(payload: T): Promise<U> {
+    await this.preRequest();
     const { url, method, body, headers } = this.buildRequestObject(
       'PATCH',
       payload
@@ -62,6 +67,7 @@ export class CellarApiResource<T, U> {
   }
 
   public async remove(payload: T): Promise<void> {
+    await this.preRequest();
     try {
       const { url, method, headers } = this.buildRequestObject(
         'DELETE',
@@ -129,5 +135,15 @@ export class CellarApiResource<T, U> {
       path = `/${path}`;
     }
     this.resource = this.domain + path;
+  }
+
+  private async preRequest(): Promise<void> {
+    return AuthService.getJWT()
+      .then((token) => {
+        this.headers['Authorization'] = `Bearer ${token}`;
+      })
+      .catch((e) => {
+        throw new Error(e);
+      });
   }
 }
