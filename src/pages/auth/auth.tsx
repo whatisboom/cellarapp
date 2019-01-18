@@ -12,6 +12,8 @@ import {
 } from '@material-ui/core';
 import { Loader } from 'components/loaders';
 
+import untappdPoweredBy from 'images/pbu_80_yellow.png';
+
 interface AuthState {
   loading: boolean;
   error: Error;
@@ -43,6 +45,10 @@ const SignupStyles = (theme: Theme) =>
     },
     link: {
       color: theme.palette.getContrastText(theme.palette.background.default)
+    },
+    untappdLogo: {
+      maxWidth: '100%',
+      padding: theme.spacing.unit
     }
   });
 
@@ -55,6 +61,8 @@ export class SignupSignin extends React.Component<
     const { classes } = this.props;
     return (
       <div className={classes.container}>
+        <img src={untappdPoweredBy} className={classes.untappdLogo} />
+
         <Typography>
           In order to share{' '}
           <a
