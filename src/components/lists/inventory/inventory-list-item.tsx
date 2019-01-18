@@ -155,14 +155,15 @@ export class InventoryListItem extends React.Component<InventoryListItemProps> {
 
   private handleCancel(): void {
     this.setState({
-      editing: false,
-      amount: this.props.row.amount,
-      forTrade: this.props.row.forTrade
+      editing: false
     });
   }
 
   private async handleUpdate(): Promise<void> {
-    if (this.props.row.amount === this.state.amount) {
+    if (
+      this.props.row.amount === this.state.amount &&
+      this.props.row.forTrade === this.state.amount
+    ) {
       return this.setState({
         editing: false
       });
