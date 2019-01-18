@@ -1,21 +1,17 @@
+import { navigate } from '@reach/router';
+
 export const JWT_KEY: string = 'beercellarjwt';
 export const REFRESH_TOKEN_KEY: string = 'beercellarrefresh';
 export async function getJWT(): Promise<string> {
   if (isJWTValid()) {
     return localStorage.getItem(JWT_KEY);
   } else {
-    const body: string = JSON.stringify({
-      refreshToken: localStorage.getItem(REFRESH_TOKEN_KEY)
-    });
-    const { token } = await fetch(`${process.env.API_HOST}/auth/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body
-    }).then((response) => response.json());
-
-    return token;
+    try {
+      const { token } = await refreshToken();
+      return token;
+    } catch (e) {
+      navigate('/auth');
+    }
   }
 }
 
@@ -28,7 +24,19 @@ export function decodeJWT(): any {
   return JSON.parse(atob(payload));
 }
 
-export function refreshToken(): void {}
+export async function refreshToken(): Promise<{ token: string }> {
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+  const body: string = JSON.stringify({
+    refreshToken
+  });
+  return fetch(`${process.env.API_HOST}/auth/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body
+  }).then((response) => response.json());
+}
 
 export function isJWTValid(): boolean {
   const claims = decodeJWT();

@@ -7,14 +7,21 @@ import {
   isJWTValid,
   refreshToken
 } from './jwt';
+import { navigate } from '@reach/router';
 
 export const AuthService = {
   async getJWT() {
-    const token = await getJWT();
-    this.saveTokens({ token });
-    return token;
+    try {
+      const token = await getJWT();
+      this.saveTokens({ token });
+      return token;
+    } catch (e) {
+      navigate('/auth');
+    }
   },
-  logout() {},
+  async logout(): Promise<void> {
+    this.deleteTokens();
+  },
   async saveTokens({ token, refreshToken }: ILoginResponse): Promise<void> {
     if (token) {
       localStorage.setItem(JWT_KEY, token);
@@ -23,7 +30,7 @@ export const AuthService = {
       localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
     }
   },
-  async deleteTokens(): Promise<void> {
+  deleteTokens(): void {
     localStorage.removeItem(JWT_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
   },

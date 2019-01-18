@@ -8,7 +8,7 @@ import { IOwned } from 'types';
 export function user(state: any = null, action: any): any {
   switch (action.type) {
     case UPDATE_LOGGED_IN_USER:
-      return action.user;
+      return action.user || state;
     case BEER_REMOVE_FROM_INVENTORY:
       const newState = JSON.parse(JSON.stringify(state));
       const { owned } = state;
