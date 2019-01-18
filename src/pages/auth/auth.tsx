@@ -57,7 +57,12 @@ export class SignupSignin extends React.Component<
       <div className={classes.container}>
         <Typography>
           In order to share{' '}
-          <a className={classes.link} href="https://untappd.com/">
+          <a
+            className={classes.link}
+            href="https://untappd.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Untappd's
           </a>{' '}
           amazing database of beer, we require authentication (OAuth) through
