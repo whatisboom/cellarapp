@@ -1,4 +1,16 @@
 {
+  "author": {
+    "name": "Brandon Jernigan",
+    "email": "brandon@whatisboom.com",
+    "url": "http://whatisboom.com/"
+  },
+  "name": "beer-cellar",
+  "displayName": "Beer Cellar",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whatisboom/cellarapp"
+  },
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "clean": "rm -rf ./dist",
