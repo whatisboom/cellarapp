@@ -52,4 +52,7 @@ function mapStateToProps(state: any) {
   };
 }
 
-export const BeerCellarTheme = hot(connect(mapStateToProps)(BCTheme));
+export const connectedTheme = connect(mapStateToProps)(BCTheme);
+
+export const BeerCellarTheme =
+  process.env.NODE_ENV === 'development' ? hot(connectedTheme) : connectedTheme;
