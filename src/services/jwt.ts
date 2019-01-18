@@ -1,12 +1,26 @@
 export const JWT_KEY: string = 'beercellarjwt';
 export const REFRESH_TOKEN_KEY: string = 'beercellarrefresh';
-export function getJWT(): string {
-  // if jwt is expired, get a new one?
-  return localStorage.getItem(JWT_KEY);
+export async function getJWT(): Promise<string> {
+  if (isJWTValid()) {
+    return localStorage.getItem(JWT_KEY);
+  } else {
+    const body: string = JSON.stringify({
+      refreshToken: localStorage.getItem(REFRESH_TOKEN_KEY)
+    });
+    const { token } = await fetch(`${process.env.API_HOST}/auth/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body
+    }).then((response) => response.json());
+
+    return token;
+  }
 }
 
 export function decodeJWT(): any {
-  const jwt: string = getJWT();
+  const jwt: string = localStorage.getItem(JWT_KEY);
   if (!jwt) {
     return false;
   }
