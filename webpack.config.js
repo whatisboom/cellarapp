@@ -5,11 +5,15 @@ if (!process.env.NODE_ENV) {
 const path = require('path'),
   webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
-console.log(path.resolve(__dirname, 'src'));
+
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    app: ['@babel/polyfill', './src/index.tsx']
+    app: [
+      '@babel/polyfill',
+      './src/index.tsx',
+      process.env.NODE_ENV === 'development' && 'webpack-hot-middleware/client'
+    ]
   },
   output: {
     filename: '[name].[hash].js',
@@ -37,7 +41,21 @@ module.exports = {
       },
       {
         test: /\.(ts|tsx)$/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          babelrc: false,
+          plugins: [
+            'transform-inline-environment-variables',
+            'transform-class-properties',
+            '@babel/plugin-syntax-dynamic-import',
+            'react-hot-loader/babel'
+          ],
+          presets: [
+            '@babel/react',
+            '@babel/typescript',
+            ['@babel/env', { modules: false }]
+          ]
+        }
       },
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
     ]

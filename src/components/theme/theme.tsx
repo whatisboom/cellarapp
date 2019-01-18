@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 import primary from '@material-ui/core/colors/blue';
@@ -51,4 +52,4 @@ function mapStateToProps(state: any) {
   };
 }
 
-export const BeerCellarTheme = connect(mapStateToProps)(BCTheme);
+export const BeerCellarTheme = hot(connect(mapStateToProps)(BCTheme));
