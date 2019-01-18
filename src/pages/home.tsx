@@ -22,7 +22,7 @@ const styles = (theme: Theme) =>
     root: { paddingBottom: theme.spacing.unit },
     buttonLink: {
       textDecoration: 'none',
-      color: theme.palette.common.white
+      color: theme.palette.primary.contrastText
     },
     container: {
       padding: theme.spacing.unit,
@@ -32,7 +32,8 @@ const styles = (theme: Theme) =>
       backgroundColor: 'hsla(34, 54%, 10%, 0.7)',
       padding: '20px',
       borderRadius: '50%',
-      display: 'inline-block'
+      display: 'inline-block',
+      color: theme.palette.common.white
     }
   });
 
