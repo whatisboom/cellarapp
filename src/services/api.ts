@@ -1,4 +1,4 @@
-import { AuthService } from 'services';
+import { AuthService } from './auth';
 export interface ICellarApiResourceConfig {
   path: string;
 }
