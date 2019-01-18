@@ -33,7 +33,8 @@ const styles = (theme: Theme) =>
       opacity: 0.6
     },
     beerList: {
-      margin: theme.spacing.unit
+      padding: theme.spacing.unit * 2,
+      overflow: 'hidden'
     }
   });
 
