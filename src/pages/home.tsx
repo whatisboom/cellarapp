@@ -16,10 +16,10 @@ import {
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 import CheckIcon from '@material-ui/icons/CheckCircleOutline';
 import HappyIcon from '@material-ui/icons/Mood';
-import ThumbsIcon from '@material-ui/icons/ThumbUp';
 
 const styles = (theme: Theme) =>
   createStyles({
+    root: { paddingBottom: theme.spacing.unit },
     buttonLink: {
       textDecoration: 'none',
       color: theme.palette.common.white
@@ -29,7 +29,7 @@ const styles = (theme: Theme) =>
       textAlign: 'center'
     },
     logo: {
-      backgroundColor: 'hsla(0, 0%, 80%, 0.7)',
+      backgroundColor: 'hsla(34, 54%, 10%, 0.7)',
       padding: '20px',
       borderRadius: '50%',
       display: 'inline-block'
@@ -44,9 +44,19 @@ export class Home extends React.Component<RouteComponentProps<HomeProps>> {
     return (
       <React.Fragment>
         <HeroImage src="https://i.imgur.com/k89796E.jpg">
-          <Typography variant="h2">
+          <Typography
+            variant="h2"
+            classes={{
+              root: classes.root
+            }}
+          >
             <span className={classes.logo}>bc</span>
           </Typography>
+          <Button variant="contained" color="primary">
+            <Link className={classes.buttonLink} to="/auth">
+              Signin or Signup
+            </Link>
+          </Button>
         </HeroImage>
 
         <div className={classes.container}>
@@ -58,7 +68,7 @@ export class Home extends React.Component<RouteComponentProps<HomeProps>> {
           <List>
             <ListItem>
               <ListItemIcon>
-                <CheckIcon />
+                <CheckIcon color="secondary" />
               </ListItemIcon>
               <ListItemText>
                 Keep track of the beers and their quantity in your cellar
@@ -66,15 +76,15 @@ export class Home extends React.Component<RouteComponentProps<HomeProps>> {
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <HappyIcon />
+                <CheckIcon color="secondary" />
               </ListItemIcon>
               <ListItemText>
-                COMING SOON: List items from your cellar For Trade (FT)
+                List items from your cellar For Trade (FT)
               </ListItemText>
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <HappyIcon />
+                <HappyIcon color="primary" />
               </ListItemIcon>
               <ListItemText>
                 COMING SOON: List Beers you're In Search Of (ISO)
@@ -82,7 +92,7 @@ export class Home extends React.Component<RouteComponentProps<HomeProps>> {
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <CalendarIcon />
+                <CalendarIcon color="disabled" />
               </ListItemIcon>
               <ListItemText>
                 PLANNED: Automatically be matched with people who would be good
@@ -91,7 +101,7 @@ export class Home extends React.Component<RouteComponentProps<HomeProps>> {
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <CalendarIcon />
+                <CalendarIcon color="disabled" />
               </ListItemIcon>
               <ListItemText>
                 PLANNED: Automatic suggestions to manage your inventory with
