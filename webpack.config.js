@@ -6,14 +6,15 @@ const path = require('path'),
   webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const entryFiles = ['@babel/polyfill', './src/index.tsx'];
+if (process.env.NODE_ENV === 'development') {
+  entryFiles.push('webpack-hot-middleware/client');
+}
+
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    app: [
-      '@babel/polyfill',
-      './src/index.tsx',
-      process.env.NODE_ENV === 'development' && 'webpack-hot-middleware/client'
-    ]
+    app: entryFiles
   },
   output: {
     filename: '[name].[hash].js',
