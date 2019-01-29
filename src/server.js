@@ -22,7 +22,6 @@ if (cluster.isMaster) {
     console.log(`Worker ${worker.process.pid} died: ${code}`);
   });
 } else {
-  console.log(process.env.NODE_ENV);
   if (NODE_ENV === 'development') {
     const webpack = require('webpack');
     const webpackConfig = require('../webpack.config');
