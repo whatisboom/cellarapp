@@ -21,6 +21,7 @@
     "test": "jest",
     "tdd": "jest --watchAll"
   },
+  "heroku-run-build-script": true,
   "engines": {
     "node": "11.2.0"
   },
