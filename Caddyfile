@@ -1,0 +1,7 @@
+# Caddyfile — placed at project root
+# Uncomment the caddy service in docker-compose.prod.yml to use
+
+# yourdomain.com {
+#     reverse_proxy app:3000
+#     encode gzip
+# }

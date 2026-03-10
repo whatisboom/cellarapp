@@ -1,0 +1,107 @@
+# Production compose file
+# Usage:
+#   cp .env.production.example .env.production
+#   # Edit .env.production with real values
+#   docker compose -f docker-compose.prod.yml up -d --build
+
+services:
+  # ── PostgreSQL ──────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: beercellar
+      POSTGRES_USER: ${POSTGRES_USER:-beercellar}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.production}
+    ports:
+      # Bind to localhost only — not exposed to the internet
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Mount a backup directory for pg_dump output
+      - ./backups:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-beercellar} -d beercellar"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+    # Tuned Postgres settings for a small-to-medium app
+    command: >
+      postgres
+      -c shared_buffers=128MB
+      -c effective_cache_size=256MB
+      -c maintenance_work_mem=64MB
+      -c max_connections=50
+
+  # ── Application ─────────────────────────────────────
+  app:
+    build:
+      context: .
+      target: production
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-beercellar}:${POSTGRES_PASSWORD}@db:5432/beercellar
+      SESSION_SECRET: ${SESSION_SECRET:?Set SESSION_SECRET in .env.production}
+      NODE_ENV: production
+    env_file:
+      - path: .env.production
+        required: true
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ── Caddy Reverse Proxy (optional) ─────────────────
+  # Uncomment this block + the Caddyfile when deploying with a domain.
+  # Provides automatic HTTPS via Let's Encrypt.
+  #
+  # caddy:
+  #   image: caddy:2-alpine
+  #   restart: always
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #     - "443:443/udp"  # HTTP/3
+  #   volumes:
+  #     - ./Caddyfile:/etc/caddy/Caddyfile:ro
+  #     - caddy_data:/data
+  #     - caddy_config:/config
+  #   depends_on:
+  #     app:
+  #       condition: service_healthy
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 128M
+
+volumes:
+  pgdata:
+    name: beercellar-prod-pgdata
+  # caddy_data:
+  # caddy_config:

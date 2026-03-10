@@ -1,0 +1,61 @@
+# Local development compose file
+# Usage:
+#   docker compose up          — Start Postgres only (default profile)
+#   docker compose --profile app up  — Start Postgres + app in Docker
+#   pnpm dev                   — Run app natively (connect to Dockerized Postgres)
+
+services:
+  # ── PostgreSQL ──────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: beercellar
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      # Exposed on localhost so native app, drizzle-kit, and tests can connect
+      - "5432:5432"
+    volumes:
+      # Named volume for data persistence across container restarts
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d beercellar"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  # ── App (optional, for full-Docker dev) ─────────────
+  app:
+    profiles: ["app"]  # Only starts with: docker compose --profile app up
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Inside Docker network, db is the hostname
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/beercellar
+      SESSION_SECRET: dev-secret-key-at-least-32-characters-long
+      NODE_ENV: development
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      # Bind mount source code for live reloading
+      - .:/app
+      # Anonymous volume for node_modules — prevents host modules from overriding container's
+      - /app/node_modules
+      # Exclude build output
+      - /app/.output
+      - /app/.vinxi
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+    name: beercellar-pgdata

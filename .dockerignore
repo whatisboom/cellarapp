@@ -1,0 +1,48 @@
+# Dependencies — installed inside the container
+node_modules
+
+# Build output — generated inside the container
+.output
+.vinxi
+dist
+
+# Git
+.git
+.gitignore
+
+# Docker files (prevent recursive context)
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Environment files (secrets — passed via env_file/environment)
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Development/IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Docs
+docs/
+*.md
+!README.md
+
+# Tests (not needed in production image)
+src/**/*.test.*
+src/**/*.spec.*
+src/tests/
+playwright.config.ts
+playwright-report/
+test-results/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backups
+backups/
