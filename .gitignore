@@ -1,8 +1,14 @@
 node_modules
-.cache
 dist
-.env*
+.output
+.vinxi
+.env
+.env.local
+.env.production
+.cache
 .DS_Store
 coverage
 .vscode
 .worktrees
+*.local
+src/routeTree.gen.ts

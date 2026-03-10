@@ -4,9 +4,9 @@
 
 **Goal:** Rewrite beercellar.io as a consolidated full-stack app on TanStack Start, migrating from React 16 + Express + MongoDB to React 19 + TanStack Start + PostgreSQL.
 
-**Architecture:** TanStack Start full-stack framework with file-based routing, server functions replacing the Express API, Drizzle ORM over PostgreSQL (Neon), built-in session management via httpOnly cookies, and shadcn/ui components styled with Tailwind CSS v4. The frontend and backend are consolidated into a single repo deployed to Vercel.
+**Architecture:** TanStack Start full-stack framework with file-based routing, server functions replacing the Express API, Drizzle ORM over PostgreSQL (Docker), built-in session management via httpOnly cookies, and shadcn/ui components styled with Tailwind CSS v4. The frontend and backend are consolidated into a single repo deployed via Docker containers.
 
-**Tech Stack:** TanStack Start, TanStack Router, TanStack Query, Zustand, shadcn/ui, Tailwind CSS v4, PostgreSQL (Neon), Drizzle ORM, Zod, Vitest, Playwright, Vercel, pnpm
+**Tech Stack:** TanStack Start, TanStack Router, TanStack Query, Zustand, shadcn/ui, Tailwind CSS v4, PostgreSQL (Docker), Drizzle ORM, Zod, Vitest, Playwright, Docker, pnpm
 
 **Design Doc:** `docs/plans/2026-03-02-full-modernization-design.md`
 
@@ -172,7 +172,7 @@ function Home() {
 **Step 8: Verify the dev server starts**
 
 ```bash
-pnpm exec vinxi dev
+pnpm exec vite dev
 ```
 
 Expected: Dev server starts on http://localhost:3000, shows "Beer Cellar" heading.
@@ -402,7 +402,7 @@ function Home() {
 **Step 9: Verify styles render correctly**
 
 ```bash
-pnpm exec vinxi dev
+pnpm exec vite dev
 ```
 
 Expected: Page shows styled heading and a shadcn Button component at http://localhost:3000.
@@ -459,8 +459,8 @@ Add to scripts section:
 ```json
 {
   "scripts": {
-    "dev": "vinxi dev",
-    "build": "vinxi build",
+    "dev": "vite dev",
+    "build": "vite build",
     "start": "vinxi start",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -521,36 +521,36 @@ git commit -m "Add Vitest with testing-library and initial utils tests"
 **Step 1: Install Drizzle and PostgreSQL deps**
 
 ```bash
-pnpm add drizzle-orm @neondatabase/serverless
-pnpm add -D drizzle-kit
+pnpm add drizzle-orm pg
+pnpm add -D drizzle-kit @types/pg
 ```
 
-**Step 2: Set up local PostgreSQL**
+**Step 2: Set up PostgreSQL via Docker Compose**
 
-Ensure PostgreSQL is running locally. Create the dev database:
-
-```bash
-createdb beercellar_dev
-```
+Create `docker-compose.yml`, `Dockerfile`, `docker-compose.prod.yml`, and `.dockerignore`. Start Postgres with `docker compose up -d`.
 
 **Step 3: Create `.env.example`**
 
 ```
-DATABASE_URL=postgresql://localhost:5432/beercellar_dev
-SESSION_SECRET=at-least-32-characters-long-secret-key-here
-UNTAPPD_CLIENT_ID=your_untappd_client_id
-UNTAPPD_CLIENT_SECRET=your_untappd_client_secret
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/beercellar
+SESSION_SECRET=dev-secret-key-at-least-32-characters-long
+UNTAPPD_CLIENT_ID=
+UNTAPPD_CLIENT_SECRET=
 UNTAPPD_CALLBACK_URL=http://localhost:3000/auth/oauth/untappd
+VITE_UNTAPPD_CLIENT_ID=
+VITE_UNTAPPD_CALLBACK_URL=http://localhost:3000/auth/oauth/untappd
 ```
 
 **Step 4: Create `.env`** (copy from example, fill in real values)
 
 ```
-DATABASE_URL=postgresql://localhost:5432/beercellar_dev
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/beercellar
 SESSION_SECRET=dev-secret-key-at-least-32-characters-long
 UNTAPPD_CLIENT_ID=
 UNTAPPD_CLIENT_SECRET=
 UNTAPPD_CALLBACK_URL=http://localhost:3000/auth/oauth/untappd
+VITE_UNTAPPD_CLIENT_ID=
+VITE_UNTAPPD_CALLBACK_URL=http://localhost:3000/auth/oauth/untappd
 ```
 
 **Step 5: Add `.env` to `.gitignore`**
@@ -636,15 +636,18 @@ export const inventory = pgTable('inventory', {
 **Step 7: Create `src/server/db/index.ts`**
 
 ```typescript
-import { drizzle } from 'drizzle-orm/neon-serverless'
-import { Pool } from '@neondatabase/serverless'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { Pool } from 'pg'
 import * as schema from './schema'
 
 function createDb() {
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 5000,
   })
-  return drizzle(pool, { schema })
+  return drizzle({ client: pool, schema })
 }
 
 let db: ReturnType<typeof createDb>
@@ -1476,7 +1479,7 @@ VITE_UNTAPPD_CALLBACK_URL=http://localhost:3000/auth/oauth/untappd
 **Step 5: Verify the auth page renders**
 
 ```bash
-pnpm exec vinxi dev
+pnpm exec vite dev
 ```
 
 Navigate to http://localhost:3000/auth — should see the sign-in card with Untappd button.
@@ -2363,7 +2366,7 @@ function RootComponent() {
 **Step 6: Verify layout renders**
 
 ```bash
-pnpm exec vinxi dev
+pnpm exec vite dev
 ```
 
 Expected: Page shows header with "Beer Cellar" logo, "Sign In" button (when not authenticated), and styled content area.
@@ -2704,7 +2707,7 @@ function Dashboard() {
 **Step 5: Verify dashboard renders with seed data**
 
 ```bash
-pnpm exec vinxi dev
+pnpm exec vite dev
 ```
 
 This requires being authenticated. For manual testing, verify the route exists and redirects to /auth when not logged in.
@@ -3309,24 +3312,15 @@ git commit -m "Add settings page with dark mode toggle"
 
 ## Phase 6: Deployment & Polish
 
-### Task 23: Vercel deployment configuration
+### Task 23: Docker production polish
 
-**Files:**
-- Create: `vercel.json`
-- Modify: `package.json` (engines)
+The Dockerfile and docker-compose.prod.yml are already created in Task 4. This task:
+- Tests the production Docker build end-to-end
+- Adds the optional Caddyfile for reverse proxy
+- Creates the `backups/` directory with a `.gitkeep`
+- Adds a `scripts/backup.sh` helper
 
-**Step 1: Create `vercel.json`**
-
-```json
-{
-  "framework": null,
-  "buildCommand": "pnpm build",
-  "outputDirectory": ".output",
-  "installCommand": "pnpm install"
-}
-```
-
-**Step 2: Add engines to `package.json`**
+**Step 1: Add engines to `package.json`**
 
 ```json
 {
@@ -3336,29 +3330,21 @@ git commit -m "Add settings page with dark mode toggle"
 }
 ```
 
-**Step 3: Update `.env.example` with Neon production note**
-
-Add a comment:
-
-```
-# Local dev: postgresql://localhost:5432/beercellar_dev
-# Production: Use Neon connection string from dashboard
-DATABASE_URL=postgresql://localhost:5432/beercellar_dev
-```
-
-**Step 4: Verify build works**
+**Step 2: Verify production Docker build**
 
 ```bash
-pnpm build
+docker compose -f docker-compose.prod.yml build
 ```
 
-Expected: Builds successfully to `.output/` directory.
+Expected: Production image builds successfully.
 
-**Step 5: Commit**
+**Step 3: Create `backups/.gitkeep` and `scripts/backup.sh`**
+
+**Step 4: Commit**
 
 ```bash
 git add -A
-git commit -m "Add Vercel deployment configuration and build verification"
+git commit -m "Add Docker production polish, backup script, and Caddyfile"
 ```
 
 ---
@@ -3397,7 +3383,7 @@ export default defineConfig({
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ],
   webServer: {
-    command: 'pnpm exec vinxi dev',
+    command: 'pnpm exec vite dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
   },
@@ -3471,16 +3457,22 @@ Ensure the final scripts section includes:
 ```json
 {
   "scripts": {
-    "dev": "vinxi dev",
-    "build": "vinxi build",
-    "start": "vinxi start",
+    "dev": "vite dev",
+    "build": "vite build",
+    "start": "node .output/server/index.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:dev": "docker compose --profile app up",
+    "docker:prod": "docker compose -f docker-compose.prod.yml up -d --build",
+    "docker:prod:down": "docker compose -f docker-compose.prod.yml down",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "npx tsx src/server/db/seed.ts",
-    "db:reset": "pnpm db:migrate && pnpm db:seed"
+    "db:reset": "docker compose down -v && docker compose up -d && sleep 2 && pnpm db:migrate && pnpm db:seed",
+    "db:shell": "docker compose exec db psql -U postgres -d beercellar"
   }
 }
 ```
@@ -3528,6 +3520,6 @@ git commit -m "Add .nvmrc and finalize package.json scripts"
 | 20 | Search page | Pages |
 | 21 | User list and profile pages | Pages |
 | 22 | Settings page (theme switcher) | Pages |
-| 23 | Vercel deployment configuration | Deployment |
+| 23 | Docker production polish | Deployment |
 | 24 | Playwright E2E setup | Deployment |
 | 25 | Final cleanup | Deployment |

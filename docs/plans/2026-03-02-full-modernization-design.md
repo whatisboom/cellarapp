@@ -14,10 +14,10 @@
 | Data fetching | TanStack Query | Manual fetch + Redux caching |
 | Client state | Zustand | Redux |
 | UI | shadcn/ui + Tailwind CSS v4 | Material-UI v3 |
-| Database | PostgreSQL on Neon + Drizzle ORM | MongoDB + Mongoose |
+| Database | PostgreSQL in Docker + Drizzle ORM | MongoDB + Mongoose |
 | Auth | JWT in httpOnly cookies, Untappd OAuth | JWT in localStorage |
 | Testing | Vitest + Playwright | Jest (minimal coverage) |
-| Deployment | Vercel | Heroku |
+| Deployment | Docker containers (self-hosted) | Heroku |
 | Package manager | pnpm | npm |
 
 ---
@@ -217,7 +217,7 @@ Server state (user, beers, inventory, etc.) managed entirely by TanStack Query �
 - Open CORS → same-origin (server functions, no CORS needed)
 - No input validation → Zod on all mutations
 - RegExp injection → parameterized SQL queries
-- No rate limiting → Vercel edge handles this
+- No rate limiting → rate limiting middleware
 
 ### Dead Code Removed
 - Unused form components: Email, Username, Password, Text, ButtonLink, BaseButton, SubmitButton
