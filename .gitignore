@@ -8,6 +8,8 @@ dist
 .cache
 .DS_Store
 coverage
+playwright-report
+test-results
 .vscode
 .worktrees
 *.local
