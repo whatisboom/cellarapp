@@ -8,6 +8,7 @@ export default defineConfig({
     setupFiles: ['./src/tests/setup.ts'],
     include: ['src/**/*.test.{ts,tsx}'],
     exclude: ['src/tests/e2e/**'],
+    fileParallelism: false,
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],
@@ -17,6 +18,10 @@ export default defineConfig({
         'src/**/*.test.{ts,tsx}',
         'src/components/ui/**',
       ],
+      thresholds: {
+        lines: 60,
+        branches: 50,
+      },
     },
   },
 })
