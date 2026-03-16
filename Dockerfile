@@ -1,9 +1,9 @@
 # ============================================
 # Base image — shared across all stages
 # ============================================
-FROM node:20-alpine AS base
+FROM node:24-alpine AS base
 
-# Enable pnpm via corepack (built into Node 20+)
+# Enable pnpm via corepack (built into Node 24+)
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # Set up non-root user for security
