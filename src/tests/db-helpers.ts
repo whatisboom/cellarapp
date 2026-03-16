@@ -1,4 +1,5 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
+import { sql } from 'drizzle-orm'
 import { Pool } from 'pg'
 import * as schema from '~/server/db/schema'
 
@@ -34,10 +35,7 @@ function nextId() {
 
 export async function cleanTables() {
   const testDb = getTestDb()
-  await testDb.delete(schema.inventory)
-  await testDb.delete(schema.beers)
-  await testDb.delete(schema.breweries)
-  await testDb.delete(schema.users)
+  await testDb.execute(sql`TRUNCATE users, breweries, beers, inventory CASCADE`)
 }
 
 export async function createTestUser(

@@ -64,6 +64,10 @@ export function mockCreateServerFn() {
 }
 
 // --- redirect mock ---
+// The real redirect() returns a Response-like object; our code does
+// `throw redirect(...)` explicitly, so the mock just needs to return
+// something throwable. If TanStack's `redirect({ throw: true })` is
+// ever used, this mock will need updating.
 
 export class RedirectError extends Error {
   to: string
