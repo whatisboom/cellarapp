@@ -2,8 +2,8 @@ import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
 import * as schema from '~/server/db/schema'
 
-let pool: Pool
-let db: ReturnType<typeof drizzle<typeof schema>>
+let pool: Pool | undefined
+let db: ReturnType<typeof drizzle<typeof schema>> | undefined
 
 export function getTestDb() {
   if (!db) {
@@ -20,7 +20,14 @@ export function getTestDb() {
 export async function closeTestDb() {
   if (pool) {
     await pool.end()
+    pool = undefined
+    db = undefined
   }
+}
+
+let counter = 0
+function nextId() {
+  return `${Date.now()}-${++counter}-${Math.random().toString(36).slice(2, 6)}`
 }
 
 export async function cleanTables() {
@@ -38,9 +45,9 @@ export async function createTestUser(
   const [user] = await testDb
     .insert(schema.users)
     .values({
-      username: `testuser-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      username: `testuser-${nextId()}`,
       authProvider: 'untappd',
-      authProviderId: String(Date.now()),
+      authProviderId: nextId(),
       ...overrides,
     })
     .returning()
@@ -51,7 +58,7 @@ export async function createTestBrewery(
   overrides: Partial<typeof schema.breweries.$inferInsert> = {}
 ) {
   const testDb = getTestDb()
-  const slug = `brewery-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+  const slug = `brewery-${nextId()}`
   const [brewery] = await testDb
     .insert(schema.breweries)
     .values({
@@ -68,7 +75,7 @@ export async function createTestBeer(
   overrides: Partial<typeof schema.beers.$inferInsert> = {}
 ) {
   const testDb = getTestDb()
-  const slug = `beer-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+  const slug = `beer-${nextId()}`
   const [beer] = await testDb
     .insert(schema.beers)
     .values({
