@@ -1,4 +1,4 @@
-import { describe, it, expect, afterAll, afterEach, vi } from 'vitest'
+import { describe, it, expect, afterAll, afterEach, beforeEach, vi } from 'vitest'
 import {
   getTestDb,
   closeTestDb,
@@ -24,6 +24,10 @@ const { searchBeers } = await import('./search')
 
 afterAll(async () => {
   await closeTestDb()
+})
+
+beforeEach(async () => {
+  await cleanTables()
 })
 
 afterEach(async () => {

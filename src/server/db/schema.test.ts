@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest'
+import { describe, it, expect, beforeAll, beforeEach, afterAll, afterEach } from 'vitest'
 import { eq } from 'drizzle-orm'
 import {
   getTestDb,
@@ -16,6 +16,10 @@ beforeAll(() => {
 
 afterAll(async () => {
   await closeTestDb()
+})
+
+beforeEach(async () => {
+  await cleanTables()
 })
 
 afterEach(async () => {

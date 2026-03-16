@@ -37,6 +37,19 @@ export function mockSession() {
 // Makes server functions directly callable in tests by bypassing
 // TanStack Start's AsyncLocalStorage requirement.
 
+interface ZodLike<T> {
+  parse: (input: unknown) => T
+}
+
+function isZodLike<T>(schema: unknown): schema is ZodLike<T> {
+  return (
+    schema != null &&
+    typeof schema === 'object' &&
+    'parse' in schema &&
+    typeof (schema as ZodLike<T>).parse === 'function'
+  )
+}
+
 type InputValidator<T> = {
   handler: (fn: (opts: { data: T }) => Promise<unknown>) => (input: T) => Promise<unknown>
 }
@@ -50,9 +63,12 @@ export function mockCreateServerFn() {
   vi.mock('@tanstack/react-start', () => ({
     createServerFn: (_opts?: { method: string }): ServerFnBuilder => {
       return {
-        inputValidator: <T>(_schema: unknown): InputValidator<T> => ({
+        inputValidator: <T>(schema: unknown): InputValidator<T> => ({
           handler: (fn: (opts: { data: T }) => Promise<unknown>) => {
-            return (input: T) => fn({ data: input })
+            return (input: T) => {
+              const parsed = isZodLike<T>(schema) ? schema.parse(input) : input
+              return fn({ data: parsed })
+            }
           },
         }),
         handler: (fn: (opts: { data?: undefined }) => Promise<unknown>) => {

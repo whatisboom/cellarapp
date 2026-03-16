@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll, afterEach, vi } from 'vitest'
+import { describe, it, expect, beforeAll, beforeEach, afterAll, afterEach, vi } from 'vitest'
 import {
   getTestDb,
   closeTestDb,
@@ -29,6 +29,10 @@ beforeAll(() => {
 
 afterAll(async () => {
   await closeTestDb()
+})
+
+beforeEach(async () => {
+  await cleanTables()
 })
 
 afterEach(async () => {
