@@ -5,23 +5,29 @@ import type { SessionData } from '~/server/auth/session'
 
 let sessionData: Partial<SessionData> = {}
 
+const sessionUpdateFn = vi.fn(async (data: Partial<SessionData>) => {
+  sessionData = { ...sessionData, ...data }
+})
+
+const sessionClearFn = vi.fn(async () => {
+  sessionData = {}
+})
+
 export function setSession(data: Partial<SessionData>) {
   sessionData = data
 }
 
 export function clearSession() {
   sessionData = {}
+  sessionUpdateFn.mockClear()
+  sessionClearFn.mockClear()
 }
 
 export function mockSession() {
   return {
     data: sessionData,
-    update: vi.fn(async (data: Partial<SessionData>) => {
-      sessionData = { ...sessionData, ...data }
-    }),
-    clear: vi.fn(async () => {
-      sessionData = {}
-    }),
+    update: sessionUpdateFn,
+    clear: sessionClearFn,
   }
 }
 
