@@ -7,11 +7,13 @@ let db: ReturnType<typeof drizzle<typeof schema>> | undefined
 
 export function getTestDb() {
   if (!db) {
-    pool = new Pool({
-      connectionString:
-        process.env.DATABASE_URL ??
-        'postgresql://postgres:postgres@localhost:5432/beercellar',
-    })
+    const connectionString = process.env.TEST_DATABASE_URL
+    if (!connectionString) {
+      throw new Error(
+        'TEST_DATABASE_URL is not set. Set it to a test-only Postgres instance.'
+      )
+    }
+    pool = new Pool({ connectionString })
     db = drizzle({ client: pool, schema })
   }
   return db

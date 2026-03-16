@@ -4,13 +4,14 @@ import { exchangeUntappdCode, getUntappdUser, searchUntappdBeers } from './untap
 const fetchSpy = vi.spyOn(globalThis, 'fetch')
 
 beforeEach(() => {
-  process.env.UNTAPPD_CLIENT_ID = 'test-client-id'
-  process.env.UNTAPPD_CLIENT_SECRET = 'test-client-secret'
-  process.env.UNTAPPD_CALLBACK_URL = 'http://localhost:3000/callback'
+  vi.stubEnv('UNTAPPD_CLIENT_ID', 'test-client-id')
+  vi.stubEnv('UNTAPPD_CLIENT_SECRET', 'test-client-secret')
+  vi.stubEnv('UNTAPPD_CALLBACK_URL', 'http://localhost:3000/callback')
 })
 
 afterEach(() => {
   fetchSpy.mockReset()
+  vi.unstubAllEnvs()
 })
 
 function jsonResponse(data: unknown, status = 200) {

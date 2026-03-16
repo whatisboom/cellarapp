@@ -27,6 +27,7 @@ jobs:
 
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/beercellar
+      TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/beercellar
 
     steps:
       - uses: actions/checkout@v4

@@ -25,7 +25,9 @@ export function clearSession() {
 
 export function mockSession() {
   return {
-    data: sessionData,
+    get data() {
+      return sessionData
+    },
     update: sessionUpdateFn,
     clear: sessionClearFn,
   }
