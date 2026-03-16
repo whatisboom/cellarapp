@@ -50,7 +50,7 @@ services:
       # Anonymous volume for node_modules — prevents host modules from overriding container's
       - /app/node_modules
       # Exclude build output
-      - /app/.output
+      - /app/dist
       - /app/.vinxi
     depends_on:
       db:
