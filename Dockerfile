@@ -4,7 +4,7 @@
 FROM node:24-alpine AS base
 
 # Enable pnpm via corepack (built into Node 24+)
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.30.3 --activate
 
 # Set up non-root user for security
 RUN addgroup --system --gid 1001 nodejs && \
