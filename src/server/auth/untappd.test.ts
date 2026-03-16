@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach, vi, beforeEach } from 'vitest'
+import { describe, it, expect, afterAll, afterEach, vi, beforeEach } from 'vitest'
 import { exchangeUntappdCode, getUntappdUser, searchUntappdBeers } from './untappd'
 
 const fetchSpy = vi.spyOn(globalThis, 'fetch')
@@ -10,8 +10,12 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  fetchSpy.mockReset()
+  fetchSpy.mockClear()
   vi.unstubAllEnvs()
+})
+
+afterAll(() => {
+  fetchSpy.mockRestore()
 })
 
 function jsonResponse(data: unknown, status = 200) {
