@@ -44,6 +44,4 @@ jobs:
 
       - run: pnpm db:migrate
 
-      - run: pnpm test
-
       - run: pnpm test:coverage
