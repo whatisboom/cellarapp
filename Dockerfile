@@ -1,10 +1,10 @@
 # ============================================
 # Base image — shared across all stages
 # ============================================
-FROM node:20-alpine AS base
+FROM node:24-alpine AS base
 
-# Enable pnpm via corepack (built into Node 20+)
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Enable pnpm via corepack (built into Node 24+)
+RUN corepack enable && corepack prepare pnpm@10.30.3 --activate
 
 # Set up non-root user for security
 RUN addgroup --system --gid 1001 nodejs && \
@@ -39,7 +39,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build TanStack Start app
-# Output goes to .output/server/index.mjs (entry) + .output/client/ (static assets)
+# Output goes to dist/server/server.js (entry) + dist/client/ (static assets)
 RUN pnpm build
 
 # ============================================
@@ -54,9 +54,9 @@ ENV PORT=3000
 COPY --from=deps-prod /app/node_modules ./node_modules
 
 # Copy build output
-# .output/server/index.mjs — Node.js server entry point
-# .output/client/ — static assets served by the server
-COPY --from=build /app/.output ./.output
+# dist/server/server.js — Node.js server entry point
+# dist/client/ — static assets served by the server
+COPY --from=build /app/dist ./dist
 
 # Copy package.json for any runtime needs
 COPY package.json ./
@@ -74,7 +74,7 @@ EXPOSE ${PORT}
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/ || exit 1
 
-CMD ["node", ".output/server/index.mjs"]
+CMD ["node", "dist/server/server.js"]
 
 # ============================================
 # Development image — for docker compose dev
