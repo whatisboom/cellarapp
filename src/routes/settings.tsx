@@ -1,10 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
-import { Button } from '~/components/ui/button'
-import { Label } from '~/components/ui/label'
+import { Card, Button, useTheme } from '@whatisboom/boom-ui'
 import { Moon, Sun } from 'lucide-react'
 import { getMe } from '~/server/functions/auth'
-import { useThemeStore } from '~/lib/stores/theme'
 
 export const Route = createFileRoute('/settings')({
   loader: async () => {
@@ -18,21 +15,21 @@ export const Route = createFileRoute('/settings')({
 })
 
 function SettingsPage() {
-  const { mode, toggle } = useThemeStore()
+  const { resolvedTheme, setTheme } = useTheme()
+
+  const toggle = () => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')
 
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Settings</h1>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Appearance</CardTitle>
-          <CardDescription>Customize how Beer Cellar looks.</CardDescription>
-        </CardHeader>
-        <CardContent className="flex items-center justify-between">
-          <Label>Theme</Label>
-          <Button variant="outline" size="sm" onClick={toggle}>
-            {mode === 'light' ? (
+      <Card padding={6}>
+        <h2 className="text-lg font-semibold">Appearance</h2>
+        <p className="text-sm text-muted mb-4">Customize how Beer Cellar looks.</p>
+        <div className="flex items-center justify-between">
+          <span>Theme</span>
+          <Button variant="secondary" size="sm" onClick={toggle}>
+            {resolvedTheme === 'light' ? (
               <>
                 <Moon className="mr-2 h-4 w-4" /> Dark mode
               </>
@@ -42,7 +39,7 @@ function SettingsPage() {
               </>
             )}
           </Button>
-        </CardContent>
+        </div>
       </Card>
     </div>
   )
