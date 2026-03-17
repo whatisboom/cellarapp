@@ -10,8 +10,14 @@ vi.mock('~/server/functions/search', () => ({
   searchBeers: mockSearchBeers,
 }))
 
-const mockToast = { success: vi.fn(), error: vi.fn() }
-vi.mock('sonner', () => ({ toast: mockToast }))
+const mockToast = vi.fn()
+vi.mock('@whatisboom/boom-ui', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@whatisboom/boom-ui')>()
+  return {
+    ...actual,
+    useToast: () => ({ toast: mockToast, dismiss: vi.fn(), dismissAll: vi.fn(), toasts: [] }),
+  }
+})
 
 const routeModule = await import('./beers')
 const Component = asMockRoute(routeModule.Route).component
@@ -71,7 +77,7 @@ describe('Search beers page', () => {
     await user.click(screen.getByRole('button', { name: /Search/ }))
 
     await waitFor(() => {
-      expect(mockToast.error).toHaveBeenCalledWith('API error')
+      expect(mockToast).toHaveBeenCalledWith({ message: 'API error', variant: 'error' })
     })
   })
 })

@@ -22,7 +22,7 @@ describe('User profile page', () => {
     expect(screen.getByText(/NYC/)).toBeInTheDocument()
   })
 
-  it('renders inventory as non-owner', () => {
+  it('renders cellar section with inventory count', () => {
     Route.__setLoaderData({
       user: { username: 'alice', firstName: 'Alice', lastName: 'Smith', avatarUrl: null, location: null },
       inventory: [
@@ -36,8 +36,7 @@ describe('User profile page', () => {
       ],
     })
     render(<Route.component />)
-    expect(screen.getByText('Test Beer')).toBeInTheDocument()
-    // Actions column should not be present since isOwner=false
-    expect(screen.queryByText('Actions')).not.toBeInTheDocument()
+    expect(screen.getByText('Cellar (1)')).toBeInTheDocument()
+    expect(screen.getByRole('table')).toBeInTheDocument()
   })
 })

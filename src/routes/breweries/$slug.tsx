@@ -1,12 +1,43 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
+import { Card, EmptyState, Table } from '@whatisboom/boom-ui'
+import type { ColumnDef } from '@whatisboom/boom-ui'
 import { getBrewery } from '~/server/functions/breweries'
+
+interface BreweryBeer {
+  id: string
+  name: string
+  slug: string
+  style: string | null
+  abv: string | null
+}
 
 export const Route = createFileRoute('/breweries/$slug')({
   loader: async ({ params }) => getBrewery({ data: { slug: params.slug } }),
   component: BreweryDetails,
 })
+
+const beerColumns: ColumnDef<BreweryBeer>[] = [
+  {
+    id: 'name',
+    header: 'Name',
+    cell: ({ row }) => (
+      <Link to="/beers/$slug" params={{ slug: row.slug }} className="font-medium hover:underline">
+        {row.name}
+      </Link>
+    ),
+  },
+  {
+    id: 'style',
+    header: 'Style',
+    accessorKey: 'style',
+    cell: ({ value }) => (value as string) ?? '—',
+  },
+  {
+    id: 'abv',
+    header: 'ABV',
+    cell: ({ row }) => (row.abv ? `${row.abv}%` : '—'),
+  },
+]
 
 function BreweryDetails() {
   const brewery = Route.useLoaderData()
@@ -15,43 +46,23 @@ function BreweryDetails() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">{brewery.name}</h1>
-        <p className="text-muted-foreground">
+        <p style={{ color: 'var(--boom-theme-text-secondary)' }}>
           {[brewery.city, brewery.state, brewery.country].filter(Boolean).join(', ')}
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Beers ({brewery.beers.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {brewery.beers.length === 0 ? (
-            <p className="text-muted-foreground">No beers listed yet.</p>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Style</TableHead>
-                  <TableHead>ABV</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {brewery.beers.map((beer) => (
-                  <TableRow key={beer.id}>
-                    <TableCell>
-                      <Link to="/beers/$slug" params={{ slug: beer.slug }} className="font-medium hover:underline">
-                        {beer.name}
-                      </Link>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">{beer.style ?? '—'}</TableCell>
-                    <TableCell className="text-muted-foreground">{beer.abv ? `${beer.abv}%` : '—'}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
+      <Card padding={6}>
+        <h2 className="text-lg font-semibold mb-4">Beers ({brewery.beers.length})</h2>
+        {brewery.beers.length === 0 ? (
+          <EmptyState title="No beers listed yet" />
+        ) : (
+          <Table<BreweryBeer>
+            columns={beerColumns}
+            data={brewery.beers}
+            getRowId={(row) => row.id}
+            hoverable
+          />
+        )}
       </Card>
     </div>
   )
