@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { Card, EmptyState, Table } from '@whatisboom/boom-ui'
 import type { ColumnDef } from '@whatisboom/boom-ui'
 import { getBrewery } from '~/server/functions/breweries'
+import { RouteError } from '~/components/route-error'
 
 interface BreweryBeer {
   id: string
@@ -14,6 +15,7 @@ interface BreweryBeer {
 export const Route = createFileRoute('/breweries/$slug')({
   loader: async ({ params }) => getBrewery({ data: { slug: params.slug } }),
   component: BreweryDetails,
+  errorComponent: ({ error }) => <RouteError error={error} />,
 })
 
 const beerColumns: ColumnDef<BreweryBeer>[] = [

@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { z } from 'zod'
-import { Button, Card } from '@whatisboom/boom-ui'
+import { Card } from '@whatisboom/boom-ui'
 import { listBreweries } from '~/server/functions/breweries'
+import { Pagination } from '~/components/pagination'
 
 export const Route = createFileRoute('/breweries/')({
   validateSearch: (search) => z.object({ page: z.number().int().min(1).catch(1) }).parse(search),
@@ -30,19 +31,7 @@ function BreweriesList() {
         ))}
       </div>
 
-      {totalPages > 1 && (
-        <div className="flex justify-center gap-2">
-          <Link to="/breweries" search={{ page: page - 1 }}>
-            <Button variant="secondary" size="sm" disabled={page <= 1}>Previous</Button>
-          </Link>
-          <span className="flex items-center text-sm" style={{ color: 'var(--boom-theme-text-secondary)' }}>
-            Page {page} of {totalPages}
-          </span>
-          <Link to="/breweries" search={{ page: page + 1 }}>
-            <Button variant="secondary" size="sm" disabled={page >= totalPages}>Next</Button>
-          </Link>
-        </div>
-      )}
+      <Pagination page={page} totalPages={totalPages} to="/breweries" />
     </div>
   )
 }

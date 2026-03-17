@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { z } from 'zod'
 import { Avatar, Button, Card, Input } from '@whatisboom/boom-ui'
 import { listUsers } from '~/server/functions/users'
+import { Pagination } from '~/components/pagination'
 
 export const Route = createFileRoute('/users/')({
   validateSearch: (search) => z.object({
@@ -47,19 +48,7 @@ function UsersList() {
         ))}
       </div>
 
-      {totalPages > 1 && (
-        <div className="flex justify-center gap-2">
-          <Link to="/users" search={{ page: page - 1, search }}>
-            <Button variant="secondary" size="sm" disabled={page <= 1}>Previous</Button>
-          </Link>
-          <span className="flex items-center text-sm" style={{ color: 'var(--boom-theme-text-secondary)' }}>
-            Page {page} of {totalPages}
-          </span>
-          <Link to="/users" search={{ page: page + 1, search }}>
-            <Button variant="secondary" size="sm" disabled={page >= totalPages}>Next</Button>
-          </Link>
-        </div>
-      )}
+      <Pagination page={page} totalPages={totalPages} to="/users" search={{ search }} />
     </div>
   )
 }

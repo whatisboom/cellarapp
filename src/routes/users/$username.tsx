@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Avatar, Card } from '@whatisboom/boom-ui'
+import { RouteError } from '~/components/route-error'
 import { InventoryList } from '~/components/inventory/inventory-list'
 import { getUser } from '~/server/functions/users'
 import { getUserInventory } from '~/server/functions/inventory'
@@ -11,6 +12,7 @@ export const Route = createFileRoute('/users/$username')({
     return { user, inventory }
   },
   component: UserProfile,
+  errorComponent: ({ error }) => <RouteError error={error} />,
 })
 
 function UserProfile() {

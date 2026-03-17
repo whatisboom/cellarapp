@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Badge, Card } from '@whatisboom/boom-ui'
 import { getBeer } from '~/server/functions/beers'
+import { RouteError } from '~/components/route-error'
 
 export const Route = createFileRoute('/beers/$slug')({
   loader: async ({ params }) => getBeer({ data: { slug: params.slug } }),
   component: BeerDetails,
+  errorComponent: ({ error }) => <RouteError error={error} />,
 })
 
 function BeerDetails() {

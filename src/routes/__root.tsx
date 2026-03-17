@@ -12,6 +12,7 @@ import {
   AppShell,
   Avatar,
   Button,
+  EmptyState,
   Header,
   Popover,
   Sidebar,
@@ -49,6 +50,7 @@ export const Route = createRootRoute({
     return { user }
   },
   component: RootComponent,
+  notFoundComponent: NotFound,
 })
 
 function RootComponent() {
@@ -204,5 +206,21 @@ function UserMenu({ user }: { user: UserInfo }) {
         </div>
       </Popover>
     </>
+  )
+}
+
+function NotFound() {
+  return (
+    <div className="flex items-center justify-center py-20">
+      <EmptyState
+        title="Page not found"
+        description="The page you're looking for doesn't exist."
+        action={
+          <Link to="/">
+            <Button variant="primary">Go Home</Button>
+          </Link>
+        }
+      />
+    </div>
   )
 }
