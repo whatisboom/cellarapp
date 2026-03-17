@@ -1,7 +1,6 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { Beer, Users, Search, ArrowRight } from 'lucide-react'
-import { Button } from '~/components/ui/button'
-import { Card, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
+import { createFileRoute } from '@tanstack/react-router'
+import { Beer, Users, Search } from 'lucide-react'
+import { Card, Hero } from '@whatisboom/boom-ui'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -27,27 +26,23 @@ function Home() {
   ]
 
   return (
-    <div className="flex flex-col items-center gap-12 py-12">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">Beer Cellar</h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Your beer inventory and trading platform.
-        </p>
-        <Button asChild size="lg" className="mt-8">
-          <Link to="/auth">
-            Get Started <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      </div>
+    <div className="flex flex-col items-center gap-12">
+      <Hero
+        heading="Beer Cellar"
+        subheading="Your beer inventory and trading platform."
+        primaryCTA={{ children: 'Get Started', href: '/auth', variant: 'primary' }}
+        variant="centered"
+        minHeight="300px"
+      />
 
-      <div className="grid gap-6 sm:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-3 w-full">
         {features.map((feature) => (
-          <Card key={feature.title}>
-            <CardHeader>
-              <feature.icon className="h-8 w-8 text-primary" />
-              <CardTitle className="mt-2">{feature.title}</CardTitle>
-              <CardDescription>{feature.description}</CardDescription>
-            </CardHeader>
+          <Card key={feature.title} padding={6} hoverable>
+            <feature.icon className="h-8 w-8" style={{ color: 'var(--boom-theme-accent)' }} />
+            <h3 className="mt-2 text-lg font-semibold">{feature.title}</h3>
+            <p className="mt-1 text-sm" style={{ color: 'var(--boom-theme-text-secondary)' }}>
+              {feature.description}
+            </p>
           </Card>
         ))}
       </div>
