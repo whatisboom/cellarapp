@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 import { useEffect, useState } from 'react'
 import { loginWithUntappd } from '~/server/functions/auth'
-import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert'
+import { Alert, Spinner } from '@whatisboom/boom-ui'
 
 const searchSchema = z.object({
   code: z.string().optional(),
@@ -36,9 +36,9 @@ function OAuthCallback() {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center p-4">
-        <Alert variant="destructive" className="max-w-md">
-          <AlertTitle>Authentication Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
+        <Alert variant="error" className="max-w-md">
+          <strong>Authentication Error</strong>
+          <p>{error}</p>
         </Alert>
       </div>
     )
@@ -46,7 +46,10 @@ function OAuthCallback() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <p className="text-muted-foreground">Authenticating with Untappd...</p>
+      <Spinner size="lg" />
+      <p className="ml-3" style={{ color: 'var(--boom-theme-text-secondary)' }}>
+        Authenticating with Untappd...
+      </p>
     </div>
   )
 }

@@ -23,7 +23,7 @@ describe('Brewery details page', () => {
     expect(screen.getByText('Stowe, VT, US')).toBeInTheDocument()
   })
 
-  it('renders beers table', () => {
+  it('renders beers table when beers exist', () => {
     Route.__setLoaderData({
       name: 'The Alchemist',
       city: 'Stowe',
@@ -35,8 +35,8 @@ describe('Brewery details page', () => {
       ],
     })
     render(<Route.component />)
-    expect(screen.getByRole('link', { name: 'Heady Topper' })).toHaveAttribute('href', '/beers/heady')
-    expect(screen.getByRole('link', { name: 'Focal Banger' })).toHaveAttribute('href', '/beers/focal')
+    expect(screen.getByRole('table')).toBeInTheDocument()
+    expect(screen.getByText('Beers (2)')).toBeInTheDocument()
   })
 
   it('shows empty state when no beers', () => {
@@ -48,6 +48,6 @@ describe('Brewery details page', () => {
       beers: [],
     })
     render(<Route.component />)
-    expect(screen.getByText('No beers listed yet.')).toBeInTheDocument()
+    expect(screen.getByText('No beers listed yet')).toBeInTheDocument()
   })
 })

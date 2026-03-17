@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Button } from '~/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
+import { Button, Card } from '@whatisboom/boom-ui'
 
 export const Route = createFileRoute('/auth/')({
   component: AuthPage,
@@ -15,18 +14,18 @@ function AuthPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Sign in to Beer Cellar</CardTitle>
-          <CardDescription>
-            Connect your Untappd account to manage your beer inventory.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex justify-center">
-          <Button asChild size="lg">
-            <a href={untappdUrl}>Sign in with Untappd</a>
-          </Button>
-        </CardContent>
+      <Card padding={8} className="w-full max-w-md text-center">
+        <h2 className="text-2xl font-bold">Sign in to Beer Cellar</h2>
+        <p className="mt-2 text-sm" style={{ color: 'var(--boom-theme-text-secondary)' }}>
+          Connect your Untappd account to manage your beer inventory.
+        </p>
+        <div className="mt-6 flex justify-center">
+          <a href={untappdUrl}>
+            <Button variant="primary" size="lg">
+              Sign in with Untappd
+            </Button>
+          </a>
+        </div>
       </Card>
     </div>
   )

@@ -8,10 +8,10 @@ const routeModule = await import('./index')
 const Component = asMockRoute(routeModule.Route).component
 
 describe('Home page', () => {
-  it('renders heading and Get Started link', () => {
+  it('renders heading and Get Started button', () => {
     render(<Component />)
     expect(screen.getByText('Beer Cellar')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /Get Started/i })).toHaveAttribute('href', '/auth')
+    expect(screen.getByRole('button', { name: /Get Started/i })).toHaveAttribute('href', '/auth')
   })
 
   it('renders all three feature cards', () => {

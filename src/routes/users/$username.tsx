@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
+import { Avatar, Card } from '@whatisboom/boom-ui'
+import { RouteError } from '~/components/route-error'
 import { InventoryList } from '~/components/inventory/inventory-list'
 import { getUser } from '~/server/functions/users'
 import { getUserInventory } from '~/server/functions/inventory'
@@ -12,6 +12,7 @@ export const Route = createFileRoute('/users/$username')({
     return { user, inventory }
   },
   component: UserProfile,
+  errorComponent: ({ error }) => <RouteError error={error} />,
 })
 
 function UserProfile() {
@@ -19,34 +20,32 @@ function UserProfile() {
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center gap-4">
-          <Avatar className="h-16 w-16">
-            <AvatarImage src={user.avatarUrl ?? undefined} />
-            <AvatarFallback className="text-lg">{user.username[0]!.toUpperCase()}</AvatarFallback>
-          </Avatar>
+      <Card padding={6}>
+        <div className="flex items-center gap-4">
+          <Avatar
+            src={user.avatarUrl ?? undefined}
+            alt={user.username}
+            name={user.username}
+            size="lg"
+          />
           <div>
-            <CardTitle>{user.username}</CardTitle>
-            <CardDescription>
+            <h2 className="text-xl font-bold">{user.username}</h2>
+            <p style={{ color: 'var(--boom-theme-text-secondary)' }}>
               {user.firstName} {user.lastName}
               {user.location && ` — ${user.location}`}
-            </CardDescription>
+            </p>
           </div>
-        </CardHeader>
+        </div>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Cellar ({inventory.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <InventoryList
-            items={inventory}
-            isOwner={false}
-            onUpdate={() => {}}
-            onRemove={() => {}}
-          />
-        </CardContent>
+      <Card padding={6}>
+        <h2 className="text-lg font-semibold mb-4">Cellar ({inventory.length})</h2>
+        <InventoryList
+          items={inventory}
+          isOwner={false}
+          onUpdate={() => {}}
+          onRemove={() => {}}
+        />
       </Card>
     </div>
   )

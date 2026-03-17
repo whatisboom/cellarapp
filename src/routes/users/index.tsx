@@ -1,10 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { z } from 'zod'
-import { Card, CardHeader, CardTitle } from '~/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
-import { Button } from '~/components/ui/button'
-import { Input } from '~/components/ui/input'
+import { Avatar, Button, Card, Input } from '@whatisboom/boom-ui'
 import { listUsers } from '~/server/functions/users'
+import { Pagination } from '~/components/pagination'
 
 export const Route = createFileRoute('/users/')({
   validateSearch: (search) => z.object({
@@ -36,32 +34,21 @@ function UsersList() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {users.map((user) => (
           <Link key={user.id} to="/users/$username" params={{ username: user.username }}>
-            <Card className="hover:bg-accent/50 transition-colors">
-              <CardHeader className="flex flex-row items-center gap-3">
-                <Avatar>
-                  <AvatarImage src={user.avatarUrl ?? undefined} alt={user.username} />
-                  <AvatarFallback>{user.username[0]!.toUpperCase()}</AvatarFallback>
-                </Avatar>
-                <CardTitle className="text-lg">{user.username}</CardTitle>
-              </CardHeader>
+            <Card padding={6} hoverable>
+              <div className="flex items-center gap-3">
+                <Avatar
+                  src={user.avatarUrl ?? undefined}
+                  alt={user.username}
+                  name={user.username}
+                />
+                <span className="text-lg font-semibold">{user.username}</span>
+              </div>
             </Card>
           </Link>
         ))}
       </div>
 
-      {totalPages > 1 && (
-        <div className="flex justify-center gap-2">
-          <Button variant="outline" size="sm" disabled={page <= 1} asChild>
-            <Link to="/users" search={{ page: page - 1, search }}>Previous</Link>
-          </Button>
-          <span className="flex items-center text-sm text-muted-foreground">
-            Page {page} of {totalPages}
-          </span>
-          <Button variant="outline" size="sm" disabled={page >= totalPages} asChild>
-            <Link to="/users" search={{ page: page + 1, search }}>Next</Link>
-          </Button>
-        </div>
-      )}
+      <Pagination page={page} totalPages={totalPages} to="/users" search={{ search }} />
     </div>
   )
 }
