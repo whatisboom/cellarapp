@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { z } from 'zod'
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
-import { Button } from '~/components/ui/button'
+import { Button, Card } from '@whatisboom/boom-ui'
 import { listBeers } from '~/server/functions/beers'
 
 export const Route = createFileRoute('/beers/')({
@@ -20,32 +19,30 @@ function BeersList() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {beers.map((beer) => (
-          <Card key={beer.id}>
-            <CardHeader>
-              <Link to="/beers/$slug" params={{ slug: beer.slug }}>
-                <CardTitle className="hover:underline">{beer.name}</CardTitle>
-              </Link>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
+          <Card key={beer.id} padding={6} hoverable>
+            <Link to="/beers/$slug" params={{ slug: beer.slug }}>
+              <h3 className="font-semibold hover:underline">{beer.name}</h3>
+            </Link>
+            <div className="mt-2 text-sm" style={{ color: 'var(--boom-theme-text-secondary)' }}>
               {beer.breweryName && <p>{beer.breweryName}</p>}
               {beer.style && <p>{beer.style}</p>}
               {beer.abv && <p>{beer.abv}% ABV</p>}
-            </CardContent>
+            </div>
           </Card>
         ))}
       </div>
 
       {totalPages > 1 && (
         <div className="flex justify-center gap-2">
-          <Button variant="outline" size="sm" disabled={page <= 1} asChild>
-            <Link to="/beers" search={{ page: page - 1 }}>Previous</Link>
-          </Button>
-          <span className="flex items-center text-sm text-muted-foreground">
+          <Link to="/beers" search={{ page: page - 1 }}>
+            <Button variant="secondary" size="sm" disabled={page <= 1}>Previous</Button>
+          </Link>
+          <span className="flex items-center text-sm" style={{ color: 'var(--boom-theme-text-secondary)' }}>
             Page {page} of {totalPages}
           </span>
-          <Button variant="outline" size="sm" disabled={page >= totalPages} asChild>
-            <Link to="/beers" search={{ page: page + 1 }}>Next</Link>
-          </Button>
+          <Link to="/beers" search={{ page: page + 1 }}>
+            <Button variant="secondary" size="sm" disabled={page >= totalPages}>Next</Button>
+          </Link>
         </div>
       )}
     </div>
